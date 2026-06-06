@@ -47,6 +47,6 @@ aws-cloud-engineering-lab/
 │ └── 09-ci-cd/
 │
 ├── terraform/
-```
 │
 └── scripts/
+```
