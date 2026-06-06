@@ -34,6 +34,28 @@ Objective: To progressively build a cloud architecture similar to production env
 
 aws-cloud-engineering-lab/
 │
-│ ├── docs │ ├── architecture │ ├── diagrams │ ├── screenshots │ ├── lab-notes │ └── lessons-learned │ ├── labs │ ├── 01-ec2-and-ssm │ ├── 02-docker-on-ec2 │ ├── 03-docker-compose │ ├── 04-rds-postgresql │ ├── 05-ecr │ ├── 06-ecs │ ├── 07-cloudwatch │ ├── 08-terraform │ └── 09-github-actions │ └── README.md
+├── README.md
+│
+├── docs/
+│ ├── architecture/
+│ ├── diagrams/
+│ ├── screenshots/
+│ ├── lessons-learned/
+│ └── lab-notes/
+│
+├── labs/
+│ ├── 01-ec2-and-ssm/
+│ ├── 02-docker-on-ec2/
+│ ├── 03-docker-compose/
+│ ├── 04-rds-postgresql/
+│ ├── 05-ecr/
+│ ├── 06-ecs/
+│ ├── 07-cloudwatch/
+│ ├── 08-terraform/
+│ └── 09-github-actions/
+│
+├── terraform/
+│
+└── scripts/
 
 ```
