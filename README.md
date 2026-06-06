@@ -9,15 +9,22 @@ Practical project developed for the study, evolution, and demonstration of knowl
 - AWS EC2
 - AWS SSM
 - AWS IAM
+- AWS VPC
 - AWS Security Groups
+- AWS Systems Manager
 - AWS RDS
 - AWS ECR
 - AWS ECS
+- AWS CloudWatch
+- Containers
 - Docker
 - Docker Compose
-- CloudWatch
 - Grafana
 - Observability
+- OpenTelemetry
+- Terraform
+- Github Actions
+
 
 Objective: To progressively build a cloud architecture similar to production environments focused on high performance.
 
@@ -26,27 +33,5 @@ Objective: To progressively build a cloud architecture similar to production env
 ```test
 aws-cloud-engineering-lab/
 │
-├── README.md
-│
-├── docs/
-│ ├── architecture/
-│ ├── diagrams/
-│ ├── screenshots/
-│ ├── lessons-learned/
-│ └── lab-notes/
-│
-├── labs/
-│ ├── 01-ec2-and-ssm/
-│ ├── 02-docker-on-ec2/
-│ ├── 03-docker-compose/
-│ ├── 04-rds-postgresql/
-│ ├── 05-ecr/
-│ ├── 06-ecs/
-│ ├── 07-load-balancer/
-│ ├── 08-monitoring/
-│ └── 09-ci-cd/
-│
-├── terraform/
-│
-└── scripts/
+│ ├── docs │ ├── architecture │ ├── diagrams │ ├── screenshots │ ├── lab-notes │ └── lessons-learned │ ├── labs │ ├── 01-ec2-and-ssm │ ├── 02-docker-on-ec2 │ ├── 03-docker-compose │ ├── 04-rds-postgresql │ ├── 05-ecr │ ├── 06-ecs │ ├── 07-cloudwatch │ ├── 08-terraform │ └── 09-github-actions │ └── README.md
 ```
