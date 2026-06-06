@@ -23,6 +23,7 @@ Objective: To progressively build a cloud architecture similar to production env
 
 ##Structure designed for initial evolution:
 
+```test
 aws-cloud-engineering-lab/
 │
 ├── README.md
@@ -46,5 +47,6 @@ aws-cloud-engineering-lab/
 │ └── 09-ci-cd/
 │
 ├── terraform/
+```
 │
 └── scripts/
