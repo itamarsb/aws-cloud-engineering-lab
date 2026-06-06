@@ -20,3 +20,31 @@ Practical project developed for the study, evolution, and demonstration of knowl
 - Observability
 
 Objective: To progressively build a cloud architecture similar to production environments focused on high performance.
+
+##Structure designed for initial evolution:
+
+aws-cloud-engineering-lab/
+│
+├── README.md
+│
+├── docs/
+│ ├── architecture/
+│ ├── diagrams/
+│ ├── screenshots/
+│ ├── lessons-learned/
+│ └── lab-notes/
+│
+├── labs/
+│ ├── 01-ec2-and-ssm/
+│ ├── 02-docker-on-ec2/
+│ ├── 03-docker-compose/
+│ ├── 04-rds-postgresql/
+│ ├── 05-ecr/
+│ ├── 06-ecs/
+│ ├── 07-load-balancer/
+│ ├── 08-monitoring/
+│ └── 09-ci-cd/
+│
+├── terraform/
+│
+└── scripts/
