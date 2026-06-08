@@ -25,6 +25,12 @@ Practical project developed for the study, evolution, and demonstration of knowl
 - Terraform
 - Github Actions
 
+![AWS](https://img.shields.io/badge/AWS-Cloud-orange)
+![Terraform](https://img.shields.io/badge/Terraform-IaC-purple)
+![Docker](https://img.shields.io/badge/Docker-Containers-blue)
+![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-CI%2FCD-black)
+![CloudWatch](https://img.shields.io/badge/Amazon%20CloudWatch-Monitoring-yellow)
+![Status](https://img.shields.io/badge/status-in%20progress-blue)
 
 Objective: To progressively build a cloud architecture similar to production environments focused on high performance.
 
