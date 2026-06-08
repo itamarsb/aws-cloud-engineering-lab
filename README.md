@@ -59,3 +59,16 @@ aws-cloud-engineering-lab/
 └── scripts/
 
 ```
+
+## Roadmap
+
+- [x] Create initial repository structure
+- [ ] Lab 01 - EC2 instance with SSM access
+- [ ] Lab 02 - Docker installation on EC2
+- [ ] Lab 03 - Docker Compose application
+- [ ] Lab 04 - RDS PostgreSQL
+- [ ] Lab 05 - ECR image registry
+- [ ] Lab 06 - ECS deployment
+- [ ] Lab 07 - CloudWatch monitoring
+- [ ] Lab 08 - Terraform automation
+- [ ] Lab 09 - GitHub Actions CI/CD
