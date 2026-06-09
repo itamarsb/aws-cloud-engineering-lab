@@ -1,7 +1,5 @@
 # aws-cloud-engineering-lab
 
-A place where we will document, test, measure costs, improve the architecture, and automate a cloud environment on Amazon Web Services - AWS.
-
 ![AWS](https://img.shields.io/badge/AWS-Cloud-orange)
 ![Terraform](https://img.shields.io/badge/Terraform-IaC-purple)
 ![Docker](https://img.shields.io/badge/Docker-Containers-blue)
