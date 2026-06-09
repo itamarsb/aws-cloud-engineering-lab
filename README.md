@@ -1,4 +1,6 @@
-# aws-cloud-engineering-lab
+# AWS Cloud Engineering Lab
+
+Practical project developed for the study, evolution, and demonstration of knowledge in:
 
 ![AWS](https://img.shields.io/badge/AWS-Cloud-orange)
 ![Terraform](https://img.shields.io/badge/Terraform-IaC-purple)
@@ -7,9 +9,6 @@
 ![CloudWatch](https://img.shields.io/badge/Amazon%20CloudWatch-Monitoring-yellow)
 ![Status](https://img.shields.io/badge/status-in%20progress-blue)
 
-# AWS Cloud Engineering Lab
-
-Practical project developed for the study, evolution, and demonstration of knowledge in:
 
 - AWS EC2
 - AWS SSM
