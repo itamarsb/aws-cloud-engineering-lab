@@ -79,8 +79,8 @@ The goal is to build practical experience with real-world cloud environments whi
 
 ## Lab 01 - EC2 Instance with SSM Access
 
-* [ ] Create an EC2 instance
 * [ ] Configure IAM Role
+* [ ] Create an EC2 instance
 * [ ] Configure AWS Systems Manager
 * [ ] Connect using Session Manager
 * [ ] Document lessons learned
