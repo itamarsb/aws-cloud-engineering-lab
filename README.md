@@ -83,7 +83,10 @@ The goal is to build practical experience with real-world cloud environments whi
 
 ![IAMrole](Docs/screenshots/images-lab01-ec2-and-ssm/Clipboard_06-14-2026_11.jpg)
 
-* [ ] Create an EC2 instance
+* [X] Create an EC2 instance
+
+![EC2Instance](Docs/screenshots/images-lab01-ec2-and-ssm/Clipboard_06-14-2026_22.jpg)
+
 * [ ] Configure AWS Systems Manager
 * [ ] Connect using Session Manager
 * [ ] Document lessons learned
