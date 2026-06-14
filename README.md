@@ -66,7 +66,7 @@ aws-cloud-engineering-lab/
 ## Roadmap
 
 - [x] Create initial repository structure
-- [ ] Lab 01 - EC2 instance with SSM access
+- [ ] Lab 01 - Secure EC2 Access with AWS Systems Manager Session Manager
 - [ ] Lab 02 - Docker installation on EC2
 - [ ] Lab 03 - Docker Compose application
 - [ ] Lab 04 - RDS PostgreSQL
