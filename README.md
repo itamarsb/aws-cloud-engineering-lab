@@ -52,7 +52,7 @@ aws-cloud-engineering-lab/
 │ ├── 03-iam-roles-and-policies/
 │ ├── 04-ebs-volumes-and-snapshots/
 │ ├── 05-vpc-with-public-subnet/
-│ ├── 06-/
+│ ├── 06-vpc-with-private-subnet-and-nat-Gateway/
 │ ├── 07-/
 │ ├── 08-/
 │ ├── 09-/
@@ -113,6 +113,21 @@ The goal is to build practical experience with real-world cloud environments whi
 ![UsingManager](Docs/screenshots/images-lab01-ec2-and-ssm/Clipboard_06-14-2026_31.jpg)
 
 * [ ] Document lessons learned
+
+🚧 Documentation in Progress
+
+The technical implementation of this lab has been successfully completed and validated.
+
+A detailed step-by-step guide, architecture diagrams, command explanations, screenshots, validation evidence, lessons learned, and best practices will be added in the next update.
+
+Stay tuned for the full walkthrough.
+
+🚧 Documentação em Construção
+
+A implementação técnica deste laboratório foi concluída e validada com sucesso.
+
+O guia completo passo a passo, diagramas de arquitetura, explicações dos comandos, capturas de tela, evidências de validação e lições aprendidas serão adicionados na próxima atualização.
+
 
 ## Lab 02 - EC2 Monitoring with CloudWatch Agent
 
