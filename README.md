@@ -23,11 +23,7 @@ Practical project developed for the study, evolution, and demonstration of knowl
 - Containers
 - Docker
 - Docker Compose
-- Grafana
-- Observability
-- OpenTelemetry
 - Terraform
-- Github Actions
 
 Objective: To progressively build a cloud architecture similar to production environments focused on high performance.
 
