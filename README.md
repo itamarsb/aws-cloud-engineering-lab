@@ -91,7 +91,10 @@ The goal is to build practical experience with real-world cloud environments whi
 
 ![Manager](Docs/screenshots/images-lab01-ec2-and-ssm/Clipboard_06-14-2026_25.jpg)
 
-* [ ] Connect using Session Manager
+* [X] Connect using Session Manager
+
+![UsingManager](Docs/screenshots/images-lab01-ec2-and-ssm/Clipboard_06-14-2026_31.jpg)
+
 * [ ] Document lessons learned
 
 ## Lab 02 - EC2 Monitoring with CloudWatch Agent
