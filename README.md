@@ -108,7 +108,19 @@ The goal is to build practical experience with real-world cloud environments whi
 
 ![UsingManager](Docs/screenshots/images-lab01-ec2-and-ssm/Clipboard_06-14-2026_31.jpg)
 
+🚧 Documentation in Progress
 
+The technical implementation of this lab has been successfully completed and validated.
+
+A detailed step-by-step guide, architecture diagrams, command explanations, screenshots, validation evidence, lessons learned, and best practices will be added in the next update.
+
+Stay tuned for the full walkthrough.
+
+🚧 Documentação em Construção
+
+A implementação técnica deste laboratório foi concluída e validada com sucesso.
+
+O guia completo passo a passo, diagramas de arquitetura, explicações dos comandos, capturas de tela, evidências de validação e lições aprendidas serão adicionados na próxima atualização.
 
 https://github.com/itamarsb/aws-cloud-engineering-lab/blob/main/labs/01-ec2-and-ssm/README.md
 
@@ -319,7 +331,7 @@ https://github.com/itamarsb/aws-cloud-engineering-lab/blob/main/labs/01-ec2-and-
 
 ## Progress
 
-Completed Labs: 01 / 26
+Completed Labs: 00 / 26
 
 Current Lab:
 
