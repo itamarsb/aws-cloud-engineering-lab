@@ -133,6 +133,20 @@ It allows EC2 instances to assume this role and receive temporary credentials au
 No usernames, passwords, or access keys are required.
 
 ---
+
+Search for:
+
+```bash
+AmazonSSMManagedInstanceCore
+```
+
+![Search](screenshots/Clipboard_06-14-2026_06.jpg)
+
+Select the policy.
+
+Click Next.
+
+---
 ---
 
 
