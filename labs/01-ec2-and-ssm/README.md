@@ -146,6 +146,16 @@ Select the policy.
 
 Click Next.
 
+AmazonSSMManagedInstanceCore grants the minimum permissions required for:
+
+- Session Manager
+- Systems Manager Inventory
+- Patch Manager
+- Run Command
+- Managed Instance registration
+
+This follows the Principle of Least Privilege.
+
 ---
 ---
 
