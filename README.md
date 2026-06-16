@@ -49,26 +49,26 @@ aws-cloud-engineering-lab/
 │ ├── 04-ebs-volumes-and-snapshots/
 │ ├── 05-vpc-with-public-subnet/
 │ ├── 06-vpc-with-private-subnet-and-nat-Gateway/
-│ ├── 07-/
-│ ├── 08-/
-│ ├── 09-/
-│ ├── 10-/
-│ ├── 11-/
-│ ├── 12-/
-│ ├── 13-/
-│ ├── 14-/
-│ ├── 15-/
-│ ├── 16-/
-│ ├── 17-/
-│ ├── 18-/
-│ ├── 19-/
-│ ├── 20-/
-│ ├── 21-/
-│ ├── 22-/
-│ ├── 23-/
-│ ├── 24-/
-│ ├── 25-/
-│ └── 26-/
+│ ├── 07-Docker Installation on EC2/
+│ ├── 08-Docker Compose Application/
+│ ├── 09-NGINX Reverse Proxy/
+│ ├── 10-Amazon RDS PostgreSQL/
+│ ├── 11-Amazon S3 Static Website Hosting/
+│ ├── 12-AWS Backup Strategy/
+│ ├── 13-CloudWatch Logs/
+│ ├── 14-CloudWatch Metrics/
+│ ├── 15-CloudWatch Alarms/
+│ ├── 16-SNS Notifications/
+│ ├── 17-Amazon ECR/
+│ ├── 18-Amazon ECS Fargate/
+│ ├── 19-ECS Service Management/
+│ ├── 20-Application Load Balancer/
+│ ├── 21-Terraform EC2 Deployment/
+│ ├── 22-Terraform VPC Deployment/
+│ ├── 23-Terraform ECS Deployment/
+│ ├── 24-GitHub Actions Build Pipeline/
+│ ├── 25-GitHub Actions Deployment Pipeline/
+│ └── 26-End-to-End CI/CD Pipeline/
 │
 ├── terraform/
 │
