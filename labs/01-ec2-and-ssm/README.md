@@ -10,7 +10,6 @@ The objective is to follow modern AWS security best practices while gaining hand
 
 ## Architecture
 
-## Architecture
 
 ```text
 ┌─────────────────────┐
