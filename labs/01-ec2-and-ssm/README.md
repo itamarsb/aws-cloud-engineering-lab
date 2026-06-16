@@ -123,6 +123,16 @@ Choose:
 Click Next.
 
 ---
+
+### Why EC2 Must Be Selected
+
+This configuration establishes a trust relationship between AWS EC2 and IAM.
+
+It allows EC2 instances to assume this role and receive temporary credentials automatically.
+
+No usernames, passwords, or access keys are required.
+
+---
 ---
 
 
