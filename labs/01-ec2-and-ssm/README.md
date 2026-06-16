@@ -180,6 +180,22 @@ Click Create role.
 
 ![Create](screenshots/Clipboard_06-14-2026_10.jpg)
 
+
+---
+
+## Validation
+
+Confirm that:
+
+- Role name is visible in IAM
+- AmazonSSMManagedInstanceCore is attached
+- Trust relationship contains EC2 service
+
+Validation Result:
+
+![Confirmrole](screenshots/Clipboard_06-14-2026_11.jpg)
+
+
 ---
 ---
 
