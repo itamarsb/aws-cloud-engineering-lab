@@ -1,3 +1,64 @@
+# Lab 01 - EC2 Instance with SSM Access
+
+## Overview
+
+This lab demonstrates how to deploy an Amazon EC2 instance and securely access it using AWS Systems Manager Session Manager without SSH keys or inbound SSH ports.
+
+The objective is to follow modern AWS security best practices while gaining hands-on experience with EC2, IAM, and Systems Manager.
+
+---
+
+## Architecture
+
+[architecture diagram]
+
+---
+
+## Learning Objectives
+
+After completing this lab, you will be able to:
+
+* Create an EC2 instance
+* Configure IAM Roles
+* Configure AWS Systems Manager
+* Register a Managed Node
+* Access Linux through Session Manager
+* Validate system configuration
+* Follow AWS security best practices
+
+---
+
+## Prerequisites
+
+* AWS Account
+* IAM User with AdministratorAccess
+* AWS Region: us-east-1
+
+---
+
+## Step 1 - Create IAM Role
+
+Why?
+
+IAM Roles provide temporary credentials to EC2 instances without requiring access keys.
+
+[screenshot]
+
+### Configuration
+
+* Trusted entity: AWS Service
+* Service: EC2
+* Permission: AmazonSSMManagedInstanceCore
+
+[screenshot]
+
+### Validation
+
+Verify the role has been created successfully.
+
+[screenshot]
+
+
 ## Production Considerations
 
 For simplicity, resource tagging was intentionally omitted in this lab.
