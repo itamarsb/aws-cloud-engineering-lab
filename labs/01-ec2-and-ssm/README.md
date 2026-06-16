@@ -106,6 +106,23 @@ Click **Create role**.
 ![Create](screenshots/Clipboard_06-14-2026_03.jpg)
 
 ---
+
+### Step 1.2 – Select Trusted Entity
+
+Choose:
+
+- Trusted entity type: AWS service
+
+- Service: EC2
+
+- Use case: EC2
+
+[Trusted](screenshots/Clipboard_06-14-2026_04.jpg)
+
+
+Click Next.
+
+---
 ---
 
 
