@@ -13,6 +13,7 @@ The objective is to follow modern AWS security best practices while gaining hand
 ## Architecture
 
 ```text
+<center>
 ┌─────────────────────┐
 │   Administrator     │
 │  (AWS Console User) │
@@ -40,6 +41,7 @@ The objective is to follow modern AWS security best practices while gaining hand
 │ IAM Role Attached   │
 │  EC2-SSM-Role       │
 └─────────────────────┘
+</center>
 ```
 
 
