@@ -139,10 +139,10 @@ Search for:
 ```bash
 AmazonSSMManagedInstanceCore
 ```
+Select the policy.
 
 ![Search](screenshots/Clipboard_06-14-2026_06.jpg)
 
-Select the policy.
 
 Click Next.
 
