@@ -168,6 +168,18 @@ Description:
 Allows EC2 instances to communicate with AWS Systems Manager.
 ```
 
+Review:
+
+- Trusted entity: EC2
+- Policy: AmazonSSMManagedInstanceCore
+- Role name: EC2-SSM-Role
+
+![Policy](screenshots/Clipboard_06-14-2026_09.jpg)
+
+Click Create role.
+
+![Create](screenshots/Clipboard_06-14-2026_10.jpg)
+
 ---
 ---
 
