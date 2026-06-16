@@ -187,14 +187,26 @@ Click Create role.
 
 Confirm that:
 
-- Role name is visible in IAM
-- AmazonSSMManagedInstanceCore is attached
-- Trust relationship contains EC2 service
+- Role name is visible in IAM.
+- AmazonSSMManagedInstanceCore is attached.
+- Trust relationship contains EC2 service.
 
 Validation Result:
 
 ![Confirmrole](screenshots/Clipboard_06-14-2026_11.jpg)
 
+
+##AWS Best Practices Applied
+
+✔ IAM Role instead of Access Keys
+
+✔ Temporary AWS credentials
+
+✔ Principle of Least Privilege
+
+✔ Native AWS Systems Manager integration
+
+✔ No hardcoded secrets
 
 ---
 ---
