@@ -156,6 +156,18 @@ AmazonSSMManagedInstanceCore grants the minimum permissions required for:
 
 This follows the Principle of Least Privilege.
 
+Role Name:
+
+```bash
+EC2-SSM-Role
+```
+
+Description:
+
+```bash
+Allows EC2 instances to communicate with AWS Systems Manager.
+```
+
 ---
 ---
 
