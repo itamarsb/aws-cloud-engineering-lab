@@ -117,7 +117,7 @@ Choose:
 
 - Use case: EC2
 
-[Trusted](screenshots/Clipboard_06-14-2026_04.jpg)
+![Trusted](screenshots/Clipboard_06-14-2026_04.jpg)
 
 
 Click Next.
