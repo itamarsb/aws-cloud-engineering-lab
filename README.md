@@ -328,20 +328,6 @@ O guia completo passo a passo, diagramas de arquitetura, explicações dos coman
 
 ---
 
-# Future Labs
-
-* [ ] AWS Lambda
-* [ ] API Gateway
-* [ ] EventBridge
-* [ ] Step Functions
-* [ ] AWS X-Ray
-* [ ] OpenTelemetry on AWS
-* [ ] Amazon EKS
-* [ ] GitOps with ArgoCD
-* [ ] Kubernetes on AWS
-* [ ] Production-Grade Observability Stack
-
----
 
 ## Progress
 
