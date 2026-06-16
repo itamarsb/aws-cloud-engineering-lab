@@ -44,31 +44,31 @@ aws-cloud-engineering-lab/
 │
 ├── labs/
 │ ├── 01-ec2-and-ssm/
-│ ├── 02-ec2-monitoring-with-cloudWatch-agent/
+│ ├── 02-ec2-monitoring-with-cloudwatch-agent/
 │ ├── 03-iam-roles-and-policies/
 │ ├── 04-ebs-volumes-and-snapshots/
 │ ├── 05-vpc-with-public-subnet/
-│ ├── 06-vpc-with-private-subnet-and-nat-Gateway/
-│ ├── 07-Docker Installation on EC2/
-│ ├── 08-Docker Compose Application/
-│ ├── 09-NGINX Reverse Proxy/
-│ ├── 10-Amazon RDS PostgreSQL/
-│ ├── 11-Amazon S3 Static Website Hosting/
-│ ├── 12-AWS Backup Strategy/
-│ ├── 13-CloudWatch Logs/
-│ ├── 14-CloudWatch Metrics/
-│ ├── 15-CloudWatch Alarms/
-│ ├── 16-SNS Notifications/
-│ ├── 17-Amazon ECR/
-│ ├── 18-Amazon ECS Fargate/
-│ ├── 19-ECS Service Management/
-│ ├── 20-Application Load Balancer/
-│ ├── 21-Terraform EC2 Deployment/
-│ ├── 22-Terraform VPC Deployment/
-│ ├── 23-Terraform ECS Deployment/
-│ ├── 24-GitHub Actions Build Pipeline/
-│ ├── 25-GitHub Actions Deployment Pipeline/
-│ └── 26-End-to-End CI/CD Pipeline/
+│ ├── 06-vpc-with-private-subnet-and-nat-gateway/
+│ ├── 07-docker-installation-on-ec2/
+│ ├── 08-docker-compose-application/
+│ ├── 09-nginx-reverse-proxy/
+│ ├── 10-amazon-rds-postgresql/
+│ ├── 11-amazon-s3-static-website-hosting/
+│ ├── 12-aws-backup-strategy/
+│ ├── 13-cloudwatch-logs/
+│ ├── 14-cloudwatch-metrics/
+│ ├── 15-cloudwatch-alarms/
+│ ├── 16-sns-notifications/
+│ ├── 17-amazon-ecr/
+│ ├── 18-amazon-ecs-fargate/
+│ ├── 19-ecs-service-management/
+│ ├── 20-application-load-balancer/
+│ ├── 21-terraform-ec2-deployment/
+│ ├── 22-terraform-vpc-deployment/
+│ ├── 23-terraform-ecs-deployment/
+│ ├── 24-github-actions-build-pipeline/
+│ ├── 25-gitHub-actions-deployment-pipeline/
+│ └── 26-end-to-end-ci/cd-pipeline/
 │
 ├── terraform/
 │
