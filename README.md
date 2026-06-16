@@ -124,6 +124,8 @@ A implementação técnica deste laboratório foi concluída e validada com suce
 
 O guia completo passo a passo, diagramas de arquitetura, explicações dos comandos, capturas de tela, evidências de validação e lições aprendidas serão adicionados na próxima atualização.
 
+https://github.com/itamarsb/aws-cloud-engineering-lab/blob/main/labs/01-ec2-and-ssm/README.md
+
 
 ## Lab 02 - EC2 Monitoring with CloudWatch Agent
 
