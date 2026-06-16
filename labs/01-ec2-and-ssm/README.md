@@ -196,7 +196,7 @@ Validation Result:
 ![Confirmrole](screenshots/Clipboard_06-14-2026_11.jpg)
 
 
-##AWS Best Practices Applied
+## AWS Best Practices Applied
 
 ✔ IAM Role instead of Access Keys
 
