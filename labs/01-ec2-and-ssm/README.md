@@ -208,6 +208,14 @@ Validation Result:
 
 ✔ No hardcoded secrets
 
+## Key Learnings
+
+An IAM Role is the preferred mechanism for granting permissions to AWS resources.
+
+Instead of embedding credentials inside servers, AWS automatically provides temporary credentials through the Instance Metadata Service (IMDS).
+
+This significantly reduces operational complexity and security risks.
+
 ---
 ---
 
