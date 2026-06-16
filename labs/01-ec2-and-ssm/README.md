@@ -95,15 +95,15 @@ This approach follows AWS security best practices by using temporary credentials
 
 Navigate to:
 
-![IAM](labs/01-ec2-and-ssm/screenshots/Clipboard_06-14-2026_01.jpg)
+![IAM](screenshots/Clipboard_06-14-2026_01.jpg)
 
 IAM → Roles
 
-![Roles](labs/01-ec2-and-ssm/screenshots/Clipboard_06-14-2026_02.jpg)
+![Roles](screenshots/Clipboard_06-14-2026_02.jpg)
 
 Click **Create role**.
 
-![Create](labs/01-ec2-and-ssm/screenshots/Clipboard_06-14-2026_03.jpg)
+![Create](screenshots/Clipboard_06-14-2026_03.jpg)
 
 ---
 ---
