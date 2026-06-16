@@ -68,26 +68,42 @@ After completing this lab, you will be able to:
 
 ## Step 1 - Create IAM Role
 
-Why?
+### Objective
 
-IAM Roles provide temporary credentials to EC2 instances without requiring access keys.
+Create an IAM Role that allows the EC2 instance to communicate securely with AWS Systems Manager (SSM).
 
-[screenshot]
+This role will later be attached to the EC2 instance, enabling Session Manager access without using SSH keys or opening inbound ports.
 
-### Configuration
+---
 
-* Trusted entity: AWS Service
-* Service: EC2
-* Permission: AmazonSSMManagedInstanceCore
+### Why this step is necessary
 
-[screenshot]
+AWS Systems Manager requires permissions to:
 
-### Validation
+- Register the instance as a managed node
+- Establish Session Manager connections
+- Retrieve configuration data
+- Communicate securely with AWS Systems Manager services
 
-Verify the role has been created successfully.
+Without an IAM Role, the EC2 instance cannot authenticate to AWS APIs.
 
-[screenshot]
+This approach follows AWS security best practices by using temporary credentials instead of static access keys.
 
+---
+
+### Step 1.1 – Open IAM Console
+
+Navigate to:
+
+![IAM](labs/01-ec2-and-ssm/screenshots/Clipboard_06-14-2026_01.jpg)
+
+IAM → Roles
+
+![Roles](labs/01-ec2-and-ssm/screenshots/Clipboard_06-14-2026_02.jpg)
+
+Click **Create role**.
+
+![Create](labs/01-ec2-and-ssm/screenshots/Clipboard_06-14-2026_03.jpg)
 
 ---
 ---
