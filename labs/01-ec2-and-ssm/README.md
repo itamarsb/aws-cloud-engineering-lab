@@ -274,6 +274,19 @@ lab01-ec2-ssm
 ![EC2console](screenshots/Clipboard_06-14-2026_13.jpg)
 
 ---
+Why Naming Matters
+
+Using descriptive names makes it easier to:
+
+- Identify resources
+- Track costs
+- Troubleshoot environments
+- Apply governance standards
+---
+
+
+
+---
 ---
 
 ## Production Considerations
