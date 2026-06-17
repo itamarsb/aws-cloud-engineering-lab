@@ -271,7 +271,7 @@ Enter:
 ```Text
 lab01-ec2-ssm
 ```
-![EC2console](screenshots/Clipboard_06-14-2026_13.jpg)
+![EC2ssm](screenshots/Clipboard_06-14-2026_13.jpg)
 
 ---
 Why Naming Matters
@@ -284,7 +284,17 @@ Using descriptive names makes it easier to:
 - Apply governance standards
 ---
 
+## Step 2.3 – Select Ubuntu AMI
 
+Choose:
+```Text
+Ubuntu Server 26.04 LTS
+```
+
+```Text
+64-bit (x86)
+```
+![EC264](screenshots/Clipboard_06-14-2026_14.jpg)
 
 ---
 ---
