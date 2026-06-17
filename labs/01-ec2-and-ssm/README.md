@@ -271,7 +271,7 @@ Enter:
 ```Text
 lab01-ec2-ssm
 ```
-![EC2console](screenshots/Clipboard_06-14-2026_12.jpg)
+![EC2console](screenshots/Clipboard_06-14-2026_13.jpg)
 
 ---
 ---
