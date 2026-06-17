@@ -217,6 +217,37 @@ Instead of embedding credentials inside servers, AWS automatically provides temp
 This significantly reduces operational complexity and security risks.
 
 ---
+
+# Step 2 - Launch EC2 Instance
+
+## Objective
+
+In this step, we launch an Amazon EC2 instance running Ubuntu Server 26.04 LTS and associate it with the IAM Role created in Step 1.
+
+This instance will later be managed through AWS Systems Manager Session Manager without requiring SSH access.
+
+---
+
+## Architecture
+
+```text
++---------------------+
+| AWS Systems Manager |
++----------+----------+
+           |
+           |
++----------v----------+
+| EC2 Ubuntu Instance |
+|  lab01-ec2-ssm      |
++----------+----------+
+           |
+           |
++----------v----------+
+|   EC2-SSM-Role      |
++---------------------+
+```
+
+---
 ---
 
 
