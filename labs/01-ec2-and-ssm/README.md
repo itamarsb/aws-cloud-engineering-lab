@@ -317,8 +317,13 @@ It also integrates well with:
 - OpenTelemetry
 ---
 
+## Step 2.4 – Select Instance Type
 
-
+Choose:
+```Text
+t2.micro
+```
+![Tmicro](screenshots/Clipboard_06-14-2026_15.jpg)
 
 
 
