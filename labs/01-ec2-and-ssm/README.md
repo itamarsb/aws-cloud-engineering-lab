@@ -446,6 +446,21 @@ EC2-SSM-Role
 
 ---
 
+## Why This Role Is Required
+
+This role allows the instance to:
+
+- Register with Systems Manager
+- Receive commands
+- Open Session Manager connections
+
+Without it, SSM will not work.
+
+---
+
+
+
+
 
 ---
 ---
