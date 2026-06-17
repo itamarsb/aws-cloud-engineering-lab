@@ -404,6 +404,21 @@ Allow SSH traffic
 ```
 ![Security](screenshots/Clipboard_06-14-2026_17.jpg)
 
+---
+
+## Security Note
+
+No inbound rules are required because access will occur through Systems Manager.
+
+This follows the principle of reducing the attack surface.
+
+Result:
+```Text
+Inbound Rules = 0
+```
+
+
+
 
 
 ---
