@@ -386,7 +386,23 @@ Auto Assign Public IP = Enable
 ```
 ![Networking](screenshots/Clipboard_06-14-2026_16.jpg)
 
+---
 
+## Step 2.7 – Create Security Group
+
+Create a new Security Group:
+```Text
+lab01-ssm-sg
+```
+Description:
+```Text
+Security Group for SSM managed instance
+```
+Remove:
+```Text
+Allow SSH traffic
+```
+![Security](screenshots/Clipboard_06-14-2026_17.jpg)
 
 
 
