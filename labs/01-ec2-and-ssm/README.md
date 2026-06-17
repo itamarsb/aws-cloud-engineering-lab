@@ -290,11 +290,18 @@ Choose:
 ```Text
 Ubuntu Server 26.04 LTS
 ```
-
+Architecture:
 ```Text
 64-bit (x86)
 ```
 ![EC264](screenshots/Clipboard_06-14-2026_14.jpg)
+
+
+
+
+
+
+
 
 ---
 ---
