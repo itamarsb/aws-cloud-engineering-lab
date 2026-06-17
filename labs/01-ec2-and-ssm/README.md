@@ -296,7 +296,26 @@ Architecture:
 ```
 ![EC264](screenshots/Clipboard_06-14-2026_14.jpg)
 
+---
+## Why Ubuntu?
 
+Ubuntu is widely adopted across:
+
+- Cloud Engineering
+- DevOps
+- Platform Engineering
+- SRE
+- Backend Development
+
+It also integrates well with:
+
+- Docker
+- Kubernetes
+- FastAPI
+- Prometheus
+- Grafana
+- OpenTelemetry
+---
 
 
 
