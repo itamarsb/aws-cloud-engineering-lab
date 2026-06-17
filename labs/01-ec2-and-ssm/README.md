@@ -469,8 +469,21 @@ Result:
 
 ---
 
+## Validation
 
+Navigate to:
+```Text
+EC2
+→ Instances
+```
+Verify:
+```Text
+Instance State = Running
+Status Checks = 2/2 Passed
+```
+![ValidationEC2](screenshots/Clipboard_06-14-2026_22.jpg)
 
+---
 
 
 
