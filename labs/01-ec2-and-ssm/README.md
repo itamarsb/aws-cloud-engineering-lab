@@ -376,6 +376,15 @@ Benefits:
 
 ---
 
+## Step 2.6 – Configure Networking
+
+Keep:
+```Text
+Default VPC
+Default Subnet
+Auto Assign Public IP = Enable
+```
+![Networking](screenshots/Clipboard_06-14-2026_16.jpg)
 
 
 
