@@ -325,6 +325,20 @@ t2.micro
 ```
 ![Tmicro](screenshots/Clipboard_06-14-2026_15.jpg)
 
+---
+## Why t2.micro?
+
+For this lab we only need:
+
+- Ubuntu Linux
+- SSM Agent
+- AWS Systems Manager
+
+The smallest instance size is sufficient.
+---
+
+
+
 
 
 ---
