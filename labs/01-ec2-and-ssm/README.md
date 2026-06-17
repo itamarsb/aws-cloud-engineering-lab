@@ -335,6 +335,7 @@ For this lab we only need:
 - AWS Systems Manager
 
 The smallest instance size is sufficient.
+
 ---
 
 
