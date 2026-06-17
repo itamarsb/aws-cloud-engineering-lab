@@ -246,10 +246,13 @@ This instance will later be managed through AWS Systems Manager Session Manager 
 |   EC2-SSM-Role      |
 +---------------------+
 ```
+## Step 2.1 – Open EC2 Console
 
-
-
-
+Navigate to:
+```Text
+AWS Console
+→ EC2
+```
 
 
 ---
