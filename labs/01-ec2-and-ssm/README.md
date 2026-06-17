@@ -260,8 +260,18 @@ Launch Instance
 ```
 ![EC2console](screenshots/Clipboard_06-14-2026_12.jpg)
 
+## Step 2.2 – Configure Instance Name
 
+Under:
+```Text
+Name and tags
+```
 
+Enter:
+```Text
+lab01-ec2-ssm
+```
+![EC2console](screenshots/Clipboard_06-14-2026_12.jpg)
 
 ---
 ---
