@@ -338,6 +338,17 @@ The smallest instance size is sufficient.
 
 ---
 
+## Step 2.5 – Skip SSH Key Pair
+
+Under:
+```Text
+Key pair (login)
+```
+Select:
+```Text
+Proceed without a key pair
+```
+![Keypair](screenshots/Clipboard_06-14-2026_15.jpg)
 
 
 
