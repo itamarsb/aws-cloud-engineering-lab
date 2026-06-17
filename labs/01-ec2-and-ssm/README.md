@@ -350,6 +350,34 @@ Proceed without a key pair
 ```
 ![Keypair](screenshots/Clipboard_06-14-2026_15.jpg)
 
+---
+
+Why No SSH?
+
+Traditional administration requires:
+
+- Port 22 open
+- SSH key management
+- Bastion Hosts
+
+In this lab we use:
+
+```Text
+AWS Systems Manager Session Manager
+```
+
+Which eliminates those requirements.
+
+Benefits:
+
+- No SSH exposure
+- No key management
+- Improved security posture
+
+---
+
+
+
 
 
 
