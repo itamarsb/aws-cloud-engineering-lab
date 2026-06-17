@@ -247,9 +247,13 @@ This instance will later be managed through AWS Systems Manager Session Manager 
 +---------------------+
 ```
 
----
----
 
+
+
+
+
+---
+---
 
 ## Production Considerations
 
