@@ -458,6 +458,20 @@ Without it, SSM will not work.
 
 ---
 
+## Step 2.10 – Launch Instance
+
+Click:
+```Text
+Launch Instance
+```
+Result:
+![Launch](screenshots/Clipboard_06-14-2026_19.jpg)
+
+---
+
+
+
+
 
 
 
