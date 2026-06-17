@@ -254,6 +254,14 @@ AWS Console
 → EC2
 ```
 
+Click:
+```Text
+Launch Instance
+```
+![EC2console](screenshots/Clipboard_06-14-2026_12.jpg)
+
+
+
 
 ---
 ---
