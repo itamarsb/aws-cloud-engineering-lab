@@ -417,6 +417,19 @@ Result:
 Inbound Rules = 0
 ```
 
+---
+
+## Step 2.8 – Configure Storage
+
+Keep:
+```Text
+8 GiB
+gp3
+```
+![Storage](screenshots/Clipboard_06-14-2026_16.jpg)
+
+---
+
 
 
 
