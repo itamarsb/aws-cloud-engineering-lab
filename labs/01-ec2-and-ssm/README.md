@@ -430,8 +430,21 @@ gp3
 
 ---
 
+## Step 2.9 – Attach IAM Role
 
+Expand:
+```Text
+Advanced Details
+```
 
+Select:
+```Text
+IAM Instance Profile:
+EC2-SSM-Role
+```
+![Advamced](screenshots/Clipboard_06-14-2026_18.jpg)
+
+---
 
 
 ---
