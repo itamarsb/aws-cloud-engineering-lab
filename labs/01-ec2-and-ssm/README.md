@@ -561,6 +561,21 @@ Online
 
 ---
 
+## What This Validation Means
+
+If the instance appears as 'Online', it means that:
+
+- The EC2 instance is running;
+- The SSM Agent is active;
+- The IAM Role is correctly attached;
+- The 'AmazonSSMManagedInstanceCore' policy is working;
+- The instance can communicate with AWS Systems Manager.
+
+This is a critical validation before attempting to connect using Session Manager.
+
+---
+
+
 
 
 
