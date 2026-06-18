@@ -485,6 +485,31 @@ Status Checks = 2/2 Passed
 
 ---
 
+# Step 3 - Configure AWS Systems Manager
+
+## Objective
+
+In this step, we validate that the EC2 instance created in Step 2 was successfully registered in AWS Systems Manager as a managed node.
+
+This confirms that the IAM Role, SSM Agent, network connectivity, and Systems Manager integration are working correctly.
+
+---
+
+## Step 3.1 - Open AWS Systems Manager
+
+Navigate to:
+
+```text
+AWS Console
+→ Systems Manager
+```
+
+AWS Systems Manager is used to manage, operate, and access cloud resources securely.
+![Openawsmanager](screenshots/Clipboard_06-14-2026_23.jpg)
+
+---
+
+
 
 
 
