@@ -509,6 +509,21 @@ AWS Systems Manager is used to manage, operate, and access cloud resources secur
 
 ---
 
+## Why Systems Manager?
+
+AWS Systems Manager allows administrators to manage EC2 instances without directly exposing administrative access over the network.
+
+In this lab, Systems Manager is required because we want to connect to the EC2 instance using Session Manager instead of SSH.
+
+This helps reduce the attack surface by avoiding:
+
+- SSH keys
+- Open inbound SSH ports
+- Bastion hosts
+- Direct administrative exposure to the internet
+
+---
+
 
 
 
