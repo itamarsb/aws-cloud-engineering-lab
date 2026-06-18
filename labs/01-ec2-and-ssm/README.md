@@ -564,6 +564,23 @@ This is a critical validation before attempting to connect using Session Manager
 
 ---
 
+## Step 3.4 - Open Managed Node Details
+
+Click the managed node to inspect its details.
+
+Validate the following information:
+
+| Field            | Expected Value |
+| ---------------- | -------------- |
+| Name             | lab01-ec2-ssm  |
+| Platform type    | Linux          |
+| Operating system | Ubuntu         |
+| Platform version | 26.04          |
+| Node state       | Running        |
+| Ping status      | Online         |
+| Instance role    | EC2-SSM-Role   |
+| Agent version    | 3.3.4121.0     |
+
 
 
 
