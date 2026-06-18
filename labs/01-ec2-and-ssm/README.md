@@ -524,7 +524,18 @@ This helps reduce the attack surface by avoiding:
 
 ---
 
+## Step 3.2 - Open Fleet Manager
 
+In the Systems Manager sidebar, navigate to:
+
+```text
+Node Tools
+→ Fleet Manager
+```
+
+Fleet Manager provides visibility into managed nodes registered with AWS Systems Manager.
+
+---
 
 
 
