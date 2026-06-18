@@ -581,7 +581,7 @@ Validate the following information:
 | Instance role    | EC2-SSM-Role   |
 | Agent version    | 3.3.4121.0     |
 
-
+![Openmanaged](screenshots/Clipboard_06-14-2026_25.jpg)
 
 
 
