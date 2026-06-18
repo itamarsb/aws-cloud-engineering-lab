@@ -214,22 +214,27 @@ This instance will later be managed through AWS Systems Manager Session Manager 
 
 ## Architecture
 
-```text
-+---------------------+
-| AWS Systems Manager |
-+----------+----------+
-           |
-           |
-+----------v----------+
-| EC2 Ubuntu Instance |
-|  lab01-ec2-ssm      |
-+----------+----------+
-           |
-           |
-+----------v----------+
-|   EC2-SSM-Role      |
-+---------------------+
+```mermaid
+flowchart TD
+
+    USER[Administrator<br/>AWS Console User]
+
+    SSM[AWS Systems Manager<br/>Session Manager]
+
+    EC2[Ubuntu EC2 Instance<br/>lab01-ec2-ssm]
+
+    ROLE[IAM Role<br/>EC2-SSM-Role]
+
+    POLICY[AmazonSSMManagedInstanceCore]
+
+    USER --> SSM
+    SSM --> EC2
+    EC2 --> ROLE
+    ROLE --> POLICY
 ```
+
+---
+
 ## Step 2.1 – Open EC2 Console
 
 Navigate to:
