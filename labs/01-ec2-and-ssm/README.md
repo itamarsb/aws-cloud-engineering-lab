@@ -537,6 +537,31 @@ Fleet Manager provides visibility into managed nodes registered with AWS Systems
 
 ---
 
+## Step 3.3 - Validate Managed Node Registration
+
+In Fleet Manager, verify that the EC2 instance appears as a managed node.
+
+Expected instance name:
+
+```text
+lab01-ec2-ssm
+```
+Expected node state:
+
+```text
+Running
+```
+Expected ping status:
+
+```text
+Online
+```
+
+![Fletmanager](screenshots/Clipboard_06-14-2026_24.jpg)
+
+---
+
+
 
 
 
