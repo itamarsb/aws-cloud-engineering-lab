@@ -11,34 +11,18 @@ The objective is to follow modern AWS security best practices while gaining hand
 ## Architecture
 
 
-```text
-┌─────────────────────┐
-│   Administrator     │
-│  (AWS Console User) │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ AWS Session Manager │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ AWS Systems Manager │
-│     (SSM Agent)     │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ Ubuntu EC2 Instance │
-│  lab01-ec2-ssm      │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ IAM Role Attached   │
-│  EC2-SSM-Role       │
-└─────────────────────┘
+```mermaid
+flowchart TD
+    A[Administrator<br/>AWS Console User]
+    B[AWS Session Manager]
+    C[AWS Systems Manager<br/>SSM Agent]
+    D[Ubuntu EC2 Instance<br/>lab01-ec2-ssm]
+    E[IAM Role Attached<br/>EC2-SSM-Role]
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
 ```
 
 
