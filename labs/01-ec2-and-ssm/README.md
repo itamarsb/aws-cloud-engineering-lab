@@ -583,6 +583,21 @@ Validate the following information:
 
 ![Openmanaged](screenshots/Clipboard_06-14-2026_25.jpg)
 
+---
+
+## Important Note
+
+The IAM Role displayed in Systems Manager may appear as an instance profile ARN.
+
+Example:
+
+```text
+arn:aws:iam::<account-id>:instance-profile/EC2-SSM-Role
+```
+
+This is expected.
+
+An IAM instance profile is the mechanism AWS uses to attach an IAM Role to an EC2 instance.
 
 
 
