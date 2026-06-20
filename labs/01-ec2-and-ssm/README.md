@@ -706,10 +706,20 @@ Execute the following commands:
 
 ```text
 whoami
+```
+```text
 hostname
+```
+```text
 uname -a
+```
+```text
 df -h
+```
+```text
 free -m
+```
+```text
 uptime
 ```
 
