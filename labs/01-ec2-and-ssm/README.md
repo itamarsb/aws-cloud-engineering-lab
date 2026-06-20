@@ -839,6 +839,21 @@ This confirms the operating system selected during instance creation.
 
 ---
 
+## Step 4.8 - Validate Network Configuration
+
+Execute:
+
+```text
+ip addr
+```
+
+This displays:
+
+- Network interfaces
+- Private IPv4 address
+- Interface status
+
+The private IP should match the address shown in the EC2 console.
 
 
 
