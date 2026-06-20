@@ -678,6 +678,11 @@ Validate the following:
 
 These indicators confirm that the instance is ready to accept Systems Manager sessions.
 
+![Sessionmanager](screenshots/Clipboard_06-14-2026_29.jpg)
+
+---
+
+
 
 
 ---
