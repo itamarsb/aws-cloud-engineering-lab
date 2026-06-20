@@ -682,6 +682,19 @@ These indicators confirm that the instance is ready to accept Systems Manager se
 
 ---
 
+## Step 4.5 - Start a Session
+
+Click:
+
+```text
+Connect
+```
+
+AWS will launch a browser-based shell session directly from the console.
+
+No SSH key pair is required.
+
+No inbound security group rule is required.
 
 
 
