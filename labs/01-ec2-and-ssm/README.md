@@ -885,6 +885,16 @@ Terminate Session
 
 ---
 
+## Step 4.10 - Stop the EC2 Instance
+
+To avoid unnecessary AWS charges:
+
+Select the instance and choose:
+
+```exit
+Instance State
+→ Stop Instance
+```
 
 
 
