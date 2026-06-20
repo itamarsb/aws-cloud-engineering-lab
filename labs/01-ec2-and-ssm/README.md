@@ -732,7 +732,9 @@ These commands validate:
 - Memory utilization
 - System uptime
 
+![Validate](screenshots/Clipboard_06-14-2026_31.jpg)
 
+---
 
 
 
