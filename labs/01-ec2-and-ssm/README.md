@@ -629,12 +629,16 @@ AWS Console
 
 ![Ec2console](screenshots/Clipboard_06-14-2026_26.jpg)
 
+Select the instance created in this lab:
+
+```text
+lab01-ec2-ssm
+```
+
+![Instancelab](screenshots/Clipboard_06-14-2026_27.jpg)
+
+
 ---
-
-
-
-
-
 
 
 ---
