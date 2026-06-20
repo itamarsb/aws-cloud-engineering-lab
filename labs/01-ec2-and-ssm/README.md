@@ -660,6 +660,23 @@ We want to connect without:
 
 ![InstConnect](screenshots/Clipboard_06-14-2026_28.jpg)
 
+---
+
+## Step 4.4 - Select SSM Session Manager
+
+Switch to the:
+
+```text
+SSM Session Manager
+```
+
+Validate the following:
+
+- Ping Status: `Online`
+- Session Manager Status: `Connected`
+- Agent Version: `Available`
+
+These indicators confirm that the instance is ready to accept Systems Manager sessions.
 
 
 
