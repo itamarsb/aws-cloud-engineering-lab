@@ -861,6 +861,10 @@ This displays:
 
 The private IP should match the address shown in the EC2 console.
 
+![Validatenetwork](screenshots/Clipboard_06-14-2026_33.jpg)
+
+---
+
 
 
 ---
