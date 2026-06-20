@@ -658,6 +658,7 @@ We want to connect without:
 - Open inbound ports
 - Direct public administration access
 
+![InstConnect](screenshots/Clipboard_06-14-2026_28.jpg)
 
 
 
