@@ -948,6 +948,21 @@ flowchart LR
     end
 ```
 
+### Advantages:
+
+✔ No SSH keys
+
+✔ No inbound SSH ports
+
+✔ Centralized access control
+
+✔ IAM-based permissions
+
+✔ Session auditing
+
+✔ Reduced attack surface
+
+
 
 ---
 ---
