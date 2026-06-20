@@ -926,16 +926,26 @@ This is a recommended practice in learning environments.
 
 ## Security Benefits of Session Manager
 
-Traditional administration:
+```mermaid
+flowchart LR
 
-```text
-Administrator
-    ↓
-SSH Key
-    ↓
-Port 22
-    ↓
-EC2 Instance
+    subgraph Traditional Administration
+        A[Administrator]
+        B[SSH Key]
+        C[Port 22]
+        D[EC2 Instance]
+
+        A --> B --> C --> D
+    end
+
+    subgraph AWS Systems Manager
+        E[Administrator]
+        F[Session Manager]
+        G[AWS Systems Manager]
+        H[EC2 Instance]
+
+        E --> F --> G --> H
+    end
 ```
 
 
