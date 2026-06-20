@@ -637,8 +637,29 @@ lab01-ec2-ssm
 
 ![Instancelab](screenshots/Clipboard_06-14-2026_27.jpg)
 
-
 ---
+
+## Step 4.3 - Review Available Connection Methods
+
+The default tab is typically:
+
+```text
+EC2 Instance Connect
+```
+
+This method requires direct network access to the instance.
+
+Our objective is different.
+
+We want to connect without:
+
+- SSH keys
+- Bastion Hosts
+- Open inbound ports
+- Direct public administration access
+
+
+
 
 
 ---
