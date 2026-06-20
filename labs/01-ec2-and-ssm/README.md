@@ -599,6 +599,42 @@ This is expected.
 
 An IAM instance profile is the mechanism AWS uses to attach an IAM Role to an EC2 instance.
 
+---
+
+# Step 4 - Connect Using Session Manager
+
+## Objective
+
+In this final step, we connect to the EC2 instance using AWS Systems Manager Session Manager.
+
+This validates that:
+
+- The EC2 instance is running
+- The IAM Role is correctly configured
+- The SSM Agent is operational
+- Session Manager connectivity is working
+- Administrative access can be performed without SSH
+
+---
+
+## Step 4.1 - Open the EC2 Console
+
+Navigate to:
+
+```text
+AWS Console
+→ EC2
+→ Instances
+```
+
+![Ec2console](screenshots/Clipboard_06-14-2026_26.jpg)
+
+---
+
+
+
+
+
 
 
 ---
