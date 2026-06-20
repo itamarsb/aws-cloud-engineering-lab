@@ -700,6 +700,28 @@ No inbound security group rule is required.
 
 ---
 
+## Step 4.6 - Validate Instance Access
+
+Execute the following commands:
+
+```text
+whoami
+hostname
+uname -a
+df -h
+free -m
+uptime
+```
+
+These commands validate:
+
+- User identity
+- Hostname
+- Operating system
+- Disk utilization
+- Memory utilization
+- System uptime
+
 
 
 
