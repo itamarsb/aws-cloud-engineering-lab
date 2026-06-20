@@ -900,7 +900,15 @@ Instance State
 
 ---
 
+## Step 4.11 - Verify Instance Stopped
 
+Wait until the instance reaches:
+
+```text
+Stopped
+```
+
+state.
 
 
 ---
