@@ -726,11 +726,17 @@ uptime
 These commands validate:
 
 ✔ User identity
+
 ✔ Hostname
+
 ✔ Operating system
+
 ✔ Disk utilization
+
 ✔ Memory utilization
+
 ✔ System uptime
+
 
 ![Validate](screenshots/Clipboard_06-14-2026_31.jpg)
 
