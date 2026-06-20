@@ -865,6 +865,23 @@ The private IP should match the address shown in the EC2 console.
 
 ---
 
+## Step 4.9 - Terminate the Session
+
+After completing validation, close the shell session.
+
+You may use:
+
+```exit
+exit
+```
+
+or click:
+
+```exit
+Terminate Session
+```
+
+
 
 
 ---
