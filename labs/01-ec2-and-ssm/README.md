@@ -817,6 +817,24 @@ Displays:
 - Running time
 - Current load average
 
+---
+
+## Step 4.7 - Validate Operating System Information
+
+Execute:
+
+```text
+cat /etc/os-release
+```
+
+Expected output:
+
+```text
+Ubuntu 26.04 LTS
+```
+
+This confirms the operating system selected during instance creation.
+
 
 
 
