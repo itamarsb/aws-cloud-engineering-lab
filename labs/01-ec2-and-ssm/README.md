@@ -962,7 +962,27 @@ flowchart LR
 
 ✔ Reduced attack surface
 
+---
 
+## Lab Completed
+
+Congratulations!
+
+You successfully deployed and managed an EC2 instance using AWS Systems Manager Session Manager.
+
+During this lab you learned:
+
+- IAM Roles
+- Instance Profiles
+- EC2 Launch Process
+- AWS Systems Manager
+- Fleet Manager
+- Session Manager
+- Managed Nodes
+- Browser-based administration
+- Secure access without SSH
+
+This architecture represents a modern AWS operational best practice for managing EC2 instances securely.
 
 ---
 ---
