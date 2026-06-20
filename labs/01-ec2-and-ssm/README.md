@@ -914,6 +914,13 @@ state.
 
 ---
 
+## Why Stop the Instance?
+
+Stopping the instance helps avoid unnecessary compute charges.
+
+Although EBS storage charges still apply, stopping the instance prevents hourly EC2 compute costs.
+
+This is a recommended practice in learning environments.
 
 
 ---
