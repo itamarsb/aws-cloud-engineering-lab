@@ -881,6 +881,11 @@ or click:
 Terminate Session
 ```
 
+![Terminatesession](screenshots/Clipboard_06-14-2026_32.jpg)
+
+---
+
+
 
 
 
