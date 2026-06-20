@@ -835,6 +835,9 @@ Ubuntu 26.04 LTS
 
 This confirms the operating system selected during instance creation.
 
+![Validateoperating](screenshots/Clipboard_06-14-2026_33.jpg)
+
+---
 
 
 
