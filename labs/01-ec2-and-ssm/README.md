@@ -922,6 +922,22 @@ Although EBS storage charges still apply, stopping the instance prevents hourly 
 
 This is a recommended practice in learning environments.
 
+---
+
+## Security Benefits of Session Manager
+
+Traditional administration:
+
+```text
+Administrator
+    ↓
+SSH Key
+    ↓
+Port 22
+    ↓
+EC2 Instance
+```
+
 
 ---
 ---
