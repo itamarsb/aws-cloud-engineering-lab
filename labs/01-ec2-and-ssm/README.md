@@ -896,6 +896,10 @@ Instance State
 → Stop Instance
 ```
 
+![Stopinstance](screenshots/Clipboard_06-14-2026_34.jpg)
+
+---
+
 
 
 
