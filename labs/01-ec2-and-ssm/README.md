@@ -737,6 +737,89 @@ These commands validate:
 ---
 
 
+## Command Explanation
+
+### Current User
+
+```text
+whoami
+```
+
+Expected output:
+
+```text
+ssm-user
+```
+
+The Session Manager automatically creates a managed user session.
+
+
+### Hostname
+
+```text
+hostname
+```
+
+Displays the EC2 internal hostname.
+
+### Kernel Information
+
+```text
+uname -a
+```
+
+Displays:
+
+- Linux kernel version
+- Architecture
+- Operating system details
+
+### Disk Usage
+
+```text
+df -h
+```
+
+Displays filesystem utilization.
+
+Important validation:
+
+```text
+/dev/root
+```
+
+Should be mounted successfully.
+
+### Memory Usage
+
+```text
+free -m
+```
+
+Displays RAM consumption.
+
+For a t2.micro instance, approximately:
+
+```text
+1 GB RAM
+```
+
+is expected.
+
+### System Uptime
+
+```text
+uptime
+```
+
+Displays:
+
+- Running time
+- Current load average
+
+
+
+
 
 ---
 ---
