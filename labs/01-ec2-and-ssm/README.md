@@ -985,6 +985,11 @@ During this lab you learned:
 This architecture represents a modern AWS operational best practice for managing EC2 instances securely.
 
 ---
+
+If you have any questions, problems or suggestions during the tutorial, please email me at itamarsbt@gmail.com or itamarsbt.dev@gmail.com.
+
+Thank you!
+
 ---
 
 ## Production Considerations
