@@ -696,6 +696,12 @@ No SSH key pair is required.
 
 No inbound security group rule is required.
 
+![Start](screenshots/Clipboard_06-14-2026_30.jpg)
+
+---
+
+
+
 
 
 ---
