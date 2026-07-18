@@ -322,5 +322,5 @@ Completed Labs: 01 / 26
 
 Current Lab:
 
-* 🚧 Lab 01 - EC2 Instance with SSM Access
+* 🚧 Lab 02 - EC2 Monitoring with CloudWatch Agent
 
