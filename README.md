@@ -27,7 +27,7 @@ Practical project developed for the study, evolution, and demonstration of knowl
 
 Objective: To progressively build a cloud architecture similar to production environments focused on high performance.
 
----
+
 
 > ## **Cost Optimization Note**
 >
@@ -43,7 +43,7 @@ Objective: To progressively build a cloud architecture similar to production env
 > After completing the last EC2-based lab, all AWS resources are removed following the Cleanup section.
 
 
----
+
 
 ## Structure designed for initial evolution:
 
