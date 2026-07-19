@@ -27,6 +27,24 @@ Practical project developed for the study, evolution, and demonstration of knowl
 
 Objective: To progressively build a cloud architecture similar to production environments focused on high performance.
 
+---
+
+> **Cost Optimization Note**
+>
+> Throughout this repository, the same EC2 instance is intentionally reused across multiple labs.
+>
+> This approach reflects real-world engineering practices by:
+>
+> - reducing infrastructure costs;
+> - minimizing unnecessary resource creation;
+> - encouraging infrastructure reuse;
+> - applying FinOps principles during learning.
+>
+> After completing the last EC2-based lab, all AWS resources are removed following the Cleanup section.
+
+
+---
+
 ## Structure designed for initial evolution:
 
 ```test
