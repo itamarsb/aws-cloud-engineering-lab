@@ -23,6 +23,35 @@
 
 ---
 
+## Architecture
+
+```mermaid
+flowchart TB
+
+    EC2["🖥️ Amazon EC2<br/>Ubuntu Server"]
+
+    Agent["📊 CloudWatch Agent"]
+
+    subgraph CloudWatch["Amazon CloudWatch"]
+        CPU["CPU Metrics"]
+        Memory["Memory Metrics"]
+        Disk["Disk Metrics"]
+        Dashboard["CloudWatch Dashboard"]
+        Alarms["CloudWatch Alarms<br/>(Future Labs)"]
+    end
+
+    EC2 --> Agent
+
+    Agent --> CPU
+    Agent --> Memory
+    Agent --> Disk
+    Agent --> Dashboard
+    Agent -. Future Labs .-> Alarms
+```
+
+
+---
+
 
 ## Production Considerations
 
