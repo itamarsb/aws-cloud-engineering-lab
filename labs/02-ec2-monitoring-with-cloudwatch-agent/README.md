@@ -49,7 +49,22 @@ flowchart TB
     Agent -. Future Labs .-> Alarms
 ```
 
+---
 
+## Prerequisites
+
+- AWS Account
+- EC2 Ubuntu Instance
+- IAM Role attached
+
+```text
+AmazonSSMManagedInstanceCore
+CloudWatchAgentServerPolicy
+```
+
+This instance is the same one created in Lab 01.
+
+---
 
 
 
