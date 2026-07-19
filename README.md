@@ -29,7 +29,7 @@ Objective: To progressively build a cloud architecture similar to production env
 
 
 
-> ## **Cost Optimization Note**
+## **Cost Optimization Note**
 >
 > Throughout this repository, the same EC2 instance is intentionally reused across multiple labs.
 >
