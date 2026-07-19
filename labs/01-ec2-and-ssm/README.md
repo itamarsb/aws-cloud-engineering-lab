@@ -49,6 +49,7 @@ After completing this lab, you will be able to:
 * AWS Region: us-east-1
 
 ---
+# Step-by-step Tutorial
 
 ## Step 1 - Create IAM Role
 
