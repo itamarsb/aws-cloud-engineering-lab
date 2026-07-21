@@ -1,24 +1,29 @@
-# Lab 02 - EC2 Monitoring with CloudWatch Agent
+# Modern EC2 Monitoring with Amazon CloudWatch Agent
 
 
-## Objective
+## Learning Objectives
 
-### In this lab, you will learn how to:
+By completing this lab, you will learn how to:
 
-- Install the Amazon CloudWatch Agent;
-- Collect CPU metrics;
-- Collect memory metrics;
-- Collect disk metrics;
-- Publish custom metrics to CloudWatch;
-- Create a dashboard to monitor the instance;
-- What you will learn.
+- Reuse an existing EC2 instance
+- Install the Amazon CloudWatch Agent
+- Configure the agent using a JSON configuration file
+- Collect Memory metrics
+- Collect Disk metrics
+- Send custom metrics to Amazon CloudWatch
+- Build a CloudWatch Dashboard
+- Validate the collected metrics
 
-### By the end of this lab, you will be able to:
+### AWS Services
 
-- Monitor a Linux instance using CloudWatch;
-- Collect metrics that are not available by default (Memory and Disk);
-- Create dashboards for observability;
-- Understand how these metrics are used by DevOps and SRE teams.
+```text
+| Service             | Purpose                               |
+| ------------------- | ------------------------------------- |
+| Amazon EC2          | Linux virtual machine                 |
+| AWS Systems Manager | Secure shell access (Session Manager) |
+| Amazon CloudWatch   | Metrics and Dashboard                 |
+| IAM                 | Permissions for CloudWatch Agent      |
+```
 
 
 ---
