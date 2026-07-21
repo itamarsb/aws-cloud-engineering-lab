@@ -131,7 +131,7 @@ The goal is to build practical experience with real-world cloud environments whi
 https://github.com/itamarsb/aws-cloud-engineering-lab/blob/main/labs/01-ec2-and-ssm/README.md
 
 
-## Lab 02 - EC2 Monitoring with CloudWatch Agent
+## Lab 02 - Modern EC2 Monitoring with CloudWatch Agent
 
 * [ ] Start existing EC2
 * [ ] Install CloudWatch Agent
