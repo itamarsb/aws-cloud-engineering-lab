@@ -133,11 +133,14 @@ https://github.com/itamarsb/aws-cloud-engineering-lab/blob/main/labs/01-ec2-and-
 
 ## Lab 02 - EC2 Monitoring with CloudWatch Agent
 
+* [ ] Start existing EC2
 * [ ] Install CloudWatch Agent
-* [ ] Collect CPU metrics
-* [ ] Collect Memory metrics
-* [ ] Collect Disk metrics
-* [ ] Create CloudWatch Dashboard
+* [ ] Configure CloudWatch Agent
+* [ ] Start Agent
+* [ ] Verify Metrics
+* [ ] Create Dashboard
+
+
 
 ## Lab 03 - IAM Roles and Policies
 
