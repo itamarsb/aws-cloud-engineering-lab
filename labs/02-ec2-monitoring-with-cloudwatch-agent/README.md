@@ -31,31 +31,41 @@ By completing this lab, you will learn how to:
 ## Architecture
 
 ```mermaid
-
 flowchart TB
 
-    EC2["🖥️ EC2 Ubuntu"]
+    EC2["🖥️ Amazon EC2<br/>Ubuntu Server"]
 
-    Agent["📊 CloudWatch Agent"]
+    Config["📄 config.json"]
 
-    Config["config.json"]
+    Agent["📊 Amazon CloudWatch Agent"]
 
     subgraph CW["Amazon CloudWatch"]
-        CPU["CPU"]
-        Memory["Memory"]
-        Disk["Disk"]
+
+        CPU["CPU Metrics"]
+
+        Memory["Memory Metrics"]
+
+        Disk["Disk Metrics"]
+
         Dashboard["Dashboard"]
+
     end
 
     EC2 --> Agent
-    Config --> Agent
-    Agent --> CPU
-    Agent --> Memory
-    Agent --> Disk
-    CPU --> Dashboard
-    Memory --> Dashboard
-    Disk --> Dashboard
 
+    Config --> Agent
+
+    Agent --> CPU
+
+    Agent --> Memory
+
+    Agent --> Disk
+
+    CPU --> Dashboard
+
+    Memory --> Dashboard
+
+    Disk --> Dashboard
 ```
 
 ---
