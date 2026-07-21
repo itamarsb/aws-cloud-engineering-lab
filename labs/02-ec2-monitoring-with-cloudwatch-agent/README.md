@@ -26,27 +26,31 @@
 ## Architecture
 
 ```mermaid
+
 flowchart TB
 
-    EC2["🖥️ Amazon EC2<br/>Ubuntu Server"]
+    EC2["🖥️ EC2 Ubuntu"]
 
     Agent["📊 CloudWatch Agent"]
 
-    subgraph CloudWatch["Amazon CloudWatch"]
-        CPU["CPU Metrics"]
-        Memory["Memory Metrics"]
-        Disk["Disk Metrics"]
-        Dashboard["CloudWatch Dashboard"]
-        Alarms["CloudWatch Alarms<br/>(Future Labs)"]
+    Config["config.json"]
+
+    subgraph CW["Amazon CloudWatch"]
+        CPU["CPU"]
+        Memory["Memory"]
+        Disk["Disk"]
+        Dashboard["Dashboard"]
     end
 
     EC2 --> Agent
-
+    Config --> Agent
     Agent --> CPU
     Agent --> Memory
     Agent --> Disk
-    Agent --> Dashboard
-    Agent -. Future Labs .-> Alarms
+    CPU --> Dashboard
+    Memory --> Dashboard
+    Disk --> Dashboard
+
 ```
 
 ---
