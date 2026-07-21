@@ -77,6 +77,23 @@ flowchart TB
 
 ---
 
+### Estimated Cost
+```text
+Free Tier Eligible
+
+t2.micro
+
+CloudWatch custom metrics
+≈ a few cents during the lab
+```
+
+---
+
+
+
+
+---
+
 ## Prerequisites
 
 - AWS Account;
@@ -90,15 +107,6 @@ CloudWatchAgentServerPolicy
 
 This instance is the same one created in Lab 01.
 
----
-
-## Estimated Cost
-
-For a single t3.micro instance within the Free Tier:
-
-- EC2 Free Tier;
-- Free basic CloudWatch;
-- Dashboards may incur a small cost if the free limit is exceeded.
 
 ---
 
