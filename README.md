@@ -126,7 +126,7 @@ The goal is to build practical experience with real-world cloud environments whi
 
 ![UsingManager](Docs/screenshots/images-lab01-ec2-and-ssm/Clipboard_06-14-2026_31.jpg)
 
-### Fully equipped laboratory:
+### Lab with all the steps:
 
 https://github.com/itamarsb/aws-cloud-engineering-lab/blob/main/labs/01-ec2-and-ssm/README.md
 
