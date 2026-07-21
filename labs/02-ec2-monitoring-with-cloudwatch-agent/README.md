@@ -14,7 +14,7 @@ By completing this lab, you will learn how to:
 - Build a CloudWatch Dashboard
 - Validate the collected metrics
 
-### AWS Services
+## AWS Services
 
 ```text
 | Service             | Purpose                               |
@@ -96,12 +96,17 @@ CloudWatch custom metrics
 
 ## Prerequisites
 
-- AWS Account;
-- EC2 Ubuntu Instance;
-- IAM Role attached.
+Before starting this lab, make sure you have completed:
+
+- ✅ Lab 01 – EC2 with Session Manager
+- Existing Ubuntu EC2 instance
+- IAM Role with:
 
 ```text
 AmazonSSMManagedInstanceCore
+```
+and
+```text
 CloudWatchAgentServerPolicy
 ```
 
