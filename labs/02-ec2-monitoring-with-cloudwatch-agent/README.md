@@ -90,10 +90,6 @@ CloudWatch custom metrics
 ---
 
 
-
-
----
-
 ## Prerequisites
 
 Before starting this lab, make sure you have completed:
