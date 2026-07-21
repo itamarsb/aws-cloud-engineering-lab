@@ -67,6 +67,13 @@ flowchart TB
 
     Disk --> Dashboard
 ```
+---
+
+### Estimated Time
+
+```text
+20–30 minutes
+```
 
 ---
 
