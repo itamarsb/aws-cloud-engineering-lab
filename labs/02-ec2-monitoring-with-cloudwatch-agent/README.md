@@ -78,6 +78,30 @@ For a single t3.micro instance within the Free Tier:
 - Free basic CloudWatch;
 - Dashboards may incur a small cost if the free limit is exceeded.
 
+---
+
+Step 1
+Start EC2
+
+Step 2
+Connect using Session Manager
+
+Step 3
+Install CloudWatch Agent
+
+Step 4
+Create config.json
+
+Step 5
+Start CloudWatch Agent
+
+Step 6
+Verify Metrics
+
+Step 7
+Create Dashboard
+
+Lessons Learned
 
 ---
 ---
