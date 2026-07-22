@@ -209,7 +209,7 @@ Expected output:
 Setting up amazon-cloudwatch-agent...
 ```
 
-SCREENSHOT
+![Lab02](screenshots/Lab02_Clipboard_07-21-2026_08.jpg)
 
 
 
