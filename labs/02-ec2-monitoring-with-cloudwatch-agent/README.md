@@ -225,7 +225,7 @@ Now we will manually create the configuration file:
 sudo mkdir -p /opt/aws/amazon-cloudwatch-agent/etc
 ```
 
-SCREENSHOT09
+![Lab02](screenshots/Lab02_Clipboard_07-21-2026_09.jpg)
 
 
 Open the editor:
@@ -233,7 +233,8 @@ Open the editor:
 sudo nano /opt/aws/amazon-cloudwatch-agent/etc/config.json
 ```
 
-SCREENSHOT10
+![Lab02](screenshots/Lab02_Clipboard_07-21-2026_10.jpg)
+
 
 Paste the JSON content below:
 
