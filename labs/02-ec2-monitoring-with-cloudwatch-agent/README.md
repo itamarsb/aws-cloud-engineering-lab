@@ -326,6 +326,33 @@ SCREENSHOT15
 
 ## Step 9 — Verify Metrics
 
+Open:
+
+```text
+CloudWatch
+
+↓
+
+Metrics
+
+↓
+
+Classic metrics
+```
+
+Verify:
+
+```text
+mem_used_percent
+
+disk_used_percent
+```
+
+SCREENSHOT21
+
+SCREENSHOT22
+
+SCREENSHOT23
 
 
 
