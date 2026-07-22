@@ -224,12 +224,58 @@ sudo mkdir -p /opt/aws/amazon-cloudwatch-agent/etc
 SCREENSHOT09
 
 
+Open the editor:
+```text
+sudo nano /opt/aws/amazon-cloudwatch-agent/etc/config.json
+```
+
+SCREENSHOT10
+
+Paste the JSON content below:
+
+```JSON
+{
+  "agent": {
+    "metrics_collection_interval": 60,
+    "run_as_user": "root"
+  },
+  "metrics": {
+    "append_dimensions": {
+      "InstanceId": "${aws:InstanceId}"
+    },
+    "metrics_collected": {
+      "mem": {
+        "measurement": [
+          "mem_used_percent"
+        ]
+      },
+      "disk": {
+        "measurement": [
+          "used_percent"
+        ],
+        "resources": [
+          "/"
+        ]
+      }
+    }
+  }
+}
+```
+
+SCREENSHOT11
 
 
+Save:
 
+```text
+CTRL + O
 
+ENTER
 
+CTRL + X
+```
 
+SCREENSHOT12
 
 
 
