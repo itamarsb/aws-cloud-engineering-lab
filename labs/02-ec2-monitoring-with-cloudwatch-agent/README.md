@@ -160,7 +160,6 @@ SCREENSHOT
 Run:
 
 ```bash
-</> Bash
 sudo apt update
 ```
 
