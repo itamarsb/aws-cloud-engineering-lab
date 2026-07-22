@@ -159,7 +159,7 @@ SCREENSHOT
 
 Run:
 
-```bash
+```text
 sudo apt update
 ```
 
@@ -168,8 +168,20 @@ SCREENSHOT
 
 ---
 
-Step 4
-Create config.json
+## Step 4 — Download the CloudWatch Agent
+
+Instead of trying to install via apt, we will use the official AWS package, which is the most reliable method for Ubuntu:
+
+```text
+cd /tmp
+
+wget https://amazoncloudwatch-agent.s3.amazonaws.com/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb
+```
+SCREENSHOT
+
+
+
+---
 
 Step 5
 Start CloudWatch Agent
