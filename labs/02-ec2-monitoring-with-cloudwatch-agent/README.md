@@ -267,7 +267,7 @@ Paste the JSON content below:
 }
 ```
 
-SCREENSHOT11
+![Lab02](screenshots/Lab02_Clipboard_07-21-2026_11.jpg)
 
 
 Save:
