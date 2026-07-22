@@ -213,8 +213,27 @@ SCREENSHOT
 
 ---
 
-Step 6
-Verify Metrics
+## Step 6 — Create the Configuration File
+
+Now we will manually create the configuration file:
+
+```text
+sudo mkdir -p /opt/aws/amazon-cloudwatch-agent/etc
+```
+
+SCREENSHOT09
+
+
+
+
+
+
+
+
+
+
+
+---
 
 Step 7
 Create Dashboard
