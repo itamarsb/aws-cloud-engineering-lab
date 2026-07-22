@@ -123,7 +123,11 @@ Expected state:
 Running
 ```
 
-SCREENSHOT
+![Step01](screenshots/Lab02_Clipboard_07-21-2026_02.jpg)
+
+AND
+
+![Step01](screenshots/Lab02_Clipboard_07-21-2026_03.jpg)
 
 ---
 
