@@ -493,9 +493,12 @@ Click on:
 Create widget
 ```
 
-SCREENSHOT29
+SCREENSHOT30
 
 
+### Final result:
+
+SCREENSHOT31
 
 
 ---
