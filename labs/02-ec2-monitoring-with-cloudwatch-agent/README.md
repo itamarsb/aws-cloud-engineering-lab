@@ -155,8 +155,18 @@ SCREENSHOT
 
 ---
 
-Step 3
-Install CloudWatch Agent
+## Step 3 — Update Ubuntu
+
+Run:
+
+```bash
+sudo apt update
+```
+
+SCREENSHOT
+
+
+---
 
 Step 4
 Create config.json
