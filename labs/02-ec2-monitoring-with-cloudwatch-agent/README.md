@@ -287,6 +287,26 @@ Type:
 
 ```text
 sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
+-a fetch-config \
+-m ec2 \
+-c file:/opt/aws/amazon-cloudwatch-agent/etc/config.json \
+-s
+```
+
+
+SCREENSHOT14
+
+
+
+
+---
+
+Step 8 — Verify Agent Status
+
+Type:
+
+```text
+sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
 -a status
 ```
 
@@ -302,7 +322,7 @@ SCREENSHOT13
 
 ---
 
-
+## Step 9 — Verify Metrics
 
 
 
