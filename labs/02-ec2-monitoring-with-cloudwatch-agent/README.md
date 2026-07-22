@@ -125,10 +125,35 @@ Running
 
 SCREENSHOT
 
+---
+
+## Step 2 — Connect using Session Manager
+
+```text
+EC2
+
+↓
+
+Instance
+
+↓
+
+Connect
+
+↓
+
+Session Manager
+
+↓
+
+Connect
+```
+
+SCREENSHOT
 
 
-Step 2
-Connect using Session Manager
+
+---
 
 Step 3
 Install CloudWatch Agent
