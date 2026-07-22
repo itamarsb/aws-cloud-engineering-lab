@@ -306,7 +306,7 @@ sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
 
 ---
 
-Step 8 — Verify Agent Status
+## Step 8 — Verify Agent Status
 
 Type:
 
