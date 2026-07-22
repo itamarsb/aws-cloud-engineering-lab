@@ -115,7 +115,7 @@ This instance is the same one created in Lab 01.
 
 Start the EC2 instance created during Lab 01.
 
-SCREENSHOT
+![Step01](screenshots/Lab02_Clipboard_07-21-2026_01.jpg)
 
 Expected state:
 
