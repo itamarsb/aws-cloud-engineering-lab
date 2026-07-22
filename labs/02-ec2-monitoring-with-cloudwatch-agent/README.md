@@ -117,15 +117,15 @@ Start the EC2 instance created during Lab 01.
 
 ![Step01](screenshots/Lab02_Clipboard_07-21-2026_01.jpg)
 
+AND:
+
+![Step01](screenshots/Lab02_Clipboard_07-21-2026_02.jpg)
+
 Expected state:
 
 ```text
 Running
 ```
-
-![Step01](screenshots/Lab02_Clipboard_07-21-2026_02.jpg)
-
-AND
 
 ![Step01](screenshots/Lab02_Clipboard_07-21-2026_03.jpg)
 
