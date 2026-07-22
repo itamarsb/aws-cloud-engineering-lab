@@ -177,8 +177,16 @@ cd /tmp
 
 wget https://amazoncloudwatch-agent.s3.amazonaws.com/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb
 ```
+
 SCREENSHOT
 
+Check:
+
+```text
+ls -lh amazon-cloudwatch-agent.deb
+```
+
+SCREENSHOT
 
 
 ---
