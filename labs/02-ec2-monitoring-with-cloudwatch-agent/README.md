@@ -299,7 +299,7 @@ sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
 ```
 
 
-SCREENSHOT14
+![Lab02](screenshots/Lab02_Clipboard_07-21-2026_14.jpg)
 
 
 
