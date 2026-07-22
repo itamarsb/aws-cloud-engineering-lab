@@ -191,8 +191,27 @@ SCREENSHOT
 
 ---
 
-Step 5
-Start CloudWatch Agent
+## Step 5 — Install the Agent
+
+Type:
+
+```text
+sudo dpkg -i amazon-cloudwatch-agent.deb
+```
+
+Expected output:
+
+```text
+Setting up amazon-cloudwatch-agent...
+```
+
+SCREENSHOT
+
+
+
+
+
+---
 
 Step 6
 Verify Metrics
