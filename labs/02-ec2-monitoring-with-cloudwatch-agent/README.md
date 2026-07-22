@@ -182,7 +182,7 @@ cd /tmp
 wget https://amazoncloudwatch-agent.s3.amazonaws.com/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb
 ```
 
-SCREENSHOT
+![Lab02](screenshots/Lab02_Clipboard_07-21-2026_06.jpg)
 
 Check:
 
