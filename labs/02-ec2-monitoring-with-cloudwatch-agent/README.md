@@ -345,6 +345,8 @@ Metrics
 Classic metrics
 ```
 
+![Lab02](screenshots/Lab02_Clipboard_07-21-2026_21.jpg)
+
 Verify:
 
 ```text
@@ -353,11 +355,11 @@ mem_used_percent
 disk_used_percent
 ```
 
-SCREENSHOT21
+![Lab02](screenshots/Lab02_Clipboard_07-21-2026_22.jpg)
 
-SCREENSHOT22
+AND:
 
-SCREENSHOT23
+![Lab02](screenshots/Lab02_Clipboard_07-21-2026_23.jpg)
 
 
 ---
