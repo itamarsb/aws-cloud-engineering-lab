@@ -280,7 +280,7 @@ ENTER
 CTRL + X
 ```
 
-SCREENSHOT12
+![Lab02](screenshots/Lab02_Clipboard_07-21-2026_12.jpg)
 
 
 
