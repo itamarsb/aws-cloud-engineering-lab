@@ -281,8 +281,36 @@ SCREENSHOT12
 
 ---
 
-Step 7
-Create Dashboard
+## Step 7 — Start the Agent
+
+Type:
+
+```text
+sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
+-a status
+```
+
+Expected:
+
+```text
+{
+  "status":"running"
+}
+```
+
+SCREENSHOT13
+
+---
+
+
+
+
+
+
+
+---
+
+
 
 Lessons Learned
 
