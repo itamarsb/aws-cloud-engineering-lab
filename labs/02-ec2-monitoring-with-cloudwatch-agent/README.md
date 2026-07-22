@@ -465,6 +465,36 @@ Create widget
 SCREENSHOT29
 
 
+### Widget 3 — Disk Used %
+
+Repeat the process:
+
+```text
++
+↓
+Metrics
+↓
+CWAgent
+```
+
+Click on the other category.
+
+Search for:
+
+```text
+disk_used_percent
+```
+
+Select the metric for the main disk (`/`).
+
+Click on:
+
+```text
+Create widget
+```
+
+SCREENSHOT29
+
 
 
 
