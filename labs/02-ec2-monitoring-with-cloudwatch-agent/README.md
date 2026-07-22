@@ -153,7 +153,7 @@ Session Manager
 Connect
 ```
 
-SCREENSHOT
+![Step01](screenshots/Lab02_Clipboard_07-21-2026_04.jpg)
 
 
 
