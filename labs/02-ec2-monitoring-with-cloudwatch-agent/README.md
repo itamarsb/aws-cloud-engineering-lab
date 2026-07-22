@@ -115,11 +115,11 @@ This instance is the same one created in Lab 01.
 
 Start the EC2 instance created during Lab 01.
 
-![Step01](screenshots/Lab02_Clipboard_07-21-2026_01.jpg)
+![Lab02](screenshots/Lab02_Clipboard_07-21-2026_01.jpg)
 
 AND:
 
-![Step01](screenshots/Lab02_Clipboard_07-21-2026_02.jpg)
+![Lab02](screenshots/Lab02_Clipboard_07-21-2026_02.jpg)
 
 Expected state:
 
@@ -127,7 +127,7 @@ Expected state:
 Running
 ```
 
-![Step01](screenshots/Lab02_Clipboard_07-21-2026_03.jpg)
+![Lab02](screenshots/Lab02_Clipboard_07-21-2026_03.jpg)
 
 ---
 
@@ -153,7 +153,7 @@ Session Manager
 Connect
 ```
 
-![Step01](screenshots/Lab02_Clipboard_07-21-2026_04.jpg)
+![Lab02](screenshots/Lab02_Clipboard_07-21-2026_04.jpg)
 
 
 
