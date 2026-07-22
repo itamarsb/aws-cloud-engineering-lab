@@ -355,6 +355,88 @@ SCREENSHOT22
 SCREENSHOT23
 
 
+---
+
+
+## Step 10 — Create Dashboard
+
+Open:
+
+```text
+CloudWatch
+
+↓
+
+Dashboards
+
+↓
+
+Create Dashboard
+```
+
+SCREENSHOT24
+
+
+Suggested name:
+
+```text
+EC2_Monitoring_Dashboard
+```
+
+SCREENSHOT25
+
+
+On the current screen:
+
+- Data source: CloudWatch (already selected)
+- Data type: Metrics (already selected)
+- Widget type: Line (already selected)
+
+Now click:
+
+```text
+Next
+```
+
+SCREENSHOT26
+
+Click on:
+
+```text
+EC2
+```
+
+Choose the category:
+
+```text
+Per-Instance Metrics
+```
+
+SCREENSHOT27
+
+
+### Widget 1 — CPU Utilization %
+
+In the list of metrics, look for:
+
+```text
+CPUUtilization
+```
+
+Check the box next to your instance (`lab01-ec2-ssm`).
+
+You will see the graph appear immediately at the top.
+
+Then click on:
+
+```text
+Create widget
+```
+
+SCREENSHOT28
+
+
+
 
 
 ---
