@@ -323,7 +323,7 @@ Expected:
 }
 ```
 
-SCREENSHOT15
+![Lab02](screenshots/Lab02_Clipboard_07-21-2026_15.jpg)
 
 
 
