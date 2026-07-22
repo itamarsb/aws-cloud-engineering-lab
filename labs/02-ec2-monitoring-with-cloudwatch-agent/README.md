@@ -167,7 +167,7 @@ Run:
 sudo apt update
 ```
 
-SCREENSHOT
+![Lab02](screenshots/Lab02_Clipboard_07-21-2026_05.jpg)
 
 
 ---
