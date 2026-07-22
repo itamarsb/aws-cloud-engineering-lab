@@ -448,13 +448,22 @@ After creating the first widget:
 
 Now the screen should show two categories (the "2" that appears next to CWAgent).
 
-Click on the first one.
+Click on the second one.
 
 Search for:
 
 ```text
 mem_used_percent
 ```
+
+Click on:
+
+```text
+Create widget
+```
+
+SCREENSHOT29
+
 
 
 
