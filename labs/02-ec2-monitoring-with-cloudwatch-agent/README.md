@@ -436,6 +436,26 @@ Create widget
 SCREENSHOT28
 
 
+### Widget 2 — Memory Used %
+
+After creating the first widget:
+
+1. Click the + button on the Dashboard again.
+
+2. Choose Metrics.
+
+3. Click on CWAgent.
+
+Now the screen should show two categories (the "2" that appears next to CWAgent).
+
+Click on the first one.
+
+Search for:
+
+```text
+mem_used_percent
+```
+
 
 
 
