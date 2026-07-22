@@ -190,7 +190,7 @@ Check:
 ls -lh amazon-cloudwatch-agent.deb
 ```
 
-SCREENSHOT
+![Lab02](screenshots/Lab02_Clipboard_07-21-2026_07.jpg)
 
 
 ---
