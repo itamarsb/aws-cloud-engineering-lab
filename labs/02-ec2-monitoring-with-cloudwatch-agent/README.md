@@ -111,8 +111,21 @@ This instance is the same one created in Lab 01.
 
 ---
 
-Step 1
-Start EC2
+## Step 1 — Start the EC2 Instance
+
+Start the EC2 instance created during Lab 01.
+
+SCREENSHOT
+
+Expected state:
+
+```text
+Running
+```
+
+SCREENSHOT
+
+
 
 Step 2
 Connect using Session Manager
