@@ -385,7 +385,7 @@ Dashboards
 Create Dashboard
 ```
 
-SCREENSHOT24
+![Lab02](screenshots/Lab02_Clipboard_07-21-2026_24.jpg)
 
 
 Suggested name:
