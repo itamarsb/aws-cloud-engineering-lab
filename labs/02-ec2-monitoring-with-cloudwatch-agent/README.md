@@ -30,7 +30,6 @@ By completing this lab, you will learn how to:
 
 ## Architecture
 
-```Mermaid
 
 flowchart TB
 
@@ -91,7 +90,7 @@ flowchart TB
     class CONFIG config;
     class NAMESPACE,METRICS,DASHBOARD monitoring;
 
-```
+
 
 ---
 
