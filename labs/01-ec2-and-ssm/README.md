@@ -70,6 +70,10 @@ After completing this lab, you will be able to:
 * IAM User with AdministratorAccess
 * AWS Region: us-east-1
 
+> [!NOTE]
+> This architecture does not require an inbound SSH rule or a public SSH key.  
+> Administrative access is provided through AWS Systems Manager Session Manager.
+
 ---
 # Step-by-step Tutorial
 
