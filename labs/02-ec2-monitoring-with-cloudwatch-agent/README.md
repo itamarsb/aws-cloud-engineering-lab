@@ -444,7 +444,7 @@ Then click on:
 Create widget
 ```
 
-SCREENSHOT28
+![Lab02](screenshots/Lab02_Clipboard_07-21-2026_28.jpg)
 
 
 ### Widget 2 — Memory Used %
