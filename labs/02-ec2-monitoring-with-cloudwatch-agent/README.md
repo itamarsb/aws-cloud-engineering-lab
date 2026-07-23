@@ -117,6 +117,24 @@ This instance is the same one created in Lab 01.
 | CloudWatchAgentServerPolicy | Allows CloudWatch Agent to publish metrics and logs |
 
 
+### Before
+
+![Lab02](screenshots/Lab02_Clipboard_07-21-2026_18.jpg)
+
+Only one policy attached.
+
+❌ CloudWatchAgentServerPolicy is missing.
+
+---
+
+### After
+
+![Lab02](screenshots/Lab02_Clipboard_07-21-2026_19.jpg)
+
+Both policies attached.
+
+✅ Ready to continue.
+
 ---
 
 ## Step 1 — Start the EC2 Instance
