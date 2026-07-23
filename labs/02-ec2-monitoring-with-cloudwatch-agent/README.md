@@ -68,27 +68,13 @@ flowchart TB
             METRICS --> DASHBOARD
         end
 
-        SSM -->|"Secure access<br/>without inbound SSH"| EC2
+        SSM -->|"Secure shell access<br/>without inbound SSH"| EC2
         IAM -.->|"Provides permissions"| EC2
         AGENT -->|"Publishes custom metrics<br/>through HTTPS"| NAMESPACE
     end
 
     USER -->|"Starts Session Manager session"| SSM
     USER -->|"Views collected metrics"| DASHBOARD
-
-    classDef user fill:#f8f9fa,stroke:#57606a,stroke-width:1.5px,color:#24292f;
-    classDef management fill:#eaf5ff,stroke:#0972d3,stroke-width:1.5px,color:#16191f;
-    classDef security fill:#fff4e5,stroke:#ff9900,stroke-width:1.5px,color:#16191f;
-    classDef compute fill:#f3e8ff,stroke:#8c4fff,stroke-width:1.5px,color:#16191f;
-    classDef config fill:#f6f8fa,stroke:#57606a,stroke-width:1.5px,color:#24292f;
-    classDef monitoring fill:#e8f5e9,stroke:#2e7d32,stroke-width:1.5px,color:#16191f;
-
-    class USER user;
-    class SSM management;
-    class IAM security;
-    class OS,SYSTEM_METRICS,AGENT compute;
-    class CONFIG config;
-    class NAMESPACE,METRICS,DASHBOARD monitoring;
 
 
 
