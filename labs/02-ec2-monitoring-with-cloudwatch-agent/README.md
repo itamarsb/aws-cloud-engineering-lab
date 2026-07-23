@@ -30,52 +30,54 @@ By completing this lab, you will learn how to:
 
 ## Architecture
 
-```Mermaid
+```mermaid
 flowchart TB
 
-    USER["👤 Engineer / Lab User"]
+    USER["Engineer / Lab User"]
 
-    subgraph AWS["☁️ AWS Cloud"]
+    subgraph AWS["AWS Cloud"]
 
-        SSM["🛠️ AWS Systems Manager<br/>Session Manager"]
+        SSM["AWS Systems Manager<br>Session Manager"]
 
-        IAM["🔐 EC2 IAM Role<br/><br/>AmazonSSMManagedInstanceCore<br/>CloudWatchAgentServerPolicy"]
+        IAM["EC2 IAM Role<br>AmazonSSMManagedInstanceCore<br>CloudWatchAgentServerPolicy"]
 
-        subgraph EC2["🖥️ Amazon EC2 Instance — Ubuntu Server"]
+        subgraph EC2["Amazon EC2 Instance - Ubuntu Server"]
 
             OS["Linux Operating System"]
 
-            SYSTEM_METRICS["System Metrics<br/><br/>CPU • Memory • Disk"]
+            SYSTEM_METRICS["Operating System Metrics<br>CPU, Memory and Disk"]
 
-            CONFIG["📄 CloudWatch Agent Configuration<br/>config.json"]
+            CONFIG["CloudWatch Agent Configuration<br>config.json"]
 
-            AGENT["📊 Amazon CloudWatch Agent"]
+            AGENT["Amazon CloudWatch Agent"]
 
             OS --> SYSTEM_METRICS
-            SYSTEM_METRICS -->|"Collects metrics"| AGENT
-            CONFIG -->|"Defines metrics and intervals"| AGENT
+            SYSTEM_METRICS -->|"Collected by"| AGENT
+            CONFIG -->|"Configures metrics and intervals"| AGENT
         end
 
-        subgraph CW["📈 Amazon CloudWatch"]
+        subgraph CW["Amazon CloudWatch"]
 
-            NAMESPACE["Custom Metrics Namespace<br/>CWAgent"]
+            NAMESPACE["Custom Metrics Namespace<br>CWAgent"]
 
-            METRICS["CloudWatch Metrics<br/><br/>CPU • Memory • Disk"]
+            METRICS["CloudWatch Metrics<br>CPU, Memory and Disk"]
 
-            DASHBOARD["CloudWatch Dashboard<br/>Metric visualization"]
+            DASHBOARD["CloudWatch Dashboard<br>Metrics Visualization"]
 
             NAMESPACE --> METRICS
             METRICS --> DASHBOARD
         end
 
-        SSM -->|"Secure shell access<br/>without inbound SSH"| EC2
-        IAM -.->|"Provides permissions"| EC2
-        AGENT -->|"Publishes custom metrics<br/>through HTTPS"| NAMESPACE
+        SSM -->|"Secure access without inbound SSH"| OS
+        IAM -.->|"Grants permissions"| AGENT
+        AGENT -->|"Publishes custom metrics through HTTPS"| NAMESPACE
     end
 
-    USER -->|"Starts Session Manager session"| SSM
+    USER -->|"Starts a Session Manager session"| SSM
     USER -->|"Views collected metrics"| DASHBOARD
 ```
+
+*Figure 1 - Lab 02 architecture. The EC2 instance is accessed securely through AWS Systems Manager Session Manager. The CloudWatch Agent collects operating system metrics according to the `config.json` configuration and publishes them to the `CWAgent` namespace in Amazon CloudWatch.*
 
 
 ---
