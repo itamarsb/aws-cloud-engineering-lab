@@ -409,7 +409,7 @@ Now click:
 Next
 ```
 
-SCREENSHOT26
+![Lab02](screenshots/Lab02_Clipboard_07-21-2026_26.jpg)
 
 Click on:
 
@@ -423,7 +423,7 @@ Choose the category:
 Per-Instance Metrics
 ```
 
-SCREENSHOT27
+![Lab02](screenshots/Lab02_Clipboard_07-21-2026_27.jpg)
 
 
 ### Widget 1 — CPU Utilization %
