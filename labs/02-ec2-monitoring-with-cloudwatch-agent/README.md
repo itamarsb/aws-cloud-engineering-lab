@@ -542,7 +542,19 @@ Create widget
 
 
 
-Lessons Learned
+> [!TIP]
+> **Lesson Learned**
+>
+> During the development of this lab the CloudWatch Agent installed successfully, but no metrics appeared in CloudWatch.
+>
+> The root cause was a missing IAM policy:
+>
+> - CloudWatchAgentServerPolicy
+>
+> After attaching the policy to the EC2 IAM Role, the agent immediately started publishing metrics.
+
+
+
 
 ---
 ---
