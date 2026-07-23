@@ -109,6 +109,14 @@ CloudWatchAgentServerPolicy
 This instance is the same one created in Lab 01.
 
 
+### Required IAM Policies
+
+| Policy | Purpose |
+|---------|----------|
+| AmazonSSMManagedInstanceCore | Allows Session Manager access |
+| CloudWatchAgentServerPolicy | Allows CloudWatch Agent to publish metrics and logs |
+
+
 ---
 
 ## Step 1 — Start the EC2 Instance
