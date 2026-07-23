@@ -473,7 +473,7 @@ Click on:
 Create widget
 ```
 
-SCREENSHOT29
+![Lab02](screenshots/Lab02_Clipboard_07-21-2026_29.jpg)
 
 
 ### Widget 3 — Disk Used %
