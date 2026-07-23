@@ -394,7 +394,7 @@ Suggested name:
 EC2_Monitoring_Dashboard
 ```
 
-SCREENSHOT25
+![Lab02](screenshots/Lab02_Clipboard_07-21-2026_25.jpg)
 
 
 On the current screen:
