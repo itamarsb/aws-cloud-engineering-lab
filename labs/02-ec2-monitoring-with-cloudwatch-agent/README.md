@@ -343,6 +343,10 @@ Metrics
 ↓
 
 Classic metrics
+
+↓
+
+CWAgent
 ```
 
 ![Lab02](screenshots/Lab02_Clipboard_07-21-2026_21.jpg)
