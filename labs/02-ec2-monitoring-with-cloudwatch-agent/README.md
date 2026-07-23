@@ -72,7 +72,7 @@ flowchart TB
 ### Estimated Time
 
 ```text
-20–30 minutes
+25–30 minutes
 ```
 
 ---
