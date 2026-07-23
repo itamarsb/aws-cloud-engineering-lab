@@ -10,20 +10,42 @@ The objective is to follow modern AWS security best practices while gaining hand
 
 ## Architecture
 
-
 ```mermaid
-flowchart TD
-    A[Administrator<br/>AWS Console User]
-    B[AWS Session Manager]
-    C[AWS Systems Manager<br/>SSM Agent]
-    D[Ubuntu EC2 Instance<br/>lab01-ec2-ssm]
-    E[IAM Role Attached<br/>EC2-SSM-Role]
+flowchart TB
 
-    A --> B
-    B --> C
-    C --> D
-    D --> E
+    USER["Administrator / Lab User"]
+
+    subgraph AWS["AWS Cloud"]
+
+        CONSOLE["AWS Management Console"]
+
+        SESSION["AWS Systems Manager<br>Session Manager"]
+
+        IAM["EC2 IAM Role<br>EC2-SSM-Role"]
+
+        POLICY["AWS Managed Policy<br>AmazonSSMManagedInstanceCore"]
+
+        subgraph EC2["Amazon EC2 Instance - Ubuntu Server"]
+
+            AGENT["AWS Systems Manager<br>SSM Agent"]
+
+            SHELL["Secure Ubuntu Shell Session"]
+
+            AGENT -->|"Starts and manages"| SHELL
+        end
+
+        CONSOLE -->|"Opens Session Manager"| SESSION
+        SESSION -->|"Establishes secure session"| AGENT
+
+        POLICY -->|"Attached to"| IAM
+        IAM -.->|"Grants Systems Manager permissions"| AGENT
+    end
+
+    USER -->|"Authenticates and accesses"| CONSOLE
+    USER -->|"Runs Linux commands"| SHELL
 ```
+
+*Figure 1 - Lab 01 architecture. The administrator accesses the Ubuntu EC2 instance through AWS Systems Manager Session Manager. The SSM Agent running inside the instance establishes the managed session using permissions granted by the `EC2-SSM-Role` and the `AmazonSSMManagedInstanceCore` policy.*
 
 
 ---
