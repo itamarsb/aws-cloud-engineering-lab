@@ -504,7 +504,7 @@ Click on:
 Create widget
 ```
 
-SCREENSHOT30
+![Lab02](screenshots/Lab02_Clipboard_07-21-2026_30.jpg)
 
 
 ### Final result:
