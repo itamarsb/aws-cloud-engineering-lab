@@ -30,7 +30,7 @@ By completing this lab, you will learn how to:
 
 ## Architecture
 
-
+```Mermaid
 flowchart TB
 
     USER["👤 Engineer / Lab User"]
@@ -75,7 +75,7 @@ flowchart TB
 
     USER -->|"Starts Session Manager session"| SSM
     USER -->|"Views collected metrics"| DASHBOARD
-
+```
 
 
 ---
