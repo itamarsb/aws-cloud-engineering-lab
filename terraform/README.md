@@ -1,1 +1,1 @@
-
+The goal of this second group of labs is to demonstrate how to develop the same structures—originally built manually—using Terraform and Infrastructure as Code, showcasing their creation, validation and destruction via IaC.
