@@ -14,3 +14,11 @@ Every Terraform laboratory includes:
 - automated cleanup
 - post-destroy verification
 - lessons learned
+
+## Related Manual Lab
+
+➡️ Manual implementation:
+
+labs/01-ec2-and-ssm
+
+This Terraform implementation reproduces the same infrastructure using Infrastructure as Code.
