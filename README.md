@@ -217,7 +217,10 @@ The goal is to build practical experience with real-world cloud environments whi
 
 ### Lab with all the steps:
 
-[labs/01-ec2-and-ssm](https://github.com/itamarsb/aws-cloud-engineering-lab/tree/main/labs/01-ec2-and-ssm)
+Manual Lab: [labs/01-ec2-and-ssm](https://github.com/itamarsb/aws-cloud-engineering-lab/tree/main/labs/01-ec2-and-ssm)
+
+Terraform Lab: 
+
 
 ## Lab 02 - Modern EC2 Monitoring with CloudWatch Agent
 
@@ -228,6 +231,11 @@ The goal is to build practical experience with real-world cloud environments whi
 * [ ] Verify Metrics
 * [ ] Create Dashboard
 
+### Lab with all the steps:
+
+Manual Lab:
+
+Terraform Lab: 
 
 
 ## Lab 03 - IAM Roles and Policies
@@ -237,12 +245,26 @@ The goal is to build practical experience with real-world cloud environments whi
 * [ ] Create Custom Policies
 * [ ] Apply Least Privilege Principle
 
+### Lab with all the steps:
+
+Manual Lab:
+
+Terraform Lab: 
+
+
 ## Lab 04 - EBS Volumes and Snapshots
 
 * [ ] Create EBS Volume
 * [ ] Attach Volume
 * [ ] Create Snapshot
 * [ ] Restore Snapshot
+
+### Lab with all the steps:
+
+Manual Lab:
+
+Terraform Lab: 
+
 
 ## Lab 05 - VPC with Public Subnet
 
@@ -251,12 +273,26 @@ The goal is to build practical experience with real-world cloud environments whi
 * [ ] Configure Internet Gateway
 * [ ] Configure Route Tables
 
+### Lab with all the steps:
+
+Manual Lab:
+
+Terraform Lab: 
+
+
 ## Lab 06 - VPC with Private Subnet and NAT Gateway
 
 * [ ] Create Private Subnet
 * [ ] Configure NAT Gateway
 * [ ] Validate Internet Access
 * [ ] Test Secure Architecture
+
+### Lab with all the steps:
+
+Manual Lab:
+
+Terraform Lab: 
+
 
 ---
 
@@ -269,6 +305,13 @@ The goal is to build practical experience with real-world cloud environments whi
 * [ ] Container Lifecycle Management
 * [ ] Security Best Practices
 
+### Lab with all the steps:
+
+Manual Lab:
+
+Terraform Lab: 
+
+
 ## Lab 08 - Docker Compose Application
 
 * [ ] Deploy Multi-Container Application
@@ -276,12 +319,20 @@ The goal is to build practical experience with real-world cloud environments whi
 * [ ] Configure Volumes
 * [ ] Persist Data
 
+
 ## Lab 09 - NGINX Reverse Proxy
 
 * [ ] Install NGINX
 * [ ] Configure Reverse Proxy
 * [ ] Test HTTP Routing
 * [ ] Validate Application Access
+
+### Lab with all the steps:
+
+Manual Lab:
+
+Terraform Lab: 
+
 
 ---
 
@@ -294,6 +345,13 @@ The goal is to build practical experience with real-world cloud environments whi
 * [ ] Connect from EC2
 * [ ] Execute SQL Queries
 
+### Lab with all the steps:
+
+Manual Lab:
+
+Terraform Lab: 
+
+
 ## Lab 11 - Amazon S3 Static Website Hosting
 
 * [ ] Create Bucket
@@ -301,12 +359,26 @@ The goal is to build practical experience with real-world cloud environments whi
 * [ ] Upload Website Files
 * [ ] Configure Public Access
 
+### Lab with all the steps:
+
+Manual Lab:
+
+Terraform Lab: 
+
+
 ## Lab 12 - AWS Backup Strategy
 
 * [ ] Define Backup Policy
 * [ ] Backup EBS
 * [ ] Backup RDS
 * [ ] Test Recovery
+
+### Lab with all the steps:
+
+Manual Lab:
+
+Terraform Lab: 
+
 
 ---
 
@@ -319,12 +391,26 @@ The goal is to build practical experience with real-world cloud environments whi
 * [ ] Query Logs
 * [ ] Analyze Events
 
+### Lab with all the steps:
+
+Manual Lab:
+
+Terraform Lab: 
+
+
 ## Lab 14 - CloudWatch Metrics
 
 * [ ] Analyze Metrics
 * [ ] Create Dashboards
 * [ ] Monitor Resources
 * [ ] Configure Custom Metrics
+
+### Lab with all the steps:
+
+Manual Lab:
+
+Terraform Lab: 
+
 
 ## Lab 15 - CloudWatch Alarms
 
@@ -333,12 +419,26 @@ The goal is to build practical experience with real-world cloud environments whi
 * [ ] Configure Notifications
 * [ ] Test Alerts
 
+### Lab with all the steps:
+
+Manual Lab:
+
+Terraform Lab: 
+
+
 ## Lab 16 - SNS Notifications
 
 * [ ] Create SNS Topic
 * [ ] Configure Email Notifications
 * [ ] Integrate with CloudWatch
 * [ ] Validate Alert Delivery
+
+### Lab with all the steps:
+
+Manual Lab:
+
+Terraform Lab: 
+
 
 ---
 
@@ -351,12 +451,26 @@ The goal is to build practical experience with real-world cloud environments whi
 * [ ] Push Image
 * [ ] Pull Image
 
+### Lab with all the steps:
+
+Manual Lab:
+
+Terraform Lab: 
+
+
 ## Lab 18 - Amazon ECS Fargate
 
 * [ ] Create ECS Cluster
 * [ ] Configure Fargate
 * [ ] Deploy Container
 * [ ] Validate Service
+
+### Lab with all the steps:
+
+Manual Lab:
+
+Terraform Lab: 
+
 
 ## Lab 19 - ECS Service Management
 
@@ -365,12 +479,26 @@ The goal is to build practical experience with real-world cloud environments whi
 * [ ] Test Availability
 * [ ] Review Logs
 
+### Lab with all the steps:
+
+Manual Lab:
+
+Terraform Lab: 
+
+
 ## Lab 20 - Application Load Balancer
 
 * [ ] Create Load Balancer
 * [ ] Configure Target Group
 * [ ] Route Traffic
 * [ ] Validate Health Checks
+
+### Lab with all the steps:
+
+Manual Lab:
+
+Terraform Lab: 
+
 
 ---
 
@@ -383,6 +511,13 @@ The goal is to build practical experience with real-world cloud environments whi
 * [ ] Apply Configuration
 * [ ] Destroy Resources
 
+### Lab with all the steps:
+
+Manual Lab:
+
+Terraform Lab: 
+
+
 ## Lab 22 - Terraform VPC Deployment
 
 * [ ] Create VPC Code
@@ -390,12 +525,20 @@ The goal is to build practical experience with real-world cloud environments whi
 * [ ] Validate Infrastructure
 * [ ] Refactor Modules
 
+
 ## Lab 23 - Terraform ECS Deployment
 
 * [ ] Create ECS Resources
 * [ ] Deploy Containers
 * [ ] Validate Automation
 * [ ] Reuse Modules
+
+### Lab with all the steps:
+
+Manual Lab:
+
+Terraform Lab: 
+
 
 ---
 
@@ -408,12 +551,26 @@ The goal is to build practical experience with real-world cloud environments whi
 * [ ] Validate Pipeline
 * [ ] Review Logs
 
+### Lab with all the steps:
+
+Manual Lab:
+
+Terraform Lab: 
+
+
 ## Lab 25 - GitHub Actions Deployment Pipeline
 
 * [ ] Configure AWS Credentials
 * [ ] Deploy Infrastructure
 * [ ] Validate Deployment
 * [ ] Automate Releases
+
+### Lab with all the steps:
+
+Manual Lab:
+
+Terraform Lab: 
+
 
 ## Lab 26 - End-to-End CI/CD Pipeline
 
@@ -422,6 +579,13 @@ The goal is to build practical experience with real-world cloud environments whi
 * [ ] Publish Artifact
 * [ ] Deploy Automatically
 * [ ] Validate Production Workflow
+
+### Lab with all the steps:
+
+Manual Lab:
+
+Terraform Lab: 
+
 
 ---
 
