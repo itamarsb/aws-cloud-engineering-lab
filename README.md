@@ -42,57 +42,146 @@ Objective: To progressively build a cloud architecture similar to production env
 >
 > After completing the last EC2-based lab, all AWS resources are removed following the Cleanup section.
 
+---
 
 
 
-## Structure designed for initial evolution:
 
-```test
+## Repository Structure
 
+The repository is organized into two complementary learning tracks:
+
+1. **Manual Labs** — infrastructure created and validated through the AWS Management Console and supporting tools.
+2. **Terraform Labs** — equivalent infrastructure reproduced using Infrastructure as Code.
+
+This structure allows each architecture to be studied manually first and then automated with Terraform while preserving the same learning objectives.
+
+```text
 aws-cloud-engineering-lab/
 │
 ├── README.md
 │
 ├── docs/
-│ ├── architecture/
-│ ├── diagrams/
-│ ├── screenshots/
-│ ├── lessons-learned/
-│ └── lab-notes/
+│   ├── architecture/
+│   ├── diagrams/
+│   ├── screenshots/
+│   ├── lessons-learned/
+│   └── lab-notes/
 │
 ├── labs/
-│ ├── 01-ec2-and-ssm/
-│ ├── 02-ec2-monitoring-with-cloudwatch-agent/
-│ ├── 03-iam-roles-and-policies/
-│ ├── 04-ebs-volumes-and-snapshots/
-│ ├── 05-vpc-with-public-subnet/
-│ ├── 06-vpc-with-private-subnet-and-nat-gateway/
-│ ├── 07-docker-installation-on-ec2/
-│ ├── 08-docker-compose-application/
-│ ├── 09-nginx-reverse-proxy/
-│ ├── 10-amazon-rds-postgresql/
-│ ├── 11-amazon-s3-static-website-hosting/
-│ ├── 12-aws-backup-strategy/
-│ ├── 13-cloudwatch-logs/
-│ ├── 14-cloudwatch-metrics/
-│ ├── 15-cloudwatch-alarms/
-│ ├── 16-sns-notifications/
-│ ├── 17-amazon-ecr/
-│ ├── 18-amazon-ecs-fargate/
-│ ├── 19-ecs-service-management/
-│ ├── 20-application-load-balancer/
-│ ├── 21-terraform-ec2-deployment/
-│ ├── 22-terraform-vpc-deployment/
-│ ├── 23-terraform-ecs-deployment/
-│ ├── 24-github-actions-build-pipeline/
-│ ├── 25-gitHub-actions-deployment-pipeline/
-│ └── 26-end-to-end-ci/cd-pipeline/
+│   ├── 01-ec2-and-ssm/
+│   ├── 02-ec2-monitoring-with-cloudwatch-agent/
+│   ├── 03-iam-roles-and-policies/
+│   ├── 04-ebs-volumes-and-snapshots/
+│   ├── 05-vpc-with-public-subnet/
+│   ├── 06-vpc-with-private-subnet-and-nat-gateway/
+│   ├── 07-docker-installation-on-ec2/
+│   ├── 08-docker-compose-application/
+│   ├── 09-nginx-reverse-proxy/
+│   ├── 10-amazon-rds-postgresql/
+│   ├── 11-amazon-s3-static-website-hosting/
+│   ├── 12-aws-backup-strategy/
+│   ├── 13-cloudwatch-logs/
+│   ├── 14-cloudwatch-metrics/
+│   ├── 15-cloudwatch-alarms/
+│   ├── 16-sns-notifications/
+│   ├── 17-amazon-ecr/
+│   ├── 18-amazon-ecs-fargate/
+│   ├── 19-ecs-service-management/
+│   ├── 20-application-load-balancer/
+│   ├── 21-terraform-ec2-deployment/
+│   ├── 22-terraform-vpc-deployment/
+│   ├── 23-terraform-ecs-deployment/
+│   ├── 24-github-actions-build-pipeline/
+│   ├── 25-github-actions-deployment-pipeline/
+│   └── 26-end-to-end-ci-cd-pipeline/
 │
 ├── terraform/
+│   ├── README.md
+│   │
+│   ├── 01-ec2-and-ssm/
+│   │   ├── images/
+│   │   ├── .gitignore
+│   │   ├── README.md
+│   │   ├── compute.tf
+│   │   ├── data.tf
+│   │   ├── iam.tf
+│   │   ├── locals.tf
+│   │   ├── network.tf
+│   │   ├── outputs.tf
+│   │   ├── provider.tf
+│   │   ├── terraform.tfvars.example
+│   │   ├── variables.tf
+│   │   └── versions.tf
+│   │
+│   └── future-labs/
+│       └── Terraform implementations will be added progressively
+│           as their corresponding manual laboratories are completed.
 │
 └── scripts/
-
+    └── Supporting automation and validation scripts
 ```
+
+### Learning workflow
+
+Each laboratory follows a progressive engineering workflow:
+
+```text
+Manual provisioning
+        ↓
+Architecture validation
+        ↓
+Terraform reproduction
+        ↓
+Infrastructure comparison
+        ↓
+Automated cleanup
+        ↓
+Post-destroy verification
+        ↓
+Lessons learned
+```
+
+### Relationship between implementations
+
+Manual and Terraform laboratories use matching directory names:
+
+```text
+labs/01-ec2-and-ssm/
+        ↕
+terraform/01-ec2-and-ssm/
+```
+
+The manual implementation explains how the AWS resources are created and validated step by step.
+
+The Terraform implementation reproduces the same architecture through Infrastructure as Code and includes:
+
+- provider and version requirements;
+- input variables;
+- data-source queries;
+- resource provisioning;
+- outputs;
+- validation commands;
+- cost considerations;
+- automated destruction;
+- post-destroy verification.
+
+> [!IMPORTANT]
+> Terraform implementations are added progressively after their corresponding manual laboratories are completed and validated.
+>
+> The Terraform infrastructure may be created temporarily alongside the manual infrastructure, using distinct names and tags, and then removed through an automated cleanup process.
+
+
+
+
+
+
+
+
+
+
+
+---
 
 ## Roadmap
 
