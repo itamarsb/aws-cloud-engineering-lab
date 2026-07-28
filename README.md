@@ -340,9 +340,12 @@ https://github.com/itamarsb/aws-cloud-engineering-lab/blob/main/labs/01-ec2-and-
 
 ## Progress
 
-Completed Labs: 01 / 26
+Completed Labs: 02 / 26
 
 Current Lab:
 
-* 🚧 Lab 02 - EC2 Monitoring with CloudWatch Agent
+* 🚧 Manual: Lab 02 - EC2 Monitoring with CloudWatch Agent
 
+AND:
+
+* 🚧 Terraform: Lab 01 - EC2 Instance with SSM Access
