@@ -20,10 +20,3 @@ terraform/
 └── ...
 ```
 
-```markdown
-| Lab | Manual Implementation | Terraform Implementation | Status |
-|---|---|---|---|
-| 01 | [Manual Lab](../labs/01-ec2-and-ssm/) | [Terraform](./01-ec2-and-ssm/) | ✅ |
-| 02 | [Manual Lab](../labs/02-ec2-monitoring-with-cloudwatch-agent/) | [Terraform](./02-ec2-monitoring-with-cloudwatch-agent/) | ⏳ |
-| 03 | [Manual Lab](../labs/03-iam-roles-and-policies/) | [Terraform](./03-iam-roles-and-policies/) | ⏳ |
-```
