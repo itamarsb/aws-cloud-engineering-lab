@@ -1,22 +1,16 @@
 # Terraform Labs
 
-This directory contains Infrastructure as Code implementations
-corresponding to the manually created AWS laboratories.
+This directory contains Terraform implementations for the manual AWS laboratories available in this repository.
 
-Each Terraform laboratory includes:
+Each Terraform lab reproduces the corresponding manual lab using Infrastructure as Code (IaC), allowing readers to compare manual provisioning with automated provisioning while following the same learning objectives.
 
-- infrastructure provisioning;
-- validation commands;
-- expected outputs;
-- cost considerations;
-- automated cleanup;
-- post-destroy verification.
+Every Terraform laboratory includes:
 
-```markdown
-terraform/
-├── README.md
-├── 01-ec2-and-ssm/
-├── 02-ec2-monitoring-with-cloudwatch-agent/
-└── ...
-```
-
+- infrastructure provisioning
+- validation commands
+- expected outputs
+- architecture diagrams
+- cost considerations
+- automated cleanup
+- post-destroy verification
+- lessons learned
