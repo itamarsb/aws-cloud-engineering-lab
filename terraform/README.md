@@ -19,6 +19,6 @@ Every Terraform laboratory includes:
 
 ➡️ Manual implementation:
 
-labs/01-ec2-and-ssm
+[labs/01-ec2-and-ssm](https://github.com/itamarsb/aws-cloud-engineering-lab/tree/main/labs/01-ec2-and-ssm)
 
 This Terraform implementation reproduces the same infrastructure using Infrastructure as Code.
