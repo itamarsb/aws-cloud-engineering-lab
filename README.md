@@ -339,12 +339,14 @@ The goal is to build practical experience with real-world cloud environments whi
 
 ## Progress
 
-Completed Labs: 02 / 26
+Completed Manual Labs: 02 / 26
 
 Current Lab:
 
-* 🚧 Manual: Lab 02 - EC2 Monitoring with CloudWatch Agent
+* 🚧 Manual: Lab 03 - IAM Roles and Policies
 
 AND:
+
+Completed Terraform Labs: 00 / 26
 
 * 🚧 Terraform: Lab 01 - EC2 Instance with SSM Access
