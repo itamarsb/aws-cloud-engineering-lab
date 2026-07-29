@@ -1,1 +1,32 @@
+# Terraform working directory
+.terraform/
 
+# Local state files
+*.tfstate
+*.tfstate.*
+
+# Local variable files that may contain environment-specific values
+*.tfvars
+*.tfvars.json
+!terraform.tfvars.example
+
+# Saved execution plans
+*.tfplan
+tfplan
+destroy.tfplan
+
+# Crash logs
+crash.log
+crash.*.log
+
+# Override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Local CLI configuration
+.terraformrc
+terraform.rc
+
+# Keep .terraform.lock.hcl in version control.
