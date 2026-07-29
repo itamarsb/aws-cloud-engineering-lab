@@ -201,20 +201,22 @@ The goal is to build practical experience with real-world cloud environments whi
 
 * [X] Configure IAM Role
 
-![IAMrole](Docs/screenshots/images-lab01-ec2-and-ssm/Clipboard_06-14-2026_11.jpg)
 ![Lab01](labs/01-ec2-and-ssm/screenshots/Clipboard_06-14-2026_11.jpg)
 
 * [X] Create an EC2 instance
 
 ![EC2Instance](Docs/screenshots/images-lab01-ec2-and-ssm/Clipboard_06-14-2026_22.jpg)
+![Lab01](labs/01-ec2-and-ssm/screenshots/Clipboard_06-14-2026_22.jpg)
 
 * [X] Configure AWS Systems Manager
 
 ![Manager](Docs/screenshots/images-lab01-ec2-and-ssm/Clipboard_06-14-2026_25.jpg)
+![Lab01](labs/01-ec2-and-ssm/screenshots/Clipboard_06-14-2026_25.jpg)
 
 * [X] Connect using Session Manager
 
 ![UsingManager](Docs/screenshots/images-lab01-ec2-and-ssm/Clipboard_06-14-2026_31.jpg)
+![Lab01](labs/01-ec2-and-ssm/screenshots/Clipboard_06-14-2026_31.jpg)
 
 ### Lab with all the steps:
 
