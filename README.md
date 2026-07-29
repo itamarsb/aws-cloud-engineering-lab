@@ -242,7 +242,7 @@ Terraform Lab:
 
 * [X] Verify Metrics
 
-
+![Labs02](labs/02-ec2-monitoring-with-cloudwatch-agent/screenshots/Lab02_Clipboard_07-21-2026_21.jpg)
 
 * [X] Create Dashboard
 
