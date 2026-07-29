@@ -251,7 +251,7 @@ Terraform Lab:
 
 ### Lab with all the steps:
 
-Manual Lab:
+Manual Lab: [labs/02-ec2-monitoring-with-cloudwatch-agent](https://github.com/itamarsb/aws-cloud-engineering-lab/tree/main/labs/02-ec2-monitoring-with-cloudwatch-agent)
 
 Terraform Lab: 
 
