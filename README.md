@@ -202,6 +202,7 @@ The goal is to build practical experience with real-world cloud environments whi
 * [X] Configure IAM Role
 
 ![IAMrole](Docs/screenshots/images-lab01-ec2-and-ssm/Clipboard_06-14-2026_11.jpg)
+![Lab01](labs/01-ec2-and-ssm/screenshots/Clipboard_06-14-2026_11.jpg)
 
 * [X] Create an EC2 instance
 
@@ -226,27 +227,27 @@ Terraform Lab:
 
 * [X] Start existing EC2
 
-![Labs02](labs/02-ec2-monitoring-with-cloudwatch-agent/screenshots/Lab02_Clipboard_07-21-2026_03.jpg)
+![Lab02](labs/02-ec2-monitoring-with-cloudwatch-agent/screenshots/Lab02_Clipboard_07-21-2026_03.jpg)
 
 * [X] Install CloudWatch Agent
 
-![Labs02](labs/02-ec2-monitoring-with-cloudwatch-agent/screenshots/Lab02_Clipboard_07-21-2026_08.jpg)
+![Lab02](labs/02-ec2-monitoring-with-cloudwatch-agent/screenshots/Lab02_Clipboard_07-21-2026_08.jpg)
 
 * [X] Configure CloudWatch Agent
 
-![Labs02](labs/02-ec2-monitoring-with-cloudwatch-agent/screenshots/Lab02_Clipboard_07-21-2026_11.jpg)
+![Lab02](labs/02-ec2-monitoring-with-cloudwatch-agent/screenshots/Lab02_Clipboard_07-21-2026_11.jpg)
 
 * [X] Start Agent
 
-![Labs02](labs/02-ec2-monitoring-with-cloudwatch-agent/screenshots/Lab02_Clipboard_07-21-2026_15.jpg)
+![Lab02](labs/02-ec2-monitoring-with-cloudwatch-agent/screenshots/Lab02_Clipboard_07-21-2026_15.jpg)
 
 * [X] Verify Metrics
 
-![Labs02](labs/02-ec2-monitoring-with-cloudwatch-agent/screenshots/Lab02_Clipboard_07-21-2026_21.jpg)
+![Lab02](labs/02-ec2-monitoring-with-cloudwatch-agent/screenshots/Lab02_Clipboard_07-21-2026_21.jpg)
 
 * [X] Create Dashboard
 
-![Labs02](labs/02-ec2-monitoring-with-cloudwatch-agent/screenshots/Lab02_Clipboard_07-21-2026_31.jpg)
+![Lab02](labs/02-ec2-monitoring-with-cloudwatch-agent/screenshots/Lab02_Clipboard_07-21-2026_31.jpg)
 
 
 ### Lab with all the steps:
