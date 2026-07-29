@@ -230,15 +230,15 @@ Terraform Lab:
 
 * [X] Install CloudWatch Agent
 
-
+![Labs02](labs/02-ec2-monitoring-with-cloudwatch-agent/screenshots/Lab02_Clipboard_07-21-2026_08.jpg)
 
 * [X] Configure CloudWatch Agent
 
-
+![Labs02](labs/02-ec2-monitoring-with-cloudwatch-agent/screenshots/Lab02_Clipboard_07-21-2026_11.jpg)
 
 * [X] Start Agent
 
-
+![Labs02](labs/02-ec2-monitoring-with-cloudwatch-agent/screenshots/Lab02_Clipboard_07-21-2026_15.jpg)
 
 * [X] Verify Metrics
 
