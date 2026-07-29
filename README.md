@@ -225,11 +225,29 @@ Terraform Lab:
 ## Lab 02 - Modern EC2 Monitoring with CloudWatch Agent
 
 * [ ] Start existing EC2
+
+![Labs02](labs/02-ec2-monitoring-with-cloudwatch-agent/screenshots/Lab02_Clipboard_07-21-2026_03.jpg)
+
 * [ ] Install CloudWatch Agent
+
+
+
 * [ ] Configure CloudWatch Agent
+
+
+
 * [ ] Start Agent
+
+
+
 * [ ] Verify Metrics
+
+
+
 * [ ] Create Dashboard
+
+
+
 
 ### Lab with all the steps:
 
