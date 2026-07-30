@@ -178,26 +178,6 @@ Additionally, it visually distinguishes between components that are merely queri
 ---
 
 
-### Engineering Notes
-
-**Purpose**
-
-Defines which Terraform version and provider versions are supported.
-
-**Why this file exists**
-
-Terraform should not rely on whatever version happens to be installed on a developer's workstation.
-
-Explicit version constraints improve reproducibility across different environments.
-
-**Production considerations**
-
-Production environments often pin provider versions more strictly and validate upgrades through automated testing before adoption.
-
-
----
-
-
 The following sections build the Terraform project incrementally.
 
 Rather than copying a finished solution, each Terraform file will be created from scratch, explained in detail and validated before moving to the next stage.
