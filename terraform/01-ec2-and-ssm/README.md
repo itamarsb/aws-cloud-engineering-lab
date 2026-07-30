@@ -195,3 +195,11 @@ Explicit version constraints improve reproducibility across different environmen
 Production environments often pin provider versions more strictly and validate upgrades through automated testing before adoption.
 
 
+---
+
+# Stage 1 — Build the Terraform Project
+
+
+## Step 1 — Create the project directory
+
+## Step 2 — Create the first Terraform file (versions.tf)
