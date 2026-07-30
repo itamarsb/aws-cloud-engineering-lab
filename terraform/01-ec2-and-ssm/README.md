@@ -203,6 +203,7 @@ cd terraform\01-ec2-and-ssm
 
 ![LAB01_Terraform](images/lab01_terraform/Lab01_Terraform_Clipboard_07-29-2026_01.jpg)
 
+
 At this point, the directory should contain only:
 
 ```text
@@ -210,6 +211,9 @@ terraform/
 └── 01-ec2-and-ssm/
     └── README.md
 ```
+
+![LAB01_Terraform](images/lab01_terraform/Lab01_Terraform_Clipboard_07-29-2026_02.jpg)
+
 
 The remaining files will be created progressively throughout this laboratory.
 
