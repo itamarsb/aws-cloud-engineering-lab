@@ -53,6 +53,30 @@ Terraform creates a second infrastructure using distinct resource names, making 
 
 ---
 
+
+## Laboratory Roadmap
+
+This laboratory is divided into four stages.
+
+### Stage 1 — Build the Terraform project
+
+Create the project structure and understand the purpose of every Terraform file.
+
+### Stage 2 — Provision infrastructure
+
+Deploy an EC2 instance using Terraform.
+
+### Stage 3 — Validate the infrastructure
+
+Inspect the deployed resources using Terraform, AWS CLI and the AWS Console.
+
+### Stage 4 — Destroy the infrastructure
+
+Review a destroy plan and safely remove only the Terraform-managed resources.
+
+
+---
+
 ## Architecture
 
 ```mermaid
