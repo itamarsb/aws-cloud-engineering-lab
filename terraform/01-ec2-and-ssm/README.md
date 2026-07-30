@@ -135,3 +135,23 @@ flowchart TB
 ```
 
 
+---
+
+
+### Engineering Notes
+
+**Purpose**
+
+Defines which Terraform version and provider versions are supported.
+
+**Why this file exists**
+
+Terraform should not rely on whatever version happens to be installed on a developer's workstation.
+
+Explicit version constraints improve reproducibility across different environments.
+
+**Production considerations**
+
+Production environments often pin provider versions more strictly and validate upgrades through automated testing before adoption.
+
+
