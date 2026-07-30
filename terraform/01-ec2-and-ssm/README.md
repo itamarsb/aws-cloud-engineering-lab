@@ -77,6 +77,24 @@ Review a destroy plan and safely remove only the Terraform-managed resources.
 
 ---
 
+
+## Before We Start
+
+Terraform does not interact directly with your source code.
+
+Instead, it compares:
+
+- your Terraform configuration;
+- its current state;
+- the actual infrastructure running in AWS.
+
+Whenever differences are detected, Terraform generates an execution plan describing which resources should be created, updated or destroyed.
+
+Understanding this workflow is far more important than memorizing Terraform syntax.
+
+
+---
+
 ## Architecture
 
 ```mermaid
