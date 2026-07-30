@@ -185,8 +185,7 @@ Rather than copying a finished solution, each Terraform file will be created fro
 This approach mirrors how infrastructure is developed, reviewed and maintained in professional engineering teams.
 
 
-# Stage 1 — Build the Terraform Project
-
+# Stage 1 — Build the Terraform Project from Scratch
 
 ## Step 1 — Create the project directory
 
