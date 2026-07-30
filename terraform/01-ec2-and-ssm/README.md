@@ -178,6 +178,8 @@ Additionally, it visually distinguishes between components that are merely queri
 ---
 
 
+# Stage 1 — Build the Terraform Project from Scratch
+
 The following sections build the Terraform project incrementally.
 
 Rather than copying a finished solution, each Terraform file will be created from scratch, explained in detail and validated before moving to the next stage.
@@ -185,9 +187,8 @@ Rather than copying a finished solution, each Terraform file will be created fro
 This approach mirrors how infrastructure is developed, reviewed and maintained in professional engineering teams.
 
 
-# Stage 1 — Build the Terraform Project from Scratch
-
 ---
+
 
 ## Step 1 — Create the Project Directory
 
@@ -215,5 +216,6 @@ The remaining files will be created progressively throughout this laboratory.
 
 
 ---
+
 
 ## Step 2 — Create the first Terraform file (versions.tf)
