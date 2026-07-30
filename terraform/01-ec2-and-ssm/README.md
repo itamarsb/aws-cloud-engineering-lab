@@ -187,6 +187,33 @@ This approach mirrors how infrastructure is developed, reviewed and maintained i
 
 # Stage 1 — Build the Terraform Project from Scratch
 
-## Step 1 — Create the project directory
+---
+
+## Step 1 — Create the Project Directory
+
+Before writing any Terraform code, create the directory that will contain the laboratory.
+
+From the repository root:
+
+```powershell
+mkdir terraform\01-ec2-and-ssm
+cd terraform\01-ec2-and-ssm
+```
+
+At this point, the directory should contain only:
+
+```text
+terraform/
+└── 01-ec2-and-ssm/
+    └── README.md
+```
+
+The remaining files will be created progressively throughout this laboratory.
+
+> [!NOTE]
+> Although the final repository already contains the completed Terraform files, this tutorial intentionally builds them from scratch so that every design decision can be understood before any infrastructure is provisioned.
+
+
+---
 
 ## Step 2 — Create the first Terraform file (versions.tf)
