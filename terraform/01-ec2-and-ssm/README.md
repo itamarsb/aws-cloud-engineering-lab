@@ -201,6 +201,8 @@ mkdir terraform\01-ec2-and-ssm
 cd terraform\01-ec2-and-ssm
 ```
 
+![LAB01_Terraform](terraform/01-ec2-and-ssm/images/lab01_terraform/Lab01_Terraform_Clipboard_07-29-2026_01.jpg)
+
 At this point, the directory should contain only:
 
 ```text
