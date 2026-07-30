@@ -166,6 +166,15 @@ flowchart TB
 ```
 
 
+This diagram adds three important concepts:
+
+1. **Terraform Configuration** (the `.tf` files).
+2. **Terraform State**, showing that it is part of the architecture.
+3. **AWS Provider**, clarifying that it acts as the bridge between Terraform and AWS.
+
+Additionally, it visually distinguishes between components that are merely queried (*Data Sources*) and those that are created (*Resources*).
+
+
 ---
 
 
