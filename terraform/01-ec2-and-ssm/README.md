@@ -99,38 +99,69 @@ Understanding this workflow is far more important than memorizing Terraform synt
 
 ```mermaid
 flowchart TB
-    USER["Administrator / Lab User"]
 
-    subgraph AWS["AWS Account"]
-        subgraph MANUAL["Manual implementation — preserved"]
-            MROLE["IAM Role<br/>EC2-SSM-Role"]
-            MSG["Security Group<br/>No inbound rules"]
-            MEC2["EC2 Ubuntu<br/>lab01-ec2-ssm"]
-        end
+    USER["Administrator"]
 
-        subgraph TERRAFORM["Terraform implementation — temporary"]
-            TF["Terraform CLI"]
-            DATA["Data sources<br/>Default VPC, default subnets,<br/>Canonical Ubuntu AMI parameter"]
-            TROLE["IAM Role<br/>lab01-ec2-ssm-tf-role"]
-            TPROFILE["IAM Instance Profile"]
-            TSG["Security Group<br/>No inbound rules"]
-            TEC2["EC2 Ubuntu<br/>lab01-ec2-ssm-tf"]
-            EBS["Encrypted gp3 root volume"]
-            SSM["AWS Systems Manager<br/>Session Manager"]
+    subgraph LOCAL["Local Workstation"]
 
-            TF --> DATA
-            TF --> TROLE
-            TROLE --> TPROFILE
-            TF --> TSG
-            TF --> TEC2
-            TPROFILE --> TEC2
-            TSG --> TEC2
-            EBS --> TEC2
-            SSM --> TEC2
-        end
+        CODE["Terraform Configuration<br/>.tf files"]
+
+        PROVIDER["AWS Provider"]
+
+        STATE["Terraform State"]
+
+        CLI["Terraform CLI"]
+
+        CODE --> CLI
+        CLI --> PROVIDER
+        CLI --> STATE
+
     end
 
-    USER --> TF
+    subgraph AWS["AWS Account"]
+
+        subgraph DATA["Read-only Data Sources"]
+
+            VPC["Default VPC"]
+            SUBNET["Default Subnets"]
+            AMI["Canonical Ubuntu AMI"]
+
+        end
+
+        ROLE["IAM Role"]
+
+        PROFILE["IAM Instance Profile"]
+
+        SG["Security Group"]
+
+        EC2["EC2 Ubuntu"]
+
+        EBS["Encrypted gp3 Volume"]
+
+        SSM["AWS Systems Manager"]
+
+    end
+
+    PROVIDER --> VPC
+    PROVIDER --> SUBNET
+    PROVIDER --> AMI
+
+    PROVIDER --> ROLE
+    ROLE --> PROFILE
+
+    PROVIDER --> SG
+
+    PROVIDER --> EC2
+
+    PROFILE --> EC2
+
+    SG --> EC2
+
+    EBS --> EC2
+
+    SSM --> EC2
+
+    USER --> CLI
     USER --> SSM
 ```
 
