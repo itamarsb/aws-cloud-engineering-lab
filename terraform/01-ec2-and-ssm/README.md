@@ -197,6 +197,14 @@ Production environments often pin provider versions more strictly and validate u
 
 ---
 
+
+The following sections build the Terraform project incrementally.
+
+Rather than copying a finished solution, each Terraform file will be created from scratch, explained in detail and validated before moving to the next stage.
+
+This approach mirrors how infrastructure is developed, reviewed and maintained in professional engineering teams.
+
+
 # Stage 1 — Build the Terraform Project
 
 
