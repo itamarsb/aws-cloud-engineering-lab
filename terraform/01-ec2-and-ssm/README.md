@@ -228,6 +228,7 @@ The remaining files will be created progressively throughout this laboratory.
 
 The first file in this project will be `versions.tf`.
 
+
 This file defines:
 
 - which Terraform CLI versions can execute the configuration;
@@ -278,6 +279,9 @@ From the laboratory directory, create the file using PowerShell:
 New-Item versions.tf -ItemType File
 ```
 
+![LAB01_Terraform](images/lab01_terraform/Lab01_Terraform_Clipboard_07-29-2026_03.jpg)
+
+
 Alternatively, create the file directly through the VS Code Explorer:
 
 1. Right-click the `01-ec2-and-ssm` directory.
@@ -287,6 +291,9 @@ Alternatively, create the file directly through the VS Code Explorer:
 ```text
 versions.tf
 ```
+
+![LAB01_Terraform](images/lab01_terraform/Lab01_Terraform_Clipboard_07-29-2026_04.jpg)
+
 
 At this point, the project structure should be:
 
