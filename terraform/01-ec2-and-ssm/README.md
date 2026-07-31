@@ -225,3 +225,431 @@ The remaining files will be created progressively throughout this laboratory.
 
 
 ## Step 2 — Create the first Terraform file (versions.tf)
+
+The first file in this project will be `versions.tf`.
+
+This file defines:
+
+- which Terraform CLI versions can execute the configuration;
+- which external providers the project requires;
+- where Terraform must obtain those providers;
+- which provider versions are considered compatible with the project.
+
+Defining these requirements before creating AWS resources improves consistency and helps prevent the project from being executed with incompatible versions.
+
+---
+
+### Understanding Terraform Providers
+
+Terraform itself does not contain native instructions for creating an EC2 instance, an IAM Role or a Security Group.
+
+Instead, Terraform uses plugins called **providers** to communicate with external platforms and services.
+
+In this laboratory, Terraform will use the AWS Provider:
+
+```text
+Terraform Configuration
+        ↓
+Terraform CLI
+        ↓
+AWS Provider
+        ↓
+AWS APIs
+        ↓
+AWS Resources
+```
+
+The AWS Provider translates the infrastructure declared in the `.tf` files into API requests understood by AWS.
+
+> [!IMPORTANT]
+> Declaring the AWS Provider as a project dependency is different from configuring it.
+>
+> In `versions.tf`, we declare which provider the project requires.
+>
+> In the next file, `provider.tf`, we will configure details such as the AWS Region and local AWS CLI profile.
+
+---
+
+### Create `versions.tf`
+
+From the laboratory directory, create the file using PowerShell:
+
+```powershell
+New-Item versions.tf -ItemType File
+```
+
+Alternatively, create the file directly through the VS Code Explorer:
+
+1. Right-click the `01-ec2-and-ssm` directory.
+2. Select **New File**.
+3. Enter:
+
+```text
+versions.tf
+```
+
+At this point, the project structure should be:
+
+```text
+terraform/
+└── 01-ec2-and-ssm/
+    ├── README.md
+    └── versions.tf
+```
+
+---
+
+### Add the Terraform Version Requirements
+
+Open `versions.tf` and add:
+
+```hcl
+terraform {
+  required_version = ">= 1.10.0, < 2.0.0"
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 6.0"
+    }
+  }
+}
+```
+
+Save the file.
+
+---
+
+### Understanding the `terraform` Block
+
+The top-level `terraform` block configures the behavior and requirements of the Terraform project.
+
+```hcl
+terraform {
+  # Terraform settings are declared here.
+}
+```
+
+It does not create infrastructure in AWS.
+
+Instead, it defines requirements that Terraform must evaluate before processing the resources declared in the remaining files.
+
+Only constant values can be used inside this block. It cannot depend on resources, variables or values that Terraform would calculate later.
+
+---
+
+### Understanding `required_version`
+
+The following line defines which versions of the Terraform CLI are allowed to execute this configuration:
+
+```hcl
+required_version = ">= 1.10.0, < 2.0.0"
+```
+
+It contains two constraints:
+
+```text
+>= 1.10.0
+```
+
+The installed Terraform CLI must be version `1.10.0` or newer.
+
+```text
+< 2.0.0
+```
+
+The installed version must remain below Terraform `2.0.0`.
+
+Together, these constraints mean:
+
+```text
+Terraform 1.10.0 or newer
+        AND
+Terraform earlier than 2.0.0
+```
+
+Examples:
+
+| Installed version | Accepted? | Reason |
+|---|---:|---|
+| `1.9.8` | No | Earlier than `1.10.0` |
+| `1.10.0` | Yes | Meets both constraints |
+| `1.12.3` | Yes | Within the accepted range |
+| `2.0.0` | No | Excluded by `< 2.0.0` |
+
+> [!NOTE]
+> `required_version` applies to the Terraform CLI installed on the workstation. It does not define the version of the AWS Provider.
+
+When an incompatible Terraform CLI version is used, Terraform stops before planning or modifying the infrastructure.
+
+---
+
+### Understanding `required_providers`
+
+The `required_providers` block declares the external plugins required by the project:
+
+```hcl
+required_providers {
+  aws = {
+    source  = "hashicorp/aws"
+    version = "~> 6.0"
+  }
+}
+```
+
+This project currently requires only one provider:
+
+```text
+aws
+```
+
+The name `aws` becomes the provider's local identifier inside this Terraform module.
+
+Later, AWS resources will use this provider implicitly:
+
+```hcl
+resource "aws_instance" "lab01" {
+  # EC2 configuration
+}
+```
+
+The prefix `aws_` indicates that the resource type belongs to the AWS Provider.
+
+---
+
+### Understanding the Provider Source
+
+The following declaration identifies where the provider comes from:
+
+```hcl
+source = "hashicorp/aws"
+```
+
+The address contains two parts:
+
+```text
+hashicorp / aws
+    │        │
+    │        └── Provider type
+    │
+    └── Provider namespace
+```
+
+Because no registry hostname is specified, Terraform uses the public Terraform Registry by default.
+
+The full source address is effectively:
+
+```text
+registry.terraform.io/hashicorp/aws
+```
+
+This declaration prevents ambiguity and ensures Terraform knows which provider package must be installed.
+
+---
+
+### Understanding the AWS Provider Version Constraint
+
+The following line defines the accepted AWS Provider versions:
+
+```hcl
+version = "~> 6.0"
+```
+
+The pessimistic constraint operator `~>` allows compatible updates within the same major version.
+
+In this case:
+
+```text
+~> 6.0
+```
+
+is equivalent to:
+
+```text
+>= 6.0.0, < 7.0.0
+```
+
+Examples:
+
+| AWS Provider version | Accepted? | Reason |
+|---|---:|---|
+| `5.100.0` | No | Earlier major version |
+| `6.0.0` | Yes | Minimum accepted version |
+| `6.8.0` | Yes | Compatible 6.x release |
+| `6.99.0` | Yes | Still within the 6.x series |
+| `7.0.0` | No | New major version |
+
+Major provider releases can introduce breaking changes. Preventing an automatic upgrade to version `7.x` reduces the risk of an unexpected incompatibility.
+
+---
+
+### Why Not Use `latest`?
+
+Terraform does not use a declaration such as:
+
+```hcl
+version = "latest"
+```
+
+Version constraints describe a range of acceptable versions.
+
+During initialization, Terraform selects a provider version that satisfies the declared constraint. It then records the selected version in the dependency lock file:
+
+```text
+.terraform.lock.hcl
+```
+
+This produces an important combination:
+
+```text
+versions.tf
+    ↓
+Defines the acceptable version range
+
+.terraform.lock.hcl
+    ↓
+Records the version actually selected
+```
+
+For example, the configuration may allow any provider in the `6.x` series, while the lock file records the exact version installed on the workstation.
+
+The lock file should normally be committed to Git so that other contributors and automated environments can use the same selected provider version.
+
+> [!IMPORTANT]
+> The `.terraform.lock.hcl` file will be created later when `terraform init` is executed.
+>
+> Do not create this file manually.
+
+---
+
+### File Name and Terraform Loading Behavior
+
+The name `versions.tf` is a project organization convention.
+
+Terraform automatically reads all files ending in `.tf` from the current working directory and evaluates them together as a single module.
+
+Therefore, Terraform does not execute files in this sequence:
+
+```text
+versions.tf
+provider.tf
+variables.tf
+compute.tf
+```
+
+Instead, it loads their declarations together:
+
+```text
+All .tf files in the directory
+              ↓
+      One Terraform module
+```
+
+Splitting the configuration into multiple files improves navigation and maintenance, but it does not define an execution order.
+
+> [!NOTE]
+> The HashiCorp style guide commonly uses `terraform.tf` for the top-level `terraform` block. This laboratory uses `versions.tf`, another widely understood convention, because the file's responsibility is to centralize Terraform and provider version requirements.
+>
+> Consistency within the repository is more important than treating the filename as a Terraform requirement.
+
+---
+
+### Engineering Notes
+
+**Purpose**
+
+Define the compatible Terraform CLI versions and declare the AWS Provider dependency.
+
+**Why this file exists**
+
+Without explicit version requirements, different contributors could execute the same project using incompatible Terraform or provider versions.
+
+Version constraints make compatibility expectations visible in the source code.
+
+**Design decision**
+
+This laboratory accepts:
+
+```text
+Terraform CLI >= 1.10.0 and < 2.0.0
+AWS Provider >= 6.0.0 and < 7.0.0
+```
+
+The constraints allow compatible improvements while preventing automatic adoption of a new major release.
+
+**Production considerations**
+
+Production environments may use stricter constraints, automated dependency update tools and validation pipelines before adopting new Terraform or provider versions.
+
+For example:
+
+```hcl
+version = "~> 6.3.0"
+```
+
+would allow updates in the `6.3.x` series but reject `6.4.0`.
+
+An exact constraint such as:
+
+```hcl
+version = "= 6.3.0"
+```
+
+would accept only one provider version.
+
+The appropriate strategy depends on the team's testing, upgrade and release processes.
+
+---
+
+### Verify the File
+
+Confirm that `versions.tf` contains:
+
+```hcl
+terraform {
+  required_version = ">= 1.10.0, < 2.0.0"
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 6.0"
+    }
+  }
+}
+```
+
+You can also display the file from PowerShell:
+
+```powershell
+Get-Content versions.tf
+```
+
+The expected output is:
+
+```text
+terraform {
+  required_version = ">= 1.10.0, < 2.0.0"
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 6.0"
+    }
+  }
+}
+```
+
+At this stage:
+
+- no AWS resource has been created;
+- no provider has been downloaded;
+- no Terraform State exists;
+- no AWS credentials have been added to the project;
+- `terraform init` has not been executed.
+
+The project only declares its compatibility requirements and first external dependency.
+
+> [!WARNING]
+> Do not run `terraform init` yet.
+>
+> We will first create the remaining foundational files and then initialize the complete project in a controlled step.
