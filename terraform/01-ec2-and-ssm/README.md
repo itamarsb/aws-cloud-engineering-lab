@@ -325,6 +325,10 @@ terraform {
 
 Save the file.
 
+
+![LAB01_Terraform](images/lab01_terraform/Lab01_Terraform_Clipboard_07-29-2026_05.jpg)
+
+
 ---
 
 ### Understanding the `terraform` Block
