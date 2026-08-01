@@ -684,6 +684,11 @@ terraform fmt
 canonical formatting
 ```
 
+We also haven't used `terraform validate` yet, because full validation typically depends on initializing the directory and installing the declared providers. Official documentation confirms that `required_version` controls the allowed CLI version, while `required_providers` declares the source and version range for plugins; `terraform init` will install the compatible version and update the dependency file.
+
+With this Step 2, you already learn four fundamentals before creating any resources:
+
+
 
 
 
