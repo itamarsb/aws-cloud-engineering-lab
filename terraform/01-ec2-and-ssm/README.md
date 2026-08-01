@@ -224,7 +224,7 @@ The remaining files will be created progressively throughout this laboratory.
 ---
 
 
-## Step 2 — Create the first Terraform file (versions.tf)
+## Step 2 — Create the First Terraform File (`versions.tf`)
 
 The first file in this project will be `versions.tf`.
 
