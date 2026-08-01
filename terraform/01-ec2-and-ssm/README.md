@@ -688,6 +688,13 @@ We also haven't used `terraform validate` yet, because full validation typically
 
 With this Step 2, you already learn four fundamentals before creating any resources:
 
+```text
+Terraform CLI
+Provider
+Version constraint
+Dependency lock file
+```
+
 
 
 
