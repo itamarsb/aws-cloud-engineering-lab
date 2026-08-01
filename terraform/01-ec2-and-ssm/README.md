@@ -700,6 +700,854 @@ Dependency lock file
 
 
 
+---
+
+
+
+
+
+---
+
+## Step 3 — Configure the AWS Provider (`provider.tf`)
+
+In the previous step, the `versions.tf` file declared that this project requires the AWS Provider.
+
+The next step is to configure how Terraform will use that provider.
+
+This configuration will define:
+
+- the AWS Region where the laboratory will be deployed;
+- an optional AWS CLI profile;
+- common tags that will be automatically applied to supported AWS resources.
+
+The provider configuration acts as the connection layer between the Terraform project and the AWS APIs.
+
+```text
+versions.tf
+    ↓
+Declares the AWS Provider dependency
+
+provider.tf
+    ↓
+Configures how the AWS Provider will operate
+
+AWS Provider
+    ↓
+Authenticates and sends requests to AWS APIs
+```
+
+> [!IMPORTANT]
+> The provider configuration does not create an AWS resource.
+>
+> It defines how resources and data sources belonging to the AWS Provider will communicate with AWS.
+
+---
+
+### Declaring and Configuring a Provider
+
+Declaring a provider and configuring a provider are related but separate operations.
+
+In `versions.tf`, the project declares:
+
+```hcl
+required_providers {
+  aws = {
+    source  = "hashicorp/aws"
+    version = "~> 6.0"
+  }
+}
+```
+
+This tells Terraform:
+
+```text
+Provider local name: aws
+Provider source:     hashicorp/aws
+Accepted versions:   6.x
+```
+
+In `provider.tf`, the project configures that provider:
+
+```hcl
+provider "aws" {
+  # AWS Provider settings
+}
+```
+
+This block answers operational questions such as:
+
+```text
+Which AWS Region should be used?
+
+Should Terraform use a named AWS CLI profile?
+
+Which common tags should be applied to supported resources?
+```
+
+The distinction can be summarized as:
+
+| File | Responsibility |
+|---|---|
+| `versions.tf` | Declares the provider source and compatible versions |
+| `provider.tf` | Configures how the provider communicates with AWS |
+
+---
+
+### Create `provider.tf`
+
+From the laboratory directory, create the file using PowerShell:
+
+```powershell
+New-Item provider.tf -ItemType File
+```
+
+Alternatively, create it through the VS Code Explorer:
+
+1. Right-click the `01-ec2-and-ssm` directory.
+2. Select **New File**.
+3. Enter:
+
+```text
+provider.tf
+```
+
+The directory should now contain:
+
+```text
+terraform/
+└── 01-ec2-and-ssm/
+    ├── README.md
+    ├── provider.tf
+    └── versions.tf
+```
+
+---
+
+### Add the AWS Provider Configuration
+
+Open `provider.tf` and add:
+
+```hcl
+provider "aws" {
+  region  = var.aws_region
+  profile = var.aws_profile
+
+  default_tags {
+    tags = local.common_tags
+  }
+}
+```
+
+Save the file.
+
+> [!NOTE]
+> This configuration references values that have not been declared yet:
+>
+> - `var.aws_region`;
+> - `var.aws_profile`;
+> - `local.common_tags`.
+>
+> These values will be created in the next steps through `variables.tf` and `locals.tf`.
+>
+> Terraform loads all `.tf` files in the working directory as one module. Therefore, referenced declarations do not need to be located in the same file or written before the provider configuration.
+
+---
+
+### Understanding the `provider` Block
+
+The provider block begins with:
+
+```hcl
+provider "aws" {
+}
+```
+
+The label:
+
+```text
+aws
+```
+
+refers to the local provider name declared earlier in `required_providers`:
+
+```hcl
+required_providers {
+  aws = {
+    source  = "hashicorp/aws"
+    version = "~> 6.0"
+  }
+}
+```
+
+Together, the declarations mean:
+
+```text
+Local provider name
+        ↓
+       aws
+
+Provider package
+        ↓
+registry.terraform.io/hashicorp/aws
+```
+
+The `provider "aws"` block configures the default AWS Provider instance for this Terraform module.
+
+Later, resources beginning with `aws_` will use this default provider configuration automatically:
+
+```hcl
+resource "aws_instance" "lab01" {
+  # This resource uses the default AWS Provider configuration.
+}
+```
+
+Examples of other AWS resource types include:
+
+```text
+aws_iam_role
+aws_security_group
+aws_instance
+aws_vpc_security_group_egress_rule
+```
+
+No provider alias is required in this laboratory because all resources will be created in one AWS Region using one provider configuration.
+
+---
+
+### Understanding the AWS Region
+
+The first argument is:
+
+```hcl
+region = var.aws_region
+```
+
+An AWS Region is the geographic area in which the provider sends supported service requests and creates regional resources.
+
+Examples include:
+
+```text
+us-east-1
+us-east-2
+us-west-2
+sa-east-1
+```
+
+This laboratory will initially use:
+
+```text
+us-east-1
+```
+
+However, the Region is not written directly in `provider.tf`.
+
+Instead, it is referenced through:
+
+```hcl
+var.aws_region
+```
+
+This expression means:
+
+```text
+var
+ │
+ └── Reference an input variable
+
+aws_region
+ │
+ └── Name of the input variable
+```
+
+The corresponding variable will be declared later in `variables.tf`.
+
+This design is preferable to writing:
+
+```hcl
+provider "aws" {
+  region = "us-east-1"
+}
+```
+
+Both forms are technically possible, but using an input variable makes the configuration easier to reuse in another Region without editing the provider file.
+
+For example:
+
+```text
+Default execution
+└── us-east-1
+
+Alternative execution
+└── sa-east-1
+```
+
+> [!IMPORTANT]
+> The Region used by Terraform must contain or support the resources queried and created by the laboratory.
+>
+> This implementation expects a default VPC and default subnets in the selected Region.
+
+---
+
+### Understanding the Optional AWS CLI Profile
+
+The second argument is:
+
+```hcl
+profile = var.aws_profile
+```
+
+An AWS profile is a named collection of AWS CLI and SDK configuration values.
+
+For example, a workstation could contain:
+
+```text
+default
+personal-lab
+development
+production-read-only
+```
+
+A named profile can help separate:
+
+- different AWS accounts;
+- different roles;
+- different authentication methods;
+- different development environments.
+
+The provider will receive the profile name from:
+
+```hcl
+var.aws_profile
+```
+
+The variable will initially use:
+
+```hcl
+default = null
+```
+
+When its value is `null`, the configuration does not force a specific named profile. The AWS Provider can then use the available AWS credential mechanisms in the execution environment.
+
+When a profile is required, a local value can later be supplied through `terraform.tfvars`:
+
+```hcl
+aws_profile = "personal-lab"
+```
+
+> [!CAUTION]
+> A profile name is not a credential.
+>
+> It is only a reference to configuration available in the local AWS environment.
+>
+> Files containing AWS credentials must never be committed to the repository.
+
+---
+
+### Understanding the AWS Credential Provider Chain
+
+Terraform must authenticate before it can read or modify resources in an AWS account.
+
+The AWS Provider can obtain credentials through supported mechanisms such as:
+
+- environment variables;
+- shared AWS credentials files;
+- shared AWS configuration files;
+- AWS CLI profiles;
+- IAM roles attached to AWS compute environments;
+- container credentials;
+- temporary role credentials.
+
+Conceptually:
+
+```text
+Terraform
+    ↓
+AWS Provider
+    ↓
+Searches supported credential sources
+    ↓
+Finds valid credentials
+    ↓
+Authenticates with AWS APIs
+```
+
+The provider stops using the search process when it finds a valid credential source accepted for that execution environment.
+
+This behavior allows the same Terraform configuration to be used in different contexts:
+
+```text
+Developer workstation
+└── AWS CLI profile or environment authentication
+
+CI/CD pipeline
+└── Temporary federated credentials
+
+EC2 execution environment
+└── IAM role credentials
+
+Container workload
+└── Container credential provider
+```
+
+The Terraform source code does not need to contain permanent credentials for these scenarios.
+
+---
+
+### Never Hardcode AWS Credentials
+
+Do not write credentials directly in `provider.tf`.
+
+The following is an insecure example and must not be used:
+
+```hcl
+provider "aws" {
+  region     = "us-east-1"
+  access_key = "EXAMPLE_ACCESS_KEY"
+  secret_key = "EXAMPLE_SECRET_KEY"
+}
+```
+
+Problems with this approach include:
+
+- credentials may be committed to Git;
+- repository history can preserve deleted secrets;
+- screenshots may expose them;
+- copied projects may distribute them;
+- multiple users may begin sharing one identity;
+- credential rotation becomes harder;
+- long-lived credentials increase the impact of accidental exposure.
+
+The laboratory therefore uses:
+
+```hcl
+provider "aws" {
+  region  = var.aws_region
+  profile = var.aws_profile
+}
+```
+
+Authentication remains outside the Terraform source code.
+
+> [!WARNING]
+> Never include the following values in Terraform files, Markdown documentation, screenshots or Git commits:
+>
+> ```text
+> AWS_ACCESS_KEY_ID
+> AWS_SECRET_ACCESS_KEY
+> AWS_SESSION_TOKEN
+> access_key
+> secret_key
+> session_token
+> ```
+
+---
+
+### Validate the Active AWS Identity Before Provisioning
+
+Before any infrastructure is created, the active AWS identity should be checked with the AWS CLI:
+
+```powershell
+aws sts get-caller-identity
+```
+
+The response identifies the active:
+
+```text
+AWS account
+AWS principal
+AWS ARN
+```
+
+A simplified response resembles:
+
+```json
+{
+  "UserId": "EXAMPLE",
+  "Account": "123456789012",
+  "Arn": "arn:aws:iam::123456789012:user/example"
+}
+```
+
+This command does not create resources.
+
+It helps prevent Terraform from being executed against the wrong AWS account.
+
+> [!CAUTION]
+> Mask account IDs, user identifiers and ARNs before publishing screenshots unless they are intentionally required as evidence.
+
+To list available local profiles:
+
+```powershell
+aws configure list-profiles
+```
+
+To inspect the active AWS CLI configuration:
+
+```powershell
+aws configure list
+```
+
+These commands will be executed later during the environment-validation stage.
+
+---
+
+### Understanding `default_tags`
+
+The provider configuration also contains:
+
+```hcl
+default_tags {
+  tags = local.common_tags
+}
+```
+
+The AWS Provider can automatically apply default tags to resources that support tagging.
+
+Instead of repeating a common set of tags in every resource:
+
+```hcl
+resource "aws_instance" "example" {
+  tags = {
+    Project     = "aws-cloud-engineering-lab"
+    Environment = "lab"
+    ManagedBy   = "Terraform"
+  }
+}
+```
+
+the provider can centralize them:
+
+```hcl
+provider "aws" {
+  default_tags {
+    tags = local.common_tags
+  }
+}
+```
+
+The common tags will later be defined in `locals.tf`.
+
+The intended tag set will include information such as:
+
+```text
+Project
+Environment
+Lab
+ManagedBy
+Provisioning
+Implementation
+Repository
+```
+
+Conceptually:
+
+```text
+local.common_tags
+        ↓
+provider default_tags
+        ↓
+Supported Terraform-managed AWS resources
+```
+
+This improves:
+
+- resource identification;
+- ownership visibility;
+- cost allocation preparation;
+- inventory searches;
+- operational organization;
+- cleanup verification.
+
+> [!NOTE]
+> Default tags are applied only to resources supported by the AWS Provider's tagging behavior.
+>
+> They do not automatically tag data sources or AWS objects that Terraform only reads.
+
+---
+
+### Why Use `local.common_tags`?
+
+The following expression:
+
+```hcl
+tags = local.common_tags
+```
+
+references a local value.
+
+A local value allows an expression to be defined once and reused throughout the module.
+
+Without a local value, common tags could be duplicated:
+
+```hcl
+tags = {
+  Project     = "aws-cloud-engineering-lab"
+  Environment = "lab"
+  ManagedBy   = "Terraform"
+}
+```
+
+Repeated in several places, duplicated tags become harder to maintain.
+
+With a local value:
+
+```hcl
+locals {
+  common_tags = {
+    Project     = "aws-cloud-engineering-lab"
+    Environment = "lab"
+    ManagedBy   = "Terraform"
+  }
+}
+```
+
+the provider can reference:
+
+```hcl
+local.common_tags
+```
+
+If a common tag changes, it can be updated in one location.
+
+The complete local value will be created in a later step.
+
+---
+
+### Provider Configuration and Dependency Order
+
+The provider configuration references:
+
+```hcl
+var.aws_region
+var.aws_profile
+local.common_tags
+```
+
+Those declarations will exist in separate files:
+
+```text
+provider.tf
+├── var.aws_region
+├── var.aws_profile
+└── local.common_tags
+
+variables.tf
+├── variable "aws_region"
+└── variable "aws_profile"
+
+locals.tf
+└── locals {
+      common_tags = ...
+    }
+```
+
+Terraform does not depend on filenames to establish an execution sequence.
+
+It loads all `.tf` files in the directory and constructs one configuration:
+
+```text
+versions.tf
+provider.tf
+variables.tf
+locals.tf
+data.tf
+iam.tf
+network.tf
+compute.tf
+outputs.tf
+        ↓
+One Terraform root module
+```
+
+Terraform then analyzes references and constructs its dependency graph.
+
+Therefore:
+
+```text
+provider.tf does not need to appear after variables.tf
+```
+
+and:
+
+```text
+variables.tf does not need to be named before provider.tf
+```
+
+The files are separated for human readability and maintenance.
+
+---
+
+### Why We Use a Default Provider Configuration
+
+The block:
+
+```hcl
+provider "aws" {
+}
+```
+
+has no `alias`.
+
+It is therefore the default AWS Provider configuration in this module.
+
+Resources such as:
+
+```hcl
+resource "aws_instance" "lab01" {
+}
+```
+
+will use it automatically.
+
+A provider alias would be useful in a multi-region or multi-account design:
+
+```hcl
+provider "aws" {
+  region = "us-east-1"
+}
+
+provider "aws" {
+  alias  = "secondary"
+  region = "us-west-2"
+}
+```
+
+A resource could then explicitly select:
+
+```hcl
+provider = aws.secondary
+```
+
+This laboratory intentionally uses only one provider configuration because its goal is to reproduce one EC2 and SSM architecture in a single Region.
+
+Introducing aliases here would add complexity without supporting the current learning objective.
+
+---
+
+### Engineering Notes
+
+**Purpose**
+
+Configure how the AWS Provider selects a Region, obtains authentication information and applies common tags.
+
+**Why this file exists**
+
+The provider declaration in `versions.tf` tells Terraform which plugin to install.
+
+The configuration in `provider.tf` tells that plugin how it should operate.
+
+**Security decision**
+
+No access key, secret key or session token is stored in the Terraform configuration.
+
+Authentication remains external to the version-controlled source code.
+
+**Reusability decision**
+
+The Region and optional profile are represented by input variables instead of fixed values.
+
+This allows the same project to be executed in different approved environments without editing `provider.tf`.
+
+**Tagging decision**
+
+Common tags are centralized through `default_tags` and `local.common_tags`.
+
+This creates a consistent ownership and identification baseline for supported resources.
+
+**Scope decision**
+
+This laboratory uses one default AWS Provider configuration.
+
+Provider aliases and multi-region configurations will be introduced only when a later architecture requires them.
+
+**Production considerations**
+
+Production environments commonly use short-lived credentials, role assumption, workload identity or federated authentication rather than permanent IAM user access keys.
+
+Automated environments should also separate deployment permissions by environment and apply least-privilege policies.
+
+---
+
+### Verify `provider.tf`
+
+Confirm that the file contains:
+
+```hcl
+provider "aws" {
+  region  = var.aws_region
+  profile = var.aws_profile
+
+  default_tags {
+    tags = local.common_tags
+  }
+}
+```
+
+Display the file with PowerShell:
+
+```powershell
+Get-Content provider.tf
+```
+
+Expected output:
+
+```text
+provider "aws" {
+  region  = var.aws_region
+  profile = var.aws_profile
+
+  default_tags {
+    tags = local.common_tags
+  }
+}
+```
+
+The project structure should now be:
+
+```text
+terraform/
+└── 01-ec2-and-ssm/
+    ├── README.md
+    ├── provider.tf
+    └── versions.tf
+```
+
+At this stage:
+
+- the AWS Provider has been declared;
+- its configuration has been written;
+- the AWS Region variable has not yet been declared;
+- the AWS profile variable has not yet been declared;
+- the common tags have not yet been defined;
+- no provider has been downloaded;
+- no AWS authentication request has been made by Terraform;
+- no Terraform State exists;
+- no AWS resource has been created.
+
+> [!WARNING]
+> Do not run `terraform init`, `terraform validate`, `terraform plan` or `terraform apply` yet.
+>
+> The provider configuration still references input variables and local values that will be created in the next steps.
+
+---
+
+### Concepts Learned in Step 3
+
+```text
+Provider declaration versus provider configuration
+AWS Region selection
+Optional AWS CLI profiles
+AWS credential provider chain
+Externalized authentication
+Default provider configuration
+Default resource tags
+Input-variable references
+Local-value references
+Terraform module loading behavior
+```
+
+
+
 
 
 
