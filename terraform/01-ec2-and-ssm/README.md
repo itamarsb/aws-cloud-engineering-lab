@@ -668,3 +668,27 @@ The project only declares its compatibility requirements and first external depe
 > Do not run `terraform init` yet.
 >
 > We will first create the remaining foundational files and then initialize the complete project in a controlled step.
+
+
+---
+
+### Why we haven't run `terraform fmt` yet
+
+Although `terraform fmt` doesn't create resources, we’ll save its initial use for after a few files have been created. This way, we can demonstrate a real difference between:
+
+```text
+manually written code
+    ↓
+terraform fmt
+    ↓
+canonical formatting
+```
+
+
+
+
+
+
+
+
+
