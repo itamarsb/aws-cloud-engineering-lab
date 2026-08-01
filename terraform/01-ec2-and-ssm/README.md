@@ -650,6 +650,10 @@ terraform {
 }
 ```
 
+
+![LAB01_Terraform](images/lab01_terraform/Lab01_Terraform_Clipboard_07-29-2026_06.jpg)
+
+
 At this stage:
 
 - no AWS resource has been created;
