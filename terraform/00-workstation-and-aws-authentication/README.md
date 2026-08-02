@@ -155,3 +155,20 @@ Before starting this laboratory, ensure that you have:
 - Internet access.
 - Administrative privileges on your local computer to install software.
 - A GitHub account (recommended for future laboratories).
+
+---
+
+## Required Software
+
+This laboratory requires the following software:
+
+| Software | Purpose |
+|----------|---------|
+| **Git** | Version control system used to clone repositories, track changes, and collaborate with other developers. |
+| **Visual Studio Code** | Source code editor used to create, edit, and manage Terraform projects. |
+| **Terraform CLI** | Infrastructure as Code (IaC) tool used to define, provision, and manage AWS infrastructure. |
+| **AWS CLI** | Command-line interface used to authenticate with AWS and interact with AWS services. |
+
+> **Note**
+>
+> All software installed in this laboratory will be reused throughout the remaining Terraform laboratories in this repository.
