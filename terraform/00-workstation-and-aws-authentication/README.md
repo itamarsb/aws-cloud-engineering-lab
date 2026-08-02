@@ -362,3 +362,23 @@ Understanding the difference between them is essential before provisioning infra
 ---
 
 
+### Step 2 — Understand the Root User
+
+When an AWS account is created, AWS automatically creates a **Root User**.
+
+The Root User has unrestricted access to every AWS service and resource.
+
+Because of these privileges, the Root User should **never** be used for day-to-day administrative tasks or Terraform deployments.
+
+Use the Root User only for exceptional account-management activities, such as:
+
+- Closing the AWS account.
+- Managing billing information.
+- Recovering account access.
+- Configuring certain account-level security settings.
+
+For all other activities, use IAM identities instead.
+
+
+---
+
