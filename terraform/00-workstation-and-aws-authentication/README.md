@@ -327,3 +327,16 @@ Open a new PowerShell window and test the command again: `aws --version`.
 
 ![LAB00_Terraform](images/Lab00_Terraform_Clipboard_08-02-2026_05.jpg)
 
+
+---
+
+## Stage 2 — Create a Secure AWS Identity
+
+Before Terraform can provision infrastructure, AWS must know **who** is making the request and **what actions** that identity is allowed to perform.
+
+In AWS, every API request is associated with an authenticated identity and evaluated against a set of permissions. Understanding this authentication model is essential before using Terraform.
+
+In this stage, you will create or configure an AWS identity that Terraform can use safely to provision infrastructure throughout this learning path.
+
+
+
