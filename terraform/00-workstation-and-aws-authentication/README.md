@@ -396,3 +396,27 @@ terraform-lab
 ```
 
 This user will be used throughout this Terraform learning path.
+
+
+---
+
+
+### Step 4 — Grant Permissions
+
+To complete the laboratories in this repository, the IAM user must have permission to create and manage AWS resources.
+
+For simplicity during the learning process, many students choose to attach the **AdministratorAccess** AWS managed policy to the laboratory IAM user.
+
+> **Important**
+>
+> This approach simplifies the learning experience but is **not** considered a production best practice.
+
+In production environments, always follow the Principle of Least Privilege by granting only the permissions required for each workload.
+
+Later laboratories will introduce more restrictive IAM policies.
+
+
+---
+
+
+
