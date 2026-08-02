@@ -222,5 +222,23 @@ Your installed version may be different.
 
 ![LAB00_Terraform](images/Lab00_Terraform_Clipboard_08-02-2026_01.jpg)
 
+---
 
+### Step 2 — Install Visual Studio Code
 
+Visual Studio Code (VS Code) will be used as the primary development environment throughout this repository.
+
+Although Terraform projects can be edited using any text editor, VS Code provides features that improve productivity, including:
+
+- Syntax highlighting
+- Automatic formatting
+- Integrated terminal
+- Git integration
+- Terraform extensions
+- AWS Toolkit
+
+Download Visual Studio Code from the official website:
+
+https://code.visualstudio.com/
+
+After installation, verify that VS Code opens correctly.
