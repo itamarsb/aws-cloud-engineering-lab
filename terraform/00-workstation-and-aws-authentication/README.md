@@ -82,6 +82,52 @@ flowchart TB
     Identity --> APIs
 ```
 
+And
+
+
+flowchart LR
+
+```mermaid
+    Developer["Developer"]
+
+    subgraph Local["Local Workstation"]
+        Terraform["Terraform CLI"]
+        AWSCLI["AWS CLI"]
+        Provider["AWS Provider"]
+        Profile["AWS Profile"]
+    end
+
+    subgraph AWS["AWS Cloud"]
+        STS["AWS STS"]
+        IAM["Authenticated IAM Identity"]
+
+        subgraph Future["Future Terraform Labs"]
+            EC2["EC2"]
+            IAMRole["IAM"]
+            SSM["Systems Manager"]
+            CloudWatch["CloudWatch"]
+            VPC["Networking"]
+        end
+    end
+
+    Developer --> Terraform
+    Developer --> AWSCLI
+
+    AWSCLI --> Profile
+    Profile --> Provider
+    Terraform --> Provider
+
+    AWSCLI -->|"aws sts get-caller-identity"| STS
+    Provider --> STS
+    STS --> IAM
+
+    Provider -. Future Labs .-> EC2
+    Provider -.-> IAMRole
+    Provider -.-> SSM
+    Provider -.-> CloudWatch
+    Provider -.-> VPC
+```
+
 ---
 
 ## Estimated Time
