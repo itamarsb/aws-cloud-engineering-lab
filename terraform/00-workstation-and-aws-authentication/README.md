@@ -288,4 +288,30 @@ The installed version may differ from the version shown above.
 ![LAB00_Terraform](images/Lab00_Terraform_Clipboard_08-02-2026_03.jpg)
 
 
+---
 
+### Step 4 — Install AWS CLI
+
+The AWS Command Line Interface (AWS CLI) is the primary tool used to authenticate your local workstation with AWS.
+
+Terraform does not authenticate directly with AWS.
+
+Instead, the AWS Provider uses credentials that are already available on your local workstation, typically configured through the AWS CLI.
+
+Download AWS CLI Version 2 from the official AWS website:
+
+https://aws.amazon.com/cli/
+
+After installation, verify that the AWS CLI is available:
+
+```powershell
+aws --version
+```
+
+Expected output:
+
+```text
+aws-cli/2.xx.x
+```
+
+The installed version may differ from the version shown above.
