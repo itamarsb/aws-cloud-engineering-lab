@@ -920,7 +920,7 @@ aws_instance
 aws_vpc_security_group_egress_rule
 ```
 
-No provider alias is required in this laboratory because all resources will be created in one AWS Region using one provider configuration.
+No provider **alias** is required in this laboratory because all resources will be created in one AWS Region using one provider configuration.
 
 ---
 
