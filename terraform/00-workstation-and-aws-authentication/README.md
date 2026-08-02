@@ -339,4 +339,26 @@ In AWS, every API request is associated with an authenticated identity and evalu
 In this stage, you will create or configure an AWS identity that Terraform can use safely to provision infrastructure throughout this learning path.
 
 
+---
+
+
+### Step 1 — Understand AWS Identities
+
+AWS provides different types of identities, each designed for a specific purpose.
+
+The most common identities are:
+
+| Identity | Purpose |
+|----------|---------|
+| **Root User** | The original account owner with unrestricted access to all AWS services. |
+| **IAM User** | A permanent identity used by people or applications. |
+| **IAM Role** | A temporary identity that can be assumed by AWS services, users, or applications. |
+
+Throughout this repository, these identities will be used for different purposes.
+
+Understanding the difference between them is essential before provisioning infrastructure with Terraform.
+
+
+---
+
 
