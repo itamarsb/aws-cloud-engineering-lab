@@ -85,9 +85,9 @@ flowchart TB
 And
 
 
+```mermaid
 flowchart LR
 
-```mermaid
     Developer["Developer"]
 
     subgraph Local["Local Workstation"]
