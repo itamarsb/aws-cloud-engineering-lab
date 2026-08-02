@@ -249,4 +249,37 @@ After installation, verify that VS Code opens correctly.
 ![LAB00_Terraform](images/Lab00_Terraform_Clipboard_08-02-2026_02.jpg)
 
 
+---
 
+### Step 3 — Install Terraform CLI
+
+Terraform is an Infrastructure as Code (IaC) tool developed by HashiCorp.
+
+Instead of manually creating infrastructure through the AWS Management Console, Terraform allows infrastructure to be described as code.
+
+This approach provides several advantages:
+
+- Repeatability
+- Version control
+- Automation
+- Consistency
+- Documentation
+- Reduced human error
+
+Download Terraform from the official website:
+
+https://developer.hashicorp.com/terraform/downloads
+
+After installation, verify the installed version:
+
+```powershell
+terraform version
+```
+
+Expected output:
+
+```text
+Terraform v1.x.x
+```
+
+The installed version may differ from the version shown above.
