@@ -172,3 +172,18 @@ This laboratory requires the following software:
 > **Note**
 >
 > All software installed in this laboratory will be reused throughout the remaining Terraform laboratories in this repository.
+
+---
+
+## Stage 1 — Install the Required Software
+
+Before Terraform can provision infrastructure on AWS, your workstation must contain the required development tools.
+
+In this stage, you will install and validate the software required for the entire Terraform learning path.
+
+The tools should be installed in the following order:
+
+1. Git
+2. Visual Studio Code
+3. Terraform CLI
+4. AWS CLI
