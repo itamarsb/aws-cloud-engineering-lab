@@ -169,7 +169,7 @@ This laboratory requires the following software:
 | **Terraform CLI** | Infrastructure as Code (IaC) tool used to define, provision, and manage AWS infrastructure. |
 | **AWS CLI** | Command-line interface used to authenticate with AWS and interact with AWS services. |
 
-> **Note**
+> **Note:**
 >
 > All software installed in this laboratory will be reused throughout the remaining Terraform laboratories in this repository.
 
