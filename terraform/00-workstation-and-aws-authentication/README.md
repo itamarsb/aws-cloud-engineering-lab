@@ -382,3 +382,17 @@ For all other activities, use IAM identities instead.
 
 ---
 
+
+### Step 3 — Create an IAM User
+
+Terraform should authenticate using an IAM identity instead of the Root User.
+
+If you do not already have an IAM user for laboratory activities, create one now.
+
+Suggested name:
+
+```text
+terraform-lab
+```
+
+This user will be used throughout this Terraform learning path.
