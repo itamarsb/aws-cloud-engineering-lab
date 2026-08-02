@@ -187,3 +187,36 @@ The tools should be installed in the following order:
 2. Visual Studio Code
 3. Terraform CLI
 4. AWS CLI
+
+---
+
+### Step 1 — Install Git
+
+Git is the distributed version control system used throughout this repository.
+
+It allows you to:
+
+- Clone GitHub repositories.
+- Track changes to your code.
+- Create branches.
+- Collaborate with other developers.
+- Synchronize local and remote repositories.
+
+Download Git from the official website:
+
+https://git-scm.com/
+
+After the installation, open a terminal and verify the installation:
+
+```powershell
+git --version
+```
+
+Expected output:
+
+```text
+git version 2.xx.x.windows.x
+```
+
+Your installed version may be different.
+
