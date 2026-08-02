@@ -32,7 +32,55 @@ After completing this laboratory, you will be able to:
 
 This laboratory focuses on preparing the local development environment. The following diagram illustrates how Terraform authenticates and communicates with AWS during infrastructure provisioning.
 
-> *(Mermaid architecture diagram will be added in the next section.)*
+```mermaid
+flowchart TB
+
+    Developer["Developer"]
+
+    subgraph Local["Local Workstation"]
+        direction TB
+
+        VSCode["Visual Studio Code"]
+        Terminal["Terminal<br/>(PowerShell or Bash)"]
+        Git["Git"]
+        Terraform["Terraform CLI"]
+        AWSCLI["AWS CLI"]
+
+        subgraph Config["AWS Local Configuration"]
+            direction TB
+            Profile["AWS Profile"]
+            Credentials["Credentials<br/>Region Configuration"]
+        end
+
+        Provider["Terraform AWS Provider"]
+    end
+
+    subgraph AWS["AWS Cloud"]
+        direction TB
+        STS["AWS Security Token Service (STS)"]
+        Identity["Authenticated IAM Identity"]
+        APIs["AWS Service APIs"]
+    end
+
+    Developer --> VSCode
+    VSCode --> Terminal
+
+    Terminal --> Git
+    Terminal --> Terraform
+    Terminal --> AWSCLI
+
+    AWSCLI --> Profile
+    Profile --> Credentials
+
+    Credentials --> Provider
+    Terraform --> Provider
+
+    AWSCLI -->|"aws sts get-caller-identity"| STS
+    Provider -->|"HTTPS API Requests"| STS
+
+    STS --> Identity
+    Identity --> APIs
+```
 
 ---
 
