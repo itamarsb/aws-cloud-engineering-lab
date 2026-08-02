@@ -315,3 +315,15 @@ aws-cli/2.xx.x
 ```
 
 The installed version may differ from the version shown above.
+
+
+![LAB00_Terraform](images/Lab00_Terraform_Clipboard_08-02-2026_04.jpg)
+
+
+In case of an error, completely close your command prompt or VS Code.
+
+Open a new PowerShell window and test the command again: `aws --version`.
+
+
+![LAB00_Terraform](images/Lab00_Terraform_Clipboard_08-02-2026_05.jpg)
+
