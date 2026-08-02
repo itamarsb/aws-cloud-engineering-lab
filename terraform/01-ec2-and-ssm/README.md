@@ -801,6 +801,9 @@ From the laboratory directory, create the file using PowerShell:
 New-Item provider.tf -ItemType File
 ```
 
+![LAB01_Terraform](images/lab01_terraform/Lab01_Terraform_Clipboard_07-29-2026_07.jpg)
+
+
 Alternatively, create it through the VS Code Explorer:
 
 1. Right-click the `01-ec2-and-ssm` directory.
@@ -810,6 +813,9 @@ Alternatively, create it through the VS Code Explorer:
 ```text
 provider.tf
 ```
+
+![LAB01_Terraform](images/lab01_terraform/Lab01_Terraform_Clipboard_07-29-2026_08.jpg)
+
 
 The directory should now contain:
 
@@ -839,6 +845,10 @@ provider "aws" {
 ```
 
 Save the file.
+
+
+![LAB01_Terraform](images/lab01_terraform/Lab01_Terraform_Clipboard_07-29-2026_09.jpg)
+
 
 > [!NOTE]
 > This configuration references values that have not been declared yet:
