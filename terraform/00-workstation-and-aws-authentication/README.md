@@ -419,4 +419,16 @@ Later laboratories will introduce more restrictive IAM policies.
 ---
 
 
+### Step 5 — Enable Multi-Factor Authentication (MFA)
+
+Whenever possible, enable Multi-Factor Authentication (MFA) for your IAM user.
+
+MFA adds an additional verification factor during authentication, significantly reducing the risk of unauthorized access.
+
+Although MFA is not mandatory for completing this laboratory, it is strongly recommended for any AWS account.
+
+
+---
+
+
 
