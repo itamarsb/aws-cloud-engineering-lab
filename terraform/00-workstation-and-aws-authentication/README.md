@@ -220,7 +220,9 @@ git version 2.xx.x.windows.x
 
 Your installed version may be different.
 
+
 ![LAB00_Terraform](images/Lab00_Terraform_Clipboard_08-02-2026_01.jpg)
+
 
 ---
 
@@ -242,3 +244,9 @@ Download Visual Studio Code from the official website:
 https://code.visualstudio.com/
 
 After installation, verify that VS Code opens correctly.
+
+
+![LAB00_Terraform](images/Lab00_Terraform_Clipboard_08-02-2026_01.jpg)
+
+
+
