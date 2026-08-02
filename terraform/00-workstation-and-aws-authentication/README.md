@@ -283,3 +283,9 @@ Terraform v1.x.x
 ```
 
 The installed version may differ from the version shown above.
+
+
+![LAB00_Terraform](images/Lab00_Terraform_Clipboard_08-02-2026_03.jpg)
+
+
+
