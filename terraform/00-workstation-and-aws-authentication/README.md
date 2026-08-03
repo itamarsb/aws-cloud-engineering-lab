@@ -458,3 +458,17 @@ At this point you have:
 - Generated Access Keys for AWS CLI authentication.
 
 In the next stage, you will configure these credentials locally using the AWS CLI.
+
+
+---
+
+
+# Stage 3 — Configure AWS CLI Authentication
+
+After creating an IAM user and generating an Access Key, the next step is to configure your local workstation so that the AWS CLI and Terraform can authenticate securely with your AWS account.
+
+In this stage, you will configure an AWS CLI profile, validate your identity, and confirm that your workstation is ready to provision infrastructure.
+
+> **Important**
+>
+> This stage only stores your credentials locally. No AWS resources are created.
