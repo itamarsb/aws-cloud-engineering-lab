@@ -433,5 +433,16 @@ Although MFA is not mandatory for completing this laboratory, it is strongly rec
 
 ---
 
+> **Security Note**
+>
+> Never:
+>
+> - Commit AWS credentials to GitHub.
+> - Store credentials inside Terraform files.
+> - Share credentials with other users.
+> - Publish screenshots containing Access Key IDs or Secret Access Keys.
+
+
+---
 
 
