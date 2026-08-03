@@ -446,3 +446,15 @@ Although MFA is not mandatory for completing this laboratory, it is strongly rec
 ---
 
 
+## Stage Summary
+
+At this point you have:
+
+- Learned the differences between AWS identity types.
+- Understood why the Root User should not be used.
+- Created an IAM user for laboratory activities.
+- Granted the required permissions.
+- Enabled MFA (recommended).
+- Generated Access Keys for AWS CLI authentication.
+
+In the next stage, you will configure these credentials locally using the AWS CLI.
