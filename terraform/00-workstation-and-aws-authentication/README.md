@@ -428,6 +428,9 @@ MFA adds an additional verification factor during authentication, significantly 
 Although MFA is not mandatory for completing this laboratory, it is strongly recommended for any AWS account.
 
 
+![LAB00_Terraform](images/Lab00_Terraform_Clipboard_08-02-2026_06.jpg)
+
+
 ---
 
 
