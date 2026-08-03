@@ -469,6 +469,6 @@ After creating an IAM user and generating an Access Key, the next step is to con
 
 In this stage, you will configure an AWS CLI profile, validate your identity, and confirm that your workstation is ready to provision infrastructure.
 
-> **Important**
+> **Important!**
 >
 > This stage only stores your credentials locally. No AWS resources are created.
