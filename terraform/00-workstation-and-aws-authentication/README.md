@@ -565,4 +565,38 @@ Terraform automatically reads these files through the AWS SDK when using a named
 
 ---
 
+## Step 4 — Validate the Configured Identity
+
+Before provisioning infrastructure, verify that the configured profile can authenticate successfully.
+
+Run:
+
+```powershell
+aws sts get-caller-identity --profile terraform-lab
+```
+
+Example output:
+
+```json
+{
+    "UserId": "AIDAEXAMPLE123456789",
+    "Account": "123456789012",
+    "Arn": "arn:aws:iam::123456789012:user/terraform-lab"
+}
+```
+
+This command confirms:
+
+- The AWS account being used.
+- The authenticated IAM identity.
+- The Amazon Resource Name (ARN) of the caller.
+
+> **Important**
+>
+> This command does **not** create, modify, or delete any AWS resources.
+
+
+---
+
+
 
