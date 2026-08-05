@@ -500,3 +500,36 @@ Using a dedicated profile reduces the risk of accidentally provisioning infrastr
 
 ---
 
+## Step 2 — Configure the AWS CLI Profile
+
+Open a terminal and run:
+
+```powershell
+aws configure --profile terraform-lab
+```
+
+The AWS CLI will prompt for four values:
+
+```text
+AWS Access Key ID [None]:
+AWS Secret Access Key [None]:
+Default region name [None]:
+Default output format [None]:
+```
+
+Provide the following information:
+
+| Prompt | Example |
+|--------|----------|
+| AWS Access Key ID | AKIA... |
+| AWS Secret Access Key | Your Secret Access Key |
+| Default Region | us-east-1 |
+| Default Output Format | json |
+
+> **Note**
+>
+> Replace the example values with your own AWS credentials.
+
+
+---
+
