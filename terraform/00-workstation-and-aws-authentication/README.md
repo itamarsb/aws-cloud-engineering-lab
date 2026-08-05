@@ -533,3 +533,36 @@ Provide the following information:
 
 ---
 
+## Step 3 — Understand Where AWS CLI Stores Credentials
+
+The AWS CLI stores your configuration locally.
+
+### Windows
+
+```text
+C:\Users\<YOUR_USERNAME>\.aws\
+```
+
+### Linux and macOS
+
+```text
+~/.aws/
+```
+
+Inside this directory, you will typically find two files:
+
+| File | Purpose |
+|------|---------|
+| `credentials` | Stores the Access Key ID and Secret Access Key. |
+| `config` | Stores the default Region, output format, and named profiles. |
+
+Terraform automatically reads these files through the AWS SDK when using a named profile.
+
+> **Security Note**
+>
+> Never upload these files to GitHub or share them with other users.
+
+
+---
+
+
