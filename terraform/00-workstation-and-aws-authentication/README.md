@@ -472,3 +472,31 @@ In this stage, you will configure an AWS CLI profile, validate your identity, an
 > **Important!**
 >
 > This stage only stores your credentials locally. No AWS resources are created.
+
+---
+
+## Step 1 — Understand AWS CLI Profiles
+
+An AWS CLI profile is a named collection of configuration settings and credentials stored on your local workstation.
+
+A profile typically contains:
+
+- AWS Access Key ID
+- AWS Secret Access Key
+- Default AWS Region
+- Default Output Format
+
+Profiles allow you to work with multiple AWS accounts without changing your Terraform code.
+
+Throughout this learning path, we recommend creating a dedicated profile for the laboratory environment.
+
+Suggested profile name:
+
+```text
+terraform-lab
+```
+
+Using a dedicated profile reduces the risk of accidentally provisioning infrastructure in the wrong AWS account.
+
+---
+
