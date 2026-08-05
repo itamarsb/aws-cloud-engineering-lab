@@ -639,5 +639,16 @@ Review the information carefully before proceeding to the next stage.
 
 ---
 
+## Stage Validation
 
+Before continuing, verify that:
+
+- [ ] The AWS CLI profile `terraform-lab` has been created.
+- [ ] The Access Key ID and Secret Access Key were stored successfully.
+- [ ] `aws sts get-caller-identity` returns the expected AWS account.
+- [ ] The displayed IAM user is correct.
+- [ ] The default AWS Region is configured correctly.
+- [ ] `aws configure list` displays the expected configuration.
+
+If all checks are successful, your local workstation is correctly authenticated and ready to be used by Terraform.
 
