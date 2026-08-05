@@ -598,5 +598,26 @@ This command confirms:
 
 ---
 
+## Step 5 — Verify the Default AWS Region
+
+Confirm that the expected AWS Region is configured.
+
+Run:
+
+```powershell
+aws configure get region --profile terraform-lab
+```
+
+Expected output:
+
+```text
+us-east-1
+```
+
+If a different Region is displayed, update your AWS CLI configuration before continuing.
+
+
+---
+
 
 
