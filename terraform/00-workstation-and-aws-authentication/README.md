@@ -619,5 +619,25 @@ If a different Region is displayed, update your AWS CLI configuration before con
 
 ---
 
+## Step 6 — Display the Active AWS CLI Configuration
+
+To review the active configuration, run:
+
+```powershell
+aws configure list --profile terraform-lab
+```
+
+This command displays:
+
+- The configured Access Key ID (partially masked)
+- The default Region
+- The output format
+- The configuration source
+
+Review the information carefully before proceeding to the next stage.
+
+
+---
+
 
 
