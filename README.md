@@ -625,6 +625,8 @@ Completed Terraform Labs: 00 / 26
 
 ---
 
+## 📈 Repository Metrics
+
 <p align="center">
   <a href="https://info.flagcounter.com/QVEd">
     <img
