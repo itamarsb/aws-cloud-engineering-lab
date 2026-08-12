@@ -3,7 +3,7 @@
 <p align="center">
     <img src="docs/screenshots/Eng_AWS_LAB_21_24_09.png">
 </p>
-
+</div>
 
 # AWS Cloud Engineering Lab
 
