@@ -1,161 +1,232 @@
-# Lab 03 — IAM Roles and Policies
+# Lab 03 — Modern AWS Identity, IAM Roles, and Least-Privilege Policies
 
 > **AWS Cloud Engineering Lab — Manual Implementation**
 
-This lab introduces the core concepts of **AWS Identity and Access Management (IAM)** through a hands-on implementation using the **AWS Management Console**.
+This lab explores modern AWS identity and access management practices with a focus on **temporary credentials**, **IAM roles**, **least-privilege policies**, **workload identity**, and the current AWS model for **workforce access**.
 
-The goal is to understand how AWS controls **authentication and authorization**, how permissions are assigned to users and workloads, and how the **Principle of Least Privilege** can be applied when designing access policies.
+The implementation intentionally avoids creating IAM users, IAM user groups, long-term access keys, or permanent credentials as part of the laboratory workflow.
 
-Unlike the Terraform version planned for a later stage of this repository, this lab is performed **manually through the AWS Management Console**.
+Instead, the lab uses the existing EC2 workload from previous labs to examine role-based access and creates a dedicated laboratory IAM role and customer managed policy to study trust relationships, permissions, policy validation, and authorization behavior.
 
 ---
 
 ## Table of Contents
 
 - [Overview](#overview)
+- [Why This Lab Uses a Modern Identity Model](#why-this-lab-uses-a-modern-identity-model)
 - [Architecture](#architecture)
 - [Learning Objectives](#learning-objectives)
-- [AWS Services](#aws-services)
+- [AWS Services and Features](#aws-services-and-features)
 - [Estimated Time](#estimated-time)
 - [Estimated Cost](#estimated-cost)
 - [Prerequisites](#prerequisites)
-- [IAM Concepts](#iam-concepts)
-  - [IAM Users](#iam-users)
-  - [IAM User Groups](#iam-user-groups)
-  - [IAM Policies](#iam-policies)
+- [Core Identity Concepts](#core-identity-concepts)
+  - [Human and Workforce Identities](#human-and-workforce-identities)
+  - [Workload Identities](#workload-identities)
   - [IAM Roles](#iam-roles)
+  - [Temporary Credentials](#temporary-credentials)
   - [Trust Policies](#trust-policies)
   - [Permissions Policies](#permissions-policies)
-  - [Principle of Least Privilege](#principle-of-least-privilege)
+  - [IAM Users](#iam-users)
+  - [Least Privilege](#least-privilege)
+  - [IAM Access Analyzer](#iam-access-analyzer)
 - [Lab Resources](#lab-resources)
-- [Step-by-Step Tutorial](#step-by-step-tutorial)
-  - [Step 1 — Review the Existing EC2 IAM Role](#step-1--review-the-existing-ec2-iam-role)
-  - [Step 2 — Create a Customer Managed Policy](#step-2--create-a-customer-managed-policy)
-  - [Step 3 — Create an IAM User Group](#step-3--create-an-iam-user-group)
-  - [Step 4 — Verify the Policy Attached to the Group](#step-4--verify-the-policy-attached-to-the-group)
-  - [Step 5 — Create a Temporary IAM User](#step-5--create-a-temporary-iam-user)
-  - [Step 6 — Add the User to the IAM Group](#step-6--add-the-user-to-the-iam-group)
-  - [Step 7 — Validate Permissions](#step-7--validate-permissions)
-  - [Step 8 — Review the Least Privilege Model](#step-8--review-the-least-privilege-model)
+- [Step-by-Step Implementation](#step-by-step-implementation)
+  - [Step 1 — Review the Modern AWS Identity Model](#step-1--review-the-modern-aws-identity-model)
+  - [Step 2 — Inspect the Existing EC2 Workload Role](#step-2--inspect-the-existing-ec2-workload-role)
+  - [Step 3 — Verify Role-Based Identity from the EC2 Instance](#step-3--verify-role-based-identity-from-the-ec2-instance)
+  - [Step 4 — Create a Least-Privilege Customer Managed Policy](#step-4--create-a-least-privilege-customer-managed-policy)
+  - [Step 5 — Validate the Policy with IAM Access Analyzer](#step-5--validate-the-policy-with-iam-access-analyzer)
+  - [Step 6 — Create a Dedicated EC2 IAM Role](#step-6--create-a-dedicated-ec2-iam-role)
+  - [Step 7 — Attach the Least-Privilege Policy to the Role](#step-7--attach-the-least-privilege-policy-to-the-role)
+  - [Step 8 — Evaluate Allowed and Denied Actions](#step-8--evaluate-allowed-and-denied-actions)
+  - [Step 9 — Compare Workforce and Workload Access](#step-9--compare-workforce-and-workload-access)
 - [Validation](#validation)
 - [Security Best Practices Applied](#security-best-practices-applied)
 - [Cleanup](#cleanup)
 - [Post-Cleanup Validation](#post-cleanup-validation)
 - [Troubleshooting](#troubleshooting)
 - [Key Learnings](#key-learnings)
-- [Repository Files](#repository-files)
+- [Repository Structure](#repository-structure)
+- [Next Lab](#next-lab)
 
 ---
 
 # Overview
 
-AWS Identity and Access Management (**IAM**) provides the mechanisms used to control access to AWS resources.
+AWS Identity and Access Management (**IAM**) provides the authorization foundation used to control access to AWS services and resources.
 
-IAM answers two fundamental security questions:
+Modern AWS identity design separates two major categories of identities:
 
-**Authentication**
+```text
+Human / Workforce Identities
+        │
+        ├── Federation
+        ├── IAM Identity Center
+        ├── Permission Sets / IAM Roles
+        └── Temporary Credentials
 
-> Who is making the request?
+Workload Identities
+        │
+        ├── IAM Roles
+        ├── Trust Policies
+        ├── Permissions Policies
+        └── Temporary Credentials
+```
 
-**Authorization**
+This laboratory focuses primarily on the **workload identity model**, because the repository already contains an EC2 instance that uses the `EC2-SSM-Role` created in previous labs.
 
-> What is that identity allowed to do?
+The lab also explains the modern AWS model for human access so that IAM users and long-term credentials are not presented as the default architecture for workforce access.
 
-In this lab, a temporary IAM user will be created and assigned to an IAM user group.
+The practical implementation will:
 
-A custom customer managed policy will then provide the group with a restricted set of read-only Amazon EC2 permissions.
+1. Inspect the existing EC2 IAM role.
+2. Verify that the EC2 workload is using a role-based identity.
+3. Create a least-privilege customer managed policy.
+4. Validate the policy using IAM Access Analyzer.
+5. Create a dedicated EC2 service role.
+6. Attach the policy to the role.
+7. Evaluate expected allowed and denied actions.
+8. Compare workload identity with modern workforce access.
 
-The resulting permission chain will be:
+No IAM user or access key is required.
+
+---
+
+# Why This Lab Uses a Modern Identity Model
+
+Traditional IAM tutorials often use the following model:
 
 ```text
 IAM User
    │
    ▼
-IAM User Group
+IAM Group
    │
    ▼
-Customer Managed IAM Policy
+IAM Policy
    │
    ▼
-Selected EC2 Describe Permissions
-   │
-   ▼
-us-east-1
+AWS Resources
 ```
 
-The lab also reviews the existing `EC2-SSM-Role` created in previous labs to demonstrate the difference between **IAM users** and **IAM roles**.
+IAM users and groups remain valid AWS IAM concepts and may still exist in legacy environments or specific use cases.
 
-The temporary IAM user created in this lab is intended exclusively for educational purposes and will be removed during the cleanup procedure.
+However, they are **not the preferred default model for modern workforce access**.
+
+For human users, modern AWS environments generally use:
+
+```text
+Human User
+    │
+    ▼
+Identity Provider / IAM Identity Center
+    │
+    ▼
+Permission Assignment
+    │
+    ▼
+IAM Role
+    │
+    ▼
+Temporary Credentials
+    │
+    ▼
+AWS Resources
+```
+
+For AWS workloads such as EC2:
+
+```text
+EC2 Instance
+    │
+    ▼
+IAM Role
+    │
+    ▼
+Temporary Credentials
+    │
+    ▼
+AWS APIs
+```
+
+This laboratory therefore treats IAM users as an important IAM concept to understand, but does **not** create one as the primary learning workflow.
 
 ---
 
 # Architecture
 
-The following diagram represents the IAM architecture explored in this lab.
+The following diagram represents the identity models studied in this lab.
 
 ```mermaid
 flowchart TB
 
-    Admin["Administrator<br/>AWS Management Console"]
+    HUMAN["Human / Workforce User"]
+    IDC["Identity Provider /<br/>AWS IAM Identity Center"]
+    PS["Permission Assignment /<br/>Permission Set"]
+    HUMANROLE["IAM Role"]
+    HUMANCREDS["Temporary Credentials"]
 
-    subgraph IAM["AWS Identity and Access Management (IAM)"]
+    subgraph AWS["AWS Cloud"]
 
-        User["IAM User<br/>lab03-readonly-user"]
+        subgraph WORKLOAD["Workload Identity"]
+            INSTANCE["Existing EC2 Instance"]
+            EXISTINGROLE["Existing IAM Role<br/>EC2-SSM-Role"]
+            EXISTINGPOLICIES["Existing Managed Policies<br/>SSM / CloudWatch"]
+        end
 
-        Group["IAM User Group<br/>lab03-ec2-readonly"]
+        subgraph LAB["Lab 03 Identity Model"]
+            LABROLE["IAM Role<br/>Lab03-EC2-ReadOnly-Role"]
+            TRUST["Trust Policy<br/>ec2.amazonaws.com"]
+            POLICY["Customer Managed Policy<br/>Lab03EC2ReadOnlyPolicy"]
+            ANALYZER["IAM Access Analyzer<br/>Policy Validation"]
+        end
 
-        Policy["Customer Managed Policy<br/>Lab03EC2ReadOnlyPolicy"]
-
-        Role["Existing IAM Role<br/>EC2-SSM-Role"]
-
-        Trust["Trust Policy<br/>EC2 Service Principal"]
-
+        EC2API["Amazon EC2 API<br/>Selected Describe Operations"]
     end
 
-    EC2["Amazon EC2<br/>Read-Only Describe Operations"]
+    HUMAN --> IDC
+    IDC --> PS
+    PS --> HUMANROLE
+    HUMANROLE --> HUMANCREDS
+    HUMANCREDS --> EC2API
 
-    Instance["EC2 Instance"]
+    INSTANCE -->|"Assumes"| EXISTINGROLE
+    EXISTINGPOLICIES -->|"Permissions"| EXISTINGROLE
 
-    Admin --> IAM
-
-    User -->|"Member of"| Group
-
-    Group -->|"Policy attached"| Policy
-
-    Policy -->|"Allows selected<br/>Describe actions"| EC2
-
-    Instance -->|"Assumes"| Role
-
-    Trust -->|"Allows EC2 service<br/>to assume role"| Role
-
-    Role -->|"Temporary AWS<br/>credentials"| Instance
+    TRUST -->|"Who can assume"| LABROLE
+    POLICY -->|"What the role can do"| LABROLE
+    ANALYZER -->|"Validates"| POLICY
+    LABROLE -->|"Selected read-only access"| EC2API
 ```
 
-This architecture demonstrates two different IAM authorization models.
+The lab studies two separate identity concerns:
 
-### Human identity
-
-```text
-IAM User
-   ↓
-IAM User Group
-   ↓
-IAM Policy
-   ↓
-AWS Permissions
-```
-
-### AWS workload identity
+### Workforce Access
 
 ```text
-EC2 Instance
-   ↓
-IAM Role
-   ↓
+Human
+  ↓
+Federated Identity
+  ↓
+Role
+  ↓
 Temporary Credentials
-   ↓
-AWS Permissions
 ```
+
+### Workload Access
+
+```text
+AWS Workload
+  ↓
+IAM Role
+  ↓
+Temporary Credentials
+```
+
+The common security principle is the same:
+
+> Prefer temporary credentials and role-based access over long-term static credentials whenever possible.
 
 ---
 
@@ -163,37 +234,38 @@ AWS Permissions
 
 After completing this lab, you should be able to:
 
-- Understand the purpose of AWS IAM.
 - Explain the difference between authentication and authorization.
-- Understand the difference between IAM users, groups, policies, and roles.
-- Understand the purpose of IAM trust policies.
-- Understand the purpose of IAM permissions policies.
+- Distinguish human identities from workload identities.
+- Explain why temporary credentials are preferred over long-term credentials.
+- Understand the role of AWS IAM Identity Center in modern workforce access.
+- Explain why IAM roles are preferred for AWS workloads.
+- Understand the relationship between EC2 instance profiles and IAM roles.
+- Explain the difference between a trust policy and a permissions policy.
 - Create a customer managed IAM policy.
-- Create an IAM user group.
-- Assign permissions to users through groups.
-- Create a temporary IAM user for laboratory purposes.
-- Understand why IAM groups simplify permission management.
 - Apply the Principle of Least Privilege.
-- Validate allowed and denied IAM actions.
-- Understand why IAM roles are preferred for AWS workloads.
-- Recognize the risks associated with long-term access keys.
-- Remove temporary IAM resources after completing a laboratory.
+- Use IAM conditions to restrict permissions.
+- Validate IAM policies using IAM Access Analyzer.
+- Create an EC2 service role.
+- Evaluate expected allowed and denied actions.
+- Recognize where IAM users may still appear without treating them as the default workforce model.
+- Remove temporary laboratory IAM resources safely.
 
 ---
 
-# AWS Services
-
-This lab uses the following AWS services and features:
+# AWS Services and Features
 
 | Service / Feature | Purpose |
 |---|---|
 | AWS IAM | Identity and access management |
-| IAM Users | Represents the temporary laboratory identity |
-| IAM User Groups | Groups users that share permissions |
-| IAM Policies | Defines allowed AWS actions |
-| IAM Roles | Provides assumable identities for AWS workloads |
-| IAM Policy Simulator | Helps evaluate IAM permissions |
-| Amazon EC2 | Target service for the custom read-only permissions |
+| IAM Roles | Temporary role-based identities |
+| IAM Policies | Defines authorization permissions |
+| IAM Trust Policies | Defines who or what may assume a role |
+| IAM Access Analyzer | Policy validation and security findings |
+| AWS STS | Temporary security credential service |
+| Amazon EC2 | Existing workload and target API service |
+| EC2 Instance Profile | Makes an IAM role available to an EC2 instance |
+| AWS Systems Manager | Secure access to the existing EC2 instance |
+| IAM Identity Center | Modern centralized workforce access model |
 
 ---
 
@@ -202,26 +274,26 @@ This lab uses the following AWS services and features:
 Approximately:
 
 ```text
-45–75 minutes
+45–60 minutes
 ```
 
-The actual duration depends on familiarity with the AWS Management Console and IAM concepts.
+The actual duration depends on familiarity with IAM, EC2, and the AWS Management Console.
 
 ---
 
 # Estimated Cost
 
-AWS IAM itself does not incur additional charges.
+The IAM resources created in this lab do not normally incur additional charges.
 
-The IAM resources created in this lab therefore have an estimated cost of:
+Estimated Lab 03 IAM cost:
 
 ```text
 $0.00
 ```
 
-Existing AWS resources from previous labs may continue to generate charges independently of IAM.
+The existing EC2 instance and other resources from previous labs may continue to generate charges independently.
 
-> **Cost Awareness:** Always review the AWS Billing and Cost Management console when maintaining laboratory resources.
+> Always review **AWS Billing and Cost Management** when maintaining cloud laboratory environments.
 
 ---
 
@@ -231,168 +303,174 @@ Before starting this lab, you should have:
 
 - An active AWS account.
 - Access to the AWS Management Console.
-- Administrative permissions appropriate for creating laboratory IAM resources.
-- Basic familiarity with the AWS Console.
-- Completed or reviewed the previous EC2/SSM laboratory.
-- An existing `EC2-SSM-Role` from the previous lab.
-- A local copy of this GitHub repository.
-- Visual Studio Code or another source-code editor.
-- Basic understanding of JSON syntax.
-
-Recommended AWS Region for the laboratory:
-
-```text
-us-east-1
-```
-
-> **Important:** IAM is primarily a global AWS service. However, the custom policy created in this lab restricts the permitted EC2 API requests to `us-east-1`.
-
----
-
-# IAM Concepts
-
-Before creating the resources, it is important to understand the IAM components used throughout the lab.
-
----
-
-## IAM Users
-
-An **IAM user** represents an identity inside an AWS account.
-
-Historically, IAM users have been commonly used for people and applications requiring long-term credentials.
-
-An IAM user can potentially have:
-
-- Console credentials
-- Access keys
-- Group memberships
-- Directly attached policies
-
-However, modern AWS security guidance favors **federated access and temporary credentials whenever possible** rather than creating long-term IAM credentials for human users.
-
-For this reason, the IAM user created in this lab is:
-
-- Temporary
-- Created only for educational purposes
-- Not intended for production use
-- Not provided with an access key
-- Deleted during cleanup
-
-User name:
-
-```text
-lab03-readonly-user
-```
-
----
-
-## IAM User Groups
-
-An **IAM user group** is a collection of IAM users.
-
-Instead of assigning identical policies individually to several users, permissions can be attached to a group.
-
-Users that belong to that group inherit the permissions assigned to it.
-
-Example:
-
-```text
-                ┌── User A
-                │
-Policy → Group ─┼── User B
-                │
-                └── User C
-```
-
-This makes permission administration easier and more consistent.
-
-The group created in this lab will be:
-
-```text
-lab03-ec2-readonly
-```
-
----
-
-## IAM Policies
-
-IAM policies are JSON documents that define permissions.
-
-A policy typically describes:
-
-```text
-Effect
-Action
-Resource
-Condition
-```
-
-A simplified policy statement could look like:
-
-```json
-{
-  "Effect": "Allow",
-  "Action": "ec2:DescribeInstances",
-  "Resource": "*"
-}
-```
-
-The statement means that the identity receiving this permission may call the `DescribeInstances` EC2 API operation.
-
-Policies can be managed by AWS or created and managed by customers.
-
-This lab creates a **customer managed policy** named:
-
-```text
-Lab03EC2ReadOnlyPolicy
-```
-
----
-
-## IAM Roles
-
-An **IAM role** is an AWS identity that can be assumed by trusted principals.
-
-Unlike an IAM user, a role does not normally represent a permanent identity with long-term credentials.
-
-When a role is assumed, AWS provides **temporary security credentials**.
-
-Roles are commonly used by:
-
-- EC2 instances
-- Lambda functions
-- AWS services
-- Federated users
-- Cross-account access
-- CI/CD workloads
-
-The previous labs created the following role:
+- Administrative or delegated permissions sufficient to manage the IAM resources used by the lab.
+- Completed or reviewed **Lab 01 — EC2 Instance with SSM Access**.
+- Completed or reviewed **Lab 02 — EC2 Monitoring with CloudWatch Agent**.
+- An existing EC2 instance from the previous labs.
+- An existing IAM role named:
 
 ```text
 EC2-SSM-Role
 ```
 
-That role allows the EC2 workload to interact with AWS services without storing permanent AWS access keys on the instance.
+- Access to the instance through **AWS Systems Manager Session Manager**.
+- Basic understanding of JSON syntax.
+
+Recommended Region for regional resources:
+
+```text
+us-east-1
+```
+
+> **Important:** IAM is primarily a global AWS service. The least-privilege policy created in this lab uses an IAM condition to restrict supported EC2 API requests to `us-east-1`.
+
+---
+
+# Core Identity Concepts
+
+## Human and Workforce Identities
+
+A **human identity** represents a person who needs access to AWS.
+
+Examples include:
+
+- Cloud engineers
+- Developers
+- System administrators
+- Security engineers
+- Operators
+- Auditors
+
+In modern AWS environments, human users should generally access AWS through **federation** and receive **temporary credentials**.
+
+A common architecture uses:
+
+```text
+Corporate / External Identity Provider
+             │
+             ▼
+      IAM Identity Center
+             │
+             ▼
+       Permission Set
+             │
+             ▼
+          IAM Role
+             │
+             ▼
+    Temporary Credentials
+```
+
+IAM Identity Center provides centralized access management and can integrate with external identity providers.
+
+Permission sets define the permissions that workforce identities receive when accessing AWS accounts.
+
+---
+
+## Workload Identities
+
+A **workload identity** represents software or infrastructure that needs to call AWS APIs.
+
+Examples include:
+
+- EC2 instances
+- Lambda functions
+- ECS tasks
+- EKS workloads
+- CI/CD pipelines
+- Applications running outside AWS
+
+Whenever possible, workloads should use mechanisms that provide **temporary credentials** rather than static access keys.
+
+For EC2:
+
+```text
+EC2 Instance
+     │
+     ▼
+Instance Profile
+     │
+     ▼
+IAM Role
+     │
+     ▼
+Temporary Credentials
+```
+
+The workload can use those credentials to call AWS APIs according to the policies attached to the role.
+
+---
+
+## IAM Roles
+
+An **IAM role** is an AWS identity that can be assumed by a trusted principal.
+
+Roles do not have permanent credentials attached to them.
+
+When a role is assumed, AWS Security Token Service (**STS**) provides temporary security credentials for the role session.
+
+Common role use cases include:
+
+- EC2 workload access
+- Lambda execution
+- ECS task roles
+- Cross-account access
+- Federated workforce access
+- CI/CD pipelines
+- External workloads through role-based mechanisms
+
+---
+
+## Temporary Credentials
+
+Temporary security credentials contain:
+
+```text
+Access Key ID
+Secret Access Key
+Session Token
+Expiration
+```
+
+Unlike long-term IAM user access keys, temporary credentials have a limited lifetime.
+
+Applications running on supported AWS compute services can usually obtain and refresh temporary credentials automatically.
+
+This reduces the need to:
+
+- Create permanent access keys.
+- Store secrets in configuration files.
+- Rotate static credentials manually.
+- Commit credentials accidentally to source control.
 
 ---
 
 ## Trust Policies
 
-A role contains a **trust policy**.
+A role's **trust policy** determines:
 
-The trust policy answers:
+> **WHO or WHAT is allowed to assume this role?**
 
-> **Who is allowed to assume this role?**
+For an EC2 service role, the trusted principal is commonly:
 
-For an EC2 service role, the trust relationship commonly contains the EC2 service principal:
+```text
+ec2.amazonaws.com
+```
+
+Example:
 
 ```json
 {
-  "Effect": "Allow",
-  "Principal": {
-    "Service": "ec2.amazonaws.com"
-  },
-  "Action": "sts:AssumeRole"
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
 }
 ```
 
@@ -408,9 +486,19 @@ Trust Policy
 
 ## Permissions Policies
 
-Permissions policies answer a different question:
+A permissions policy determines:
 
-> **What can the identity do after receiving the permissions?**
+> **WHAT can the identity do after receiving the permissions?**
+
+For example:
+
+```json
+{
+  "Effect": "Allow",
+  "Action": "ec2:DescribeInstances",
+  "Resource": "*"
+}
+```
 
 Conceptually:
 
@@ -423,97 +511,150 @@ Permissions Policy
 Therefore:
 
 ```text
-Trust Policy       → WHO can assume the role?
+Trust Policy       → WHO / WHAT can assume the role
 
-Permissions Policy → WHAT the identity can do
+Permissions Policy → WHAT the role is allowed to do
 ```
 
-Understanding this distinction is fundamental when working with IAM roles.
+These are separate authorization decisions.
 
 ---
 
-## Principle of Least Privilege
+## IAM Users
 
-The **Principle of Least Privilege** means granting only the permissions required to perform a specific task.
+An **IAM user** is a persistent identity within an AWS account.
 
-For example, instead of granting:
+IAM users can have long-term credentials such as:
+
+- Console passwords
+- Access keys
+
+IAM users remain supported and may be necessary for specific use cases.
+
+However, this lab does not create an IAM user because modern workforce access should normally use federation and temporary credentials when possible.
+
+IAM users should therefore be understood as:
+
+```text
+Important IAM concept
+        │
+        ├── Still supported
+        ├── Present in legacy environments
+        ├── Required for some specific use cases
+        └── Not the preferred default for workforce access
+```
+
+---
+
+## Least Privilege
+
+The **Principle of Least Privilege** means granting only the permissions required for a specific task.
+
+Instead of:
 
 ```text
 AdministratorAccess
 ```
 
-this lab grants only selected EC2 read operations.
+or:
 
-The laboratory permission model is:
+```json
+"Action": "*"
+```
+
+this laboratory creates a policy containing only selected EC2 read operations.
+
+The policy model is:
 
 ```text
-Only Amazon EC2
+Amazon EC2 only
        +
-Only selected Describe operations
+Selected Describe actions only
        +
-Only requests targeting us-east-1
+us-east-1 condition
 ```
 
-The user will **not** receive permissions such as:
+No EC2 write or destructive permissions are intentionally granted.
 
-```text
-ec2:RunInstances
-ec2:TerminateInstances
-ec2:StopInstances
-ec2:StartInstances
-```
+---
 
-The user will also not receive unrelated permissions such as:
+## IAM Access Analyzer
 
-```text
-s3:DeleteBucket
-iam:CreateUser
-lambda:DeleteFunction
-```
+IAM Access Analyzer provides tools that help evaluate IAM policies and access configurations.
+
+In this lab, it is used to validate the customer managed policy before relying on it.
+
+Policy validation can identify:
+
+- Syntax errors
+- Security warnings
+- General warnings
+- Suggestions
+- Policy elements that may not behave as expected
+
+Policy validation is an important complement to manual policy review.
 
 ---
 
 # Lab Resources
 
-The following resources will be created:
+The following temporary resources will be created:
 
 | Resource | Name | Purpose |
 |---|---|---|
-| Customer Managed Policy | `Lab03EC2ReadOnlyPolicy` | Selected EC2 read-only permissions |
-| IAM User Group | `lab03-ec2-readonly` | Permission assignment |
-| IAM User | `lab03-readonly-user` | Temporary laboratory identity |
+| Customer Managed Policy | `Lab03EC2ReadOnlyPolicy` | Least-privilege EC2 read permissions |
+| IAM Role | `Lab03-EC2-ReadOnly-Role` | Demonstrates EC2 workload identity |
+| Trust Policy File | `lab03-ec2-role-trust-policy.json` | Documents the EC2 trust relationship |
+| Permissions Policy File | `lab03-ec2-read-only-policy.json` | Reusable policy artifact |
 
-The following existing resource will only be reviewed:
+The following existing resource will only be inspected:
 
 | Resource | Name |
 |---|---|
 | IAM Role | `EC2-SSM-Role` |
+| EC2 Instance | Existing Lab 01/02 instance |
 
-> **Important:** Do not delete the `EC2-SSM-Role` during this lab. It belongs to the previous EC2/SSM and monitoring laboratories.
-
----
-
-# Step-by-Step Tutorial
+> **Do not delete or replace `EC2-SSM-Role`.** It is part of previous laboratories and may be required later.
 
 ---
 
-# Step 1 — Review the Existing EC2 IAM Role
+# Step-by-Step Implementation
 
-## Objective
+# Step 1 — Review the Modern AWS Identity Model
 
-Review the `EC2-SSM-Role` created in the previous labs and understand:
+Before changing any IAM configuration, establish the identity model used throughout this lab.
 
-- IAM role permissions
-- Trust relationships
-- AWS service principals
-- Temporary workload credentials
-- Difference between roles and users
+The laboratory intentionally distinguishes:
 
-No IAM configuration will be modified during this step.
+```text
+HUMANS
+  │
+  └── Federation / IAM Identity Center
+          │
+          └── IAM Roles
+                 │
+                 └── Temporary Credentials
+```
 
-### Navigate to IAM
+from:
 
-Open:
+```text
+WORKLOADS
+   │
+   └── IAM Roles
+          │
+          └── Temporary Credentials
+```
+
+The practical portion of this lab will focus on **workload identity**, while IAM Identity Center will be reviewed as the preferred modern workforce-access architecture.
+
+No IAM user or long-term access key is required.
+
+---
+
+# Step 2 — Inspect the Existing EC2 Workload Role
+
+Navigate to:
 
 ```text
 AWS Management Console
@@ -531,58 +672,20 @@ EC2-SSM-Role
 
 Open the role.
 
-### Screenshot — Existing IAM Role
-
-Capture the role overview.
-
-Save as:
-
-```text
-screenshots/Lab03_Clipboard_01.jpg
-```
-
-Add the screenshot below after completing the step:
-
-```markdown
-![Existing EC2 IAM Role](screenshots/Lab03_Clipboard_01.jpg)
-```
-
-<!-- Screenshot placeholder: Lab03_Clipboard_01.jpg -->
-
----
-
-## Review Role Permissions
+## Review Attached Permissions
 
 Open the **Permissions** section.
 
-Review the policies currently attached to the role.
-
-Depending on the previous labs, these may include:
+Depending on the previous labs, policies may include:
 
 ```text
 AmazonSSMManagedInstanceCore
 CloudWatchAgentServerPolicy
 ```
 
-Do not modify the policies.
+These policies determine what the EC2 workload can do after receiving the role credentials.
 
-### Screenshot — Role Permissions
-
-Save as:
-
-```text
-screenshots/Lab03_Clipboard_02.jpg
-```
-
-Add:
-
-```markdown
-![EC2 IAM Role Permissions](screenshots/Lab03_Clipboard_02.jpg)
-```
-
-<!-- Screenshot placeholder: Lab03_Clipboard_02.jpg -->
-
----
+Do not modify the role.
 
 ## Review the Trust Relationship
 
@@ -592,54 +695,91 @@ Open:
 Trust relationships
 ```
 
-Review the trust policy.
+The trust policy should identify EC2 as a trusted service principal.
 
-The important concept is the service principal:
+Look for:
 
 ```text
 ec2.amazonaws.com
 ```
 
-This relationship allows the EC2 service to assume the role.
+This means the role is designed to be assumed by the EC2 service.
 
-### Screenshot — Trust Relationship
-
-Save as:
+The relationship is:
 
 ```text
-screenshots/Lab03_Clipboard_03.jpg
+EC2
+ │
+ │ sts:AssumeRole
+ ▼
+EC2-SSM-Role
+ │
+ ▼
+Temporary Role Credentials
 ```
 
-Add:
-
-```markdown
-![EC2 IAM Role Trust Relationship](screenshots/Lab03_Clipboard_03.jpg)
-```
-
-<!-- Screenshot placeholder: Lab03_Clipboard_03.jpg -->
+This is the workload identity pattern used by the existing EC2 instance.
 
 ---
 
-## Step 1 Validation
+# Step 3 — Verify Role-Based Identity from the EC2 Instance
 
-Verify that:
+Open the existing EC2 instance through **AWS Systems Manager Session Manager**.
 
-- `EC2-SSM-Role` exists.
-- The expected permissions policies are attached.
-- The trust relationship references EC2.
-- No changes were made to the existing role.
+The objective is to verify that the instance has a role available through the EC2 Instance Metadata Service without exposing credential values.
 
-Status:
+## Query the Instance Profile Role Name
 
-- [ ] Step 1 completed
+Run:
+
+```bash
+TOKEN=$(curl -sS -X PUT \
+  -H "X-aws-ec2-metadata-token-ttl-seconds: 21600" \
+  http://169.254.169.254/latest/api/token)
+```
+
+Then:
+
+```bash
+curl -sS \
+  -H "X-aws-ec2-metadata-token: $TOKEN" \
+  http://169.254.169.254/latest/meta-data/iam/security-credentials/
+```
+
+Expected output:
+
+```text
+EC2-SSM-Role
+```
+
+This demonstrates that the EC2 instance has access to an IAM role through its instance profile.
+
+> **Security Note:** Do not request, display, copy, save, or commit the credential values returned by the deeper `/iam/security-credentials/<role-name>` metadata endpoint. The role name alone is sufficient for this laboratory.
+
+## Optional — Verify the AWS Caller Identity
+
+If the AWS CLI is already installed on the instance, run:
+
+```bash
+aws sts get-caller-identity
+```
+
+The result should reference an assumed-role session associated with `EC2-SSM-Role`.
+
+Do not install or configure static credentials merely to perform this optional check.
+
+The important principle is:
+
+```text
+No ~/.aws static access keys required
+              │
+              ▼
+EC2 role credentials are provided automatically
+```
 
 ---
 
-# Step 2 — Create a Customer Managed Policy
-
-## Objective
-
-Create a custom IAM policy that allows only selected read-only EC2 API operations.
+# Step 4 — Create a Least-Privilege Customer Managed Policy
 
 Navigate to:
 
@@ -651,17 +791,7 @@ Policies
 Create policy
 ```
 
-Select the **JSON** policy editor.
-
----
-
-## Custom IAM Policy
-
-Create the following file in the repository:
-
-```text
-policies/lab03-ec2-read-only-policy.json
-```
+Choose the **JSON** policy editor.
 
 Use:
 
@@ -694,824 +824,463 @@ Use:
 }
 ```
 
-Copy the same JSON document into the AWS policy editor.
-
----
-
-## Understanding the Policy
-
-### Version
-
-```json
-"Version": "2012-10-17"
-```
-
-Defines the IAM policy language version.
-
-It does **not** represent the date when this laboratory policy was created.
-
-### Statement ID
-
-```json
-"Sid": "AllowSelectedEC2ReadOnlyActions"
-```
-
-Provides a human-readable identifier for the policy statement.
-
-### Effect
-
-```json
-"Effect": "Allow"
-```
-
-Specifies that the listed actions are allowed.
-
-### Actions
-
-The policy explicitly lists selected EC2 read operations:
+A repository copy is maintained at:
 
 ```text
-DescribeInstances
-DescribeInstanceStatus
-DescribeVolumes
-DescribeSnapshots
-DescribeSecurityGroups
-DescribeVpcs
-DescribeSubnets
-DescribeRouteTables
-DescribeTags
+policies/lab03-ec2-read-only-policy.json
 ```
 
-No EC2 write or destructive actions are granted.
+## Policy Design
+
+### Explicit Actions
+
+Only selected EC2 read operations are allowed.
+
+The policy does **not** include:
+
+```text
+ec2:RunInstances
+ec2:StartInstances
+ec2:StopInstances
+ec2:TerminateInstances
+```
 
 ### Resource
+
+The statement uses:
 
 ```json
 "Resource": "*"
 ```
 
-Many EC2 `Describe` operations do not support resource-level permissions.
+because many EC2 `Describe` APIs do not support resource-level permissions.
 
-For those API operations, IAM requires the statement to use:
+The scope is still restricted by the explicit list of allowed actions.
 
-```text
-Resource: "*"
-```
-
-This does not automatically mean that the policy grants broad administrative access.
-
-The permitted API actions themselves remain explicitly restricted.
-
-### Region Condition
+### Regional Condition
 
 The condition:
 
 ```json
-"Condition": {
-  "StringEquals": {
-    "aws:RequestedRegion": "us-east-1"
-  }
-}
+"aws:RequestedRegion": "us-east-1"
 ```
 
-restricts the allowed API requests to the selected AWS Region:
+adds another authorization constraint.
+
+The intended permission model is therefore:
 
 ```text
-us-east-1
+Selected EC2 read APIs
+          +
+       us-east-1
 ```
-
-This provides an additional restriction to the laboratory policy.
 
 ---
 
-## Policy Review
+# Step 5 — Validate the Policy with IAM Access Analyzer
 
-Before creating the policy:
+Before creating the policy, review the policy validation results shown by the IAM console.
 
-- Review the JSON syntax.
-- Review any warnings or validation findings presented by AWS.
-- Confirm that no write or destructive EC2 actions are included.
+IAM Access Analyzer policy validation checks the document against IAM policy grammar and security best practices.
 
-### Screenshot — Policy Editor
+Review all findings.
 
-Save as:
+Pay particular attention to:
 
 ```text
-screenshots/Lab03_Clipboard_04.jpg
+ERROR
+SECURITY_WARNING
+WARNING
+SUGGESTION
 ```
 
-Add:
+If an error appears, do not proceed until it is understood and corrected.
 
-```markdown
-![IAM Policy JSON Editor](screenshots/Lab03_Clipboard_04.jpg)
-```
-
-<!-- Screenshot placeholder: Lab03_Clipboard_04.jpg -->
-
----
-
-## Create the Policy
-
-Use:
+After reviewing the findings, create the policy using:
 
 ```text
 Policy name:
 Lab03EC2ReadOnlyPolicy
 ```
 
-Description:
+Suggested description:
 
 ```text
-Provides limited read-only access to selected Amazon EC2 resources in us-east-1 for Lab 03.
+Least-privilege policy for selected Amazon EC2 read operations in us-east-1 used by AWS Cloud Engineering Lab 03.
 ```
 
-Create the policy.
+After creation, confirm that the policy appears under **Customer managed policies**.
 
-### Screenshot — Policy Created
-
-Save as:
-
-```text
-screenshots/Lab03_Clipboard_05.jpg
-```
-
-Add:
-
-```markdown
-![Customer Managed IAM Policy](screenshots/Lab03_Clipboard_05.jpg)
-```
-
-<!-- Screenshot placeholder: Lab03_Clipboard_05.jpg -->
+> Policy validation helps identify problems, but it does not replace authorization testing or broader security review.
 
 ---
 
-## Step 2 Validation
+# Step 6 — Create a Dedicated EC2 IAM Role
 
-Verify that:
-
-```text
-Lab03EC2ReadOnlyPolicy
-```
-
-appears under the customer managed IAM policies.
-
-Status:
-
-- [ ] Step 2 completed
-
----
-
-# Step 3 — Create an IAM User Group
-
-## Objective
-
-Create a group that will receive the custom EC2 read-only policy.
+Create a laboratory role that demonstrates workload identity without modifying the running instance from previous labs.
 
 Navigate to:
 
 ```text
 IAM
  ↓
-User groups
+Roles
  ↓
-Create group
+Create role
 ```
 
-Group name:
+Select:
 
 ```text
-lab03-ec2-readonly
+Trusted entity type:
+AWS service
 ```
 
-During group creation, locate and select:
+Choose:
 
 ```text
-Lab03EC2ReadOnlyPolicy
+Service or use case:
+EC2
 ```
 
-Create the group.
-
-The resulting relationship should be:
+The resulting trust relationship should allow:
 
 ```text
-lab03-ec2-readonly
+ec2.amazonaws.com
+```
+
+to assume the role.
+
+Use the role name:
+
+```text
+Lab03-EC2-ReadOnly-Role
+```
+
+Suggested description:
+
+```text
+Educational EC2 workload role used to demonstrate trust policies, temporary credentials, and least-privilege authorization in Lab 03.
+```
+
+The equivalent trust policy is maintained in:
+
+```text
+policies/lab03-ec2-role-trust-policy.json
+```
+
+The important relationship is:
+
+```text
+EC2 Service Principal
         │
+        │ Allowed by trust policy
         ▼
-Lab03EC2ReadOnlyPolicy
+Lab03-EC2-ReadOnly-Role
 ```
 
-### Screenshot — User Group
-
-Save as:
-
-```text
-screenshots/Lab03_Clipboard_06.jpg
-```
-
-Add:
-
-```markdown
-![IAM User Group](screenshots/Lab03_Clipboard_06.jpg)
-```
-
-<!-- Screenshot placeholder: Lab03_Clipboard_06.jpg -->
+> This role is intentionally **not attached to the existing Lab 01/02 EC2 instance**. Replacing the instance profile could disrupt SSM or monitoring access. The existing `EC2-SSM-Role` remains unchanged.
 
 ---
 
-## Step 3 Validation
-
-Verify:
-
-- Group name is `lab03-ec2-readonly`.
-- The group exists.
-- The custom policy is associated with the group.
-
-Status:
-
-- [ ] Step 3 completed
-
----
-
-# Step 4 — Verify the Policy Attached to the Group
+# Step 7 — Attach the Least-Privilege Policy to the Role
 
 Open:
 
 ```text
 IAM
  ↓
-User groups
+Roles
  ↓
-lab03-ec2-readonly
+Lab03-EC2-ReadOnly-Role
  ↓
 Permissions
 ```
 
-Confirm that:
+Attach:
 
 ```text
 Lab03EC2ReadOnlyPolicy
 ```
 
-is attached.
-
-The permission inheritance model is now:
+The role now contains two separate security relationships:
 
 ```text
-IAM Group
-    │
-    ▼
-Customer Managed Policy
-    │
-    ▼
-Selected EC2 Read Permissions
-```
-
-### Screenshot — Group Permissions
-
-Save as:
-
-```text
-screenshots/Lab03_Clipboard_07.jpg
-```
-
-Add:
-
-```markdown
-![IAM Group Permissions](screenshots/Lab03_Clipboard_07.jpg)
-```
-
-<!-- Screenshot placeholder: Lab03_Clipboard_07.jpg -->
-
----
-
-## Step 4 Validation
-
-Verify that the group receives permissions through:
-
-```text
-Lab03EC2ReadOnlyPolicy
-```
-
-Status:
-
-- [ ] Step 4 completed
-
----
-
-# Step 5 — Create a Temporary IAM User
-
-## Objective
-
-Create a temporary IAM user for demonstrating group-based authorization.
-
-Navigate to:
-
-```text
-IAM
- ↓
-Users
- ↓
-Create user
-```
-
-User name:
-
-```text
-lab03-readonly-user
-```
-
-This identity exists exclusively for this laboratory.
-
-Do **not** create an access key.
-
-Do not store any AWS secret credentials in this repository.
-
-> **Security Note:** Long-term IAM user credentials should generally be avoided when temporary credentials or federated access can be used. This user exists only to demonstrate IAM concepts and will be deleted during cleanup.
-
-Create the user.
-
-### Screenshot — IAM User Created
-
-Save as:
-
-```text
-screenshots/Lab03_Clipboard_08.jpg
-```
-
-Add:
-
-```markdown
-![Temporary IAM User](screenshots/Lab03_Clipboard_08.jpg)
-```
-
-<!-- Screenshot placeholder: Lab03_Clipboard_08.jpg -->
-
----
-
-## Step 5 Validation
-
-Verify that:
-
-```text
-lab03-readonly-user
-```
-
-exists.
-
-Confirm that no access key was created for the user.
-
-Status:
-
-- [ ] Step 5 completed
-
----
-
-# Step 6 — Add the User to the IAM Group
-
-Navigate to:
-
-```text
-IAM
- ↓
-User groups
- ↓
-lab03-ec2-readonly
- ↓
-Users
- ↓
-Add users
-```
-
-Select:
-
-```text
-lab03-readonly-user
-```
-
-Add the user.
-
-The complete permission chain should now be:
-
-```text
-lab03-readonly-user
-        │
-        │ Member of
-        ▼
-lab03-ec2-readonly
-        │
-        │ Attached policy
-        ▼
-Lab03EC2ReadOnlyPolicy
-        │
-        │ Allows
-        ▼
-Selected EC2 Describe Actions
-        │
-        ▼
-us-east-1
-```
-
-### Screenshot — User Membership
-
-Save as:
-
-```text
-screenshots/Lab03_Clipboard_09.jpg
-```
-
-Add:
-
-```markdown
-![IAM User Group Membership](screenshots/Lab03_Clipboard_09.jpg)
-```
-
-<!-- Screenshot placeholder: Lab03_Clipboard_09.jpg -->
-
----
-
-## Step 6 Validation
-
-Verify:
-
-- `lab03-readonly-user` is a member of `lab03-ec2-readonly`.
-- The group has `Lab03EC2ReadOnlyPolicy`.
-- The user does not have unnecessary directly attached policies.
-
-Status:
-
-- [ ] Step 6 completed
-
----
-
-# Step 7 — Validate Permissions
-
-## Objective
-
-Verify that the IAM permission model allows the intended read-only operations while rejecting actions outside the policy.
-
-Where available in the current IAM console, use the IAM policy simulation/evaluation tools to evaluate the permissions associated with:
-
-```text
-lab03-readonly-user
-```
-
-The validation should demonstrate both:
-
-```text
-ALLOW
+Trust Policy
+     │
+     └── EC2 may assume the role
 ```
 
 and:
 
 ```text
-DENY
+Permissions Policy
+        │
+        └── Role may perform selected EC2 Describe actions
 ```
 
-results.
-
----
-
-## Test 1 — Describe EC2 Instances
-
-Test:
+The complete authorization model is:
 
 ```text
-ec2:DescribeInstances
-```
-
-Expected:
-
-```text
-ALLOWED
-```
-
-because this operation is explicitly included in the custom policy.
-
-### Screenshot — Allowed Action
-
-Save as:
-
-```text
-screenshots/Lab03_Clipboard_10.jpg
-```
-
-Add:
-
-```markdown
-![DescribeInstances Allowed](screenshots/Lab03_Clipboard_10.jpg)
-```
-
-<!-- Screenshot placeholder: Lab03_Clipboard_10.jpg -->
-
----
-
-## Test 2 — Terminate EC2 Instances
-
-Test:
-
-```text
-ec2:TerminateInstances
-```
-
-Expected:
-
-```text
-DENIED
-```
-
-The custom policy does not grant permission to terminate EC2 instances.
-
-### Screenshot — TerminateInstances Denied
-
-Save as:
-
-```text
-screenshots/Lab03_Clipboard_11.jpg
-```
-
-Add:
-
-```markdown
-![TerminateInstances Denied](screenshots/Lab03_Clipboard_11.jpg)
-```
-
-<!-- Screenshot placeholder: Lab03_Clipboard_11.jpg -->
-
----
-
-## Test 3 — Run EC2 Instances
-
-Test:
-
-```text
-ec2:RunInstances
-```
-
-Expected:
-
-```text
-DENIED
-```
-
-The custom policy does not grant permission to launch instances.
-
-### Screenshot — RunInstances Denied
-
-Save as:
-
-```text
-screenshots/Lab03_Clipboard_12.jpg
-```
-
-Add:
-
-```markdown
-![RunInstances Denied](screenshots/Lab03_Clipboard_12.jpg)
-```
-
-<!-- Screenshot placeholder: Lab03_Clipboard_12.jpg -->
-
----
-
-## Test 4 — Unrelated AWS Service
-
-If supported by the selected validation method, test an unrelated operation such as:
-
-```text
-s3:DeleteBucket
-```
-
-Expected:
-
-```text
-DENIED
-```
-
-No Amazon S3 permissions were granted.
-
-This demonstrates that the policy does not provide permissions outside its intended scope.
-
----
-
-## Step 7 Validation
-
-Expected authorization model:
-
-| Action | Expected Result | Reason |
-|---|---|---|
-| `ec2:DescribeInstances` | ALLOWED | Explicitly allowed |
-| `ec2:DescribeVolumes` | ALLOWED | Explicitly allowed |
-| `ec2:TerminateInstances` | DENIED | Not granted |
-| `ec2:RunInstances` | DENIED | Not granted |
-| `s3:DeleteBucket` | DENIED | No S3 permissions |
-
-Status:
-
-- [ ] Step 7 completed
-
----
-
-# Step 8 — Review the Least Privilege Model
-
-The completed IAM architecture demonstrates the Principle of Least Privilege.
-
-The temporary user does **not** receive:
-
-```text
-AdministratorAccess
-```
-
-It does **not** receive:
-
-```text
-PowerUserAccess
-```
-
-It does **not** receive unrestricted EC2 permissions.
-
-Instead:
-
-```text
-IAM User
-   │
-   ▼
-IAM Group
-   │
-   ▼
-Custom Policy
-   │
-   ▼
-Selected EC2 Describe Operations
-   │
-   ▼
+EC2
+ │
+ │ Trust relationship
+ ▼
+Lab03-EC2-ReadOnly-Role
+ │
+ │ Permissions policy
+ ▼
+Lab03EC2ReadOnlyPolicy
+ │
+ ▼
+Selected EC2 Describe APIs
+ │
+ ▼
 us-east-1
 ```
 
-The design reduces unnecessary permissions and limits the potential impact of compromised credentials.
+---
 
-### Screenshot — Final IAM Configuration
+# Step 8 — Evaluate Allowed and Denied Actions
 
-Capture a final view that clearly demonstrates the completed IAM configuration.
-
-Save as:
+Where available, use the **IAM Policy Simulator** or another appropriate IAM policy evaluation workflow to inspect the permissions associated with:
 
 ```text
-screenshots/Lab03_Clipboard_13.jpg
+Lab03-EC2-ReadOnly-Role
 ```
 
-Add:
+When evaluating the regional condition, ensure the simulation context reflects:
 
-```markdown
-![Completed IAM Least Privilege Configuration](screenshots/Lab03_Clipboard_13.jpg)
+```text
+aws:RequestedRegion = us-east-1
 ```
 
-<!-- Screenshot placeholder: Lab03_Clipboard_13.jpg -->
+The expected authorization model is:
+
+| Action | Expected Result | Reason |
+|---|---|---|
+| `ec2:DescribeInstances` | ALLOWED | Explicitly granted |
+| `ec2:DescribeVolumes` | ALLOWED | Explicitly granted |
+| `ec2:DescribeSecurityGroups` | ALLOWED | Explicitly granted |
+| `ec2:RunInstances` | DENIED | Not granted |
+| `ec2:StopInstances` | DENIED | Not granted |
+| `ec2:TerminateInstances` | DENIED | Not granted |
+| `s3:DeleteBucket` | DENIED | No S3 permission |
+
+A request outside `us-east-1` should not satisfy the regional condition for the actions controlled by this policy.
+
+This demonstrates:
+
+```text
+Explicitly allowed action
+          │
+          ▼
+        ALLOW
+```
+
+while:
+
+```text
+Permission not granted
+          │
+          ▼
+     IMPLICIT DENY
+```
+
+An applicable **explicit deny** from another policy layer would override an allow.
 
 ---
 
-## Step 8 Validation
+# Step 9 — Compare Workforce and Workload Access
 
-Confirm that:
+The final implementation step compares the role created in this lab with the modern AWS workforce model.
 
-- The user receives permissions through group membership.
-- The group receives permissions from the custom policy.
-- The custom policy contains only required EC2 read operations.
-- Write and destructive operations are not granted.
-- No access key was created.
-- The existing EC2 role remains unchanged.
+## Workload Access Implemented in This Lab
 
-Status:
+```text
+EC2 Workload
+     │
+     ▼
+IAM Role
+     │
+     ▼
+Temporary Credentials
+     │
+     ▼
+AWS APIs
+```
 
-- [ ] Step 8 completed
+## Modern Workforce Access
+
+A common modern model is:
+
+```text
+Employee / Engineer
+        │
+        ▼
+Identity Provider
+        │
+        ▼
+AWS IAM Identity Center
+        │
+        ▼
+Permission Set
+        │
+        ▼
+IAM Role
+        │
+        ▼
+Temporary Credentials
+        │
+        ▼
+AWS Account / Resources
+```
+
+You may open the **IAM Identity Center** console to review the service and its concepts.
+
+However, enabling or redesigning IAM Identity Center is **not required by this lab**.
+
+Why?
+
+An organization instance of IAM Identity Center is the recommended architecture for centralized AWS account access and is closely related to AWS Organizations and broader account governance.
+
+That configuration should be designed intentionally rather than enabled only to complete a small IAM exercise.
+
+The important learning objective is to recognize that modern workforce access is different from creating a permanent IAM user.
 
 ---
 
 # Validation
 
-Before cleaning up the environment, verify the complete laboratory configuration.
+Before cleanup, verify the complete Lab 03 configuration.
 
-## IAM User
+## Existing Workload Role
 
-Expected:
+Confirm:
 
-```text
-lab03-readonly-user
-```
+- `EC2-SSM-Role` still exists.
+- Its trust relationship allows EC2 to assume the role.
+- Existing SSM and monitoring permissions remain unchanged.
+- The running EC2 instance remains accessible through Session Manager.
 
-Requirements:
+## Instance Identity
 
-- [ ] User exists.
-- [ ] User belongs to the expected group.
-- [ ] No unnecessary direct policies are attached.
-- [ ] No access key was created.
+Confirm:
 
----
-
-## IAM User Group
-
-Expected:
-
-```text
-lab03-ec2-readonly
-```
-
-Requirements:
-
-- [ ] Group exists.
-- [ ] Laboratory user is a member.
-- [ ] Custom policy is attached.
-
----
+- IMDSv2 can return the attached role name.
+- The role name is `EC2-SSM-Role`.
+- No static AWS credentials were created for the instance.
 
 ## Customer Managed Policy
 
-Expected:
+Confirm:
 
-```text
-Lab03EC2ReadOnlyPolicy
-```
+- `Lab03EC2ReadOnlyPolicy` exists.
+- Only selected EC2 `Describe` actions are allowed.
+- No write or destructive EC2 permissions are included.
+- The `aws:RequestedRegion` condition is configured for `us-east-1`.
+- IAM Access Analyzer policy validation was reviewed.
 
-Requirements:
+## Laboratory Role
 
-- [ ] Policy exists.
-- [ ] Only selected EC2 `Describe` actions are allowed.
-- [ ] Region restriction is configured.
-- [ ] No destructive actions are allowed.
+Confirm:
 
----
+- `Lab03-EC2-ReadOnly-Role` exists.
+- Its trust relationship uses the EC2 service principal.
+- `Lab03EC2ReadOnlyPolicy` is attached.
+- The role was not attached to or substituted for `EC2-SSM-Role`.
 
-## Existing IAM Role
-
-Expected:
-
-```text
-EC2-SSM-Role
-```
-
-Requirements:
-
-- [ ] Role still exists.
-- [ ] Existing permissions remain intact.
-- [ ] Trust relationship remains configured for EC2.
-- [ ] Role was not modified unnecessarily.
-
----
-
-## Authorization Tests
+## Authorization Model
 
 Expected:
 
 ```text
-Describe operations → ALLOWED
+Selected EC2 Describe actions → ALLOWED
 
-Write operations → DENIED
+EC2 write actions             → DENIED
 
-Destructive operations → DENIED
+EC2 destructive actions       → DENIED
 
-Unrelated services → DENIED
+Unrelated service actions     → DENIED
 ```
 
-Final validation:
+## Workforce Model
 
-- [ ] Lab validation completed
+Confirm that you can explain why:
+
+```text
+IAM Identity Center / Federation
+```
+
+is generally preferred for human workforce access, while:
+
+```text
+IAM Roles
+```
+
+are used for AWS workloads such as EC2.
 
 ---
 
 # Security Best Practices Applied
 
-This laboratory demonstrates several important IAM security practices.
+## 1. Temporary Credentials
 
-## 1. Least Privilege
+The lab emphasizes temporary credentials for both human and workload access models.
 
-Only the permissions required by the laboratory are granted.
-
----
-
-## 2. Group-Based Permission Management
-
-Permissions are assigned through an IAM user group instead of unnecessarily attaching the same policy directly to individual users.
+No long-term access key is created.
 
 ---
 
-## 3. Customer Managed Policy
+## 2. Workload Roles Instead of Embedded Credentials
 
-A dedicated policy clearly documents the permissions required by the laboratory.
+EC2 workloads use IAM roles rather than credentials stored in:
+
+```text
+Source code
+Environment files
+Shell scripts
+Configuration files
+Git repositories
+```
 
 ---
 
-## 4. Explicit Action Selection
+## 3. Federation for Human Access
 
-Instead of:
+IAM users are not used as the default workforce model.
+
+The lab presents federation and IAM Identity Center as the modern architecture for human access.
+
+---
+
+## 4. Least Privilege
+
+The customer managed policy grants only the actions required by the exercise.
+
+It does not use:
+
+```json
+"Action": "*"
+```
+
+or:
 
 ```json
 "Action": "ec2:*"
 ```
 
-the policy explicitly identifies the required operations.
+---
+
+## 5. Explicit Action Selection
+
+The policy explicitly identifies permitted API operations.
+
+This makes the authorization scope easier to understand, review, and audit.
 
 ---
 
-## 5. Regional Restriction
+## 6. Conditions as Additional Guardrails
 
 The policy uses:
 
@@ -1519,46 +1288,49 @@ The policy uses:
 "aws:RequestedRegion": "us-east-1"
 ```
 
-to restrict permitted requests to the laboratory Region.
+to further restrict supported requests.
 
 ---
 
-## 6. No Access Keys
+## 7. Separate Trust from Permissions
 
-The temporary IAM user does not require programmatic credentials.
-
-No:
+The lab explicitly separates:
 
 ```text
-Access Key ID
-Secret Access Key
+WHO may assume the role
 ```
 
-is generated for this lab.
-
----
-
-## 7. Roles for AWS Workloads
-
-The EC2 instance uses:
+from:
 
 ```text
-EC2-SSM-Role
+WHAT the role may do
 ```
 
-instead of storing permanent AWS credentials inside the operating system.
+This distinction is fundamental to secure role design.
 
 ---
 
-## 8. Temporary Laboratory Identity
+## 8. Policy Validation
 
-The IAM user exists only to demonstrate IAM concepts.
+IAM Access Analyzer policy validation is reviewed before relying on the policy.
 
-It will be removed after validation.
+This adds automated policy analysis to manual review.
 
 ---
 
-## 9. No Credentials in Git
+## 9. Preserve Existing Production-Like Dependencies
+
+The lab does not replace the instance profile on the running EC2 instance merely to demonstrate another IAM role.
+
+This avoids unnecessarily disrupting:
+
+- Systems Manager access
+- CloudWatch Agent permissions
+- Existing laboratory dependencies
+
+---
+
+## 10. No Credentials in Source Control
 
 Never commit:
 
@@ -1566,84 +1338,54 @@ Never commit:
 AWS_ACCESS_KEY_ID
 AWS_SECRET_ACCESS_KEY
 AWS_SESSION_TOKEN
-passwords
-private credentials
+Passwords
+Private keys
+Authentication tokens
 ```
 
-to a Git repository.
+to GitHub.
+
+The repository stores **policy definitions**, not credentials.
 
 ---
 
 # Cleanup
 
-After completing all screenshots and validation, remove the temporary resources created specifically for Lab 03.
+Only resources created specifically for Lab 03 should be removed.
 
-> **Important:** Do not delete `EC2-SSM-Role`.
-
-The recommended cleanup sequence is:
+Preserve:
 
 ```text
-Remove user from group
-        ↓
-Delete IAM user
-        ↓
-Detach policy from group
-        ↓
-Delete IAM user group
-        ↓
-Delete customer managed policy
+EC2-SSM-Role
 ```
 
----
+and the existing EC2 instance.
 
-## Cleanup Step 1 — Remove User from Group
+Recommended cleanup order:
+
+```text
+Lab03-EC2-ReadOnly-Role
+        │
+        ▼
+Detach Lab03EC2ReadOnlyPolicy
+        │
+        ▼
+Delete Lab03-EC2-ReadOnly-Role
+        │
+        ▼
+Delete Lab03EC2ReadOnlyPolicy
+```
+
+## Cleanup Step 1 — Detach the Policy
 
 Navigate to:
 
 ```text
 IAM
  ↓
-User groups
+Roles
  ↓
-lab03-ec2-readonly
- ↓
-Users
-```
-
-Remove:
-
-```text
-lab03-readonly-user
-```
-
----
-
-## Cleanup Step 2 — Delete Temporary IAM User
-
-Navigate to:
-
-```text
-IAM
- ↓
-Users
- ↓
-lab03-readonly-user
-```
-
-Delete the user.
-
----
-
-## Cleanup Step 3 — Detach the Custom Policy
-
-Navigate to:
-
-```text
-IAM
- ↓
-User groups
- ↓
-lab03-ec2-readonly
+Lab03-EC2-ReadOnly-Role
  ↓
 Permissions
 ```
@@ -1654,19 +1396,15 @@ Detach:
 Lab03EC2ReadOnlyPolicy
 ```
 
----
-
-## Cleanup Step 4 — Delete IAM User Group
+## Cleanup Step 2 — Delete the Laboratory Role
 
 Delete:
 
 ```text
-lab03-ec2-readonly
+Lab03-EC2-ReadOnly-Role
 ```
 
----
-
-## Cleanup Step 5 — Delete Customer Managed Policy
+## Cleanup Step 3 — Delete the Customer Managed Policy
 
 Navigate to:
 
@@ -1682,11 +1420,9 @@ Locate:
 Lab03EC2ReadOnlyPolicy
 ```
 
-Delete the policy.
+Delete it.
 
----
-
-## Cleanup Step 6 — Preserve Existing EC2 Role
+## Cleanup Step 4 — Preserve Existing Resources
 
 Confirm that:
 
@@ -1694,286 +1430,289 @@ Confirm that:
 EC2-SSM-Role
 ```
 
-still exists.
-
-This resource belongs to previous labs and should remain available for later exercises.
+still exists and that the EC2 instance remains accessible through Session Manager.
 
 ---
 
 # Post-Cleanup Validation
 
-After cleanup, verify that the Lab 03 temporary resources no longer exist.
-
-Expected:
+Expected final state:
 
 | Resource | Expected State |
 |---|---|
-| `lab03-readonly-user` | Deleted |
-| `lab03-ec2-readonly` | Deleted |
+| `Lab03-EC2-ReadOnly-Role` | Deleted |
 | `Lab03EC2ReadOnlyPolicy` | Deleted |
 | `EC2-SSM-Role` | Preserved |
+| Existing EC2 instance | Preserved |
 
-### Screenshot — Post-Cleanup Validation
-
-Save as:
+Repository policy files remain because they are documentation and reusable artifacts:
 
 ```text
-screenshots/Lab03_Clipboard_14.jpg
+policies/lab03-ec2-read-only-policy.json
+policies/lab03-ec2-role-trust-policy.json
 ```
-
-Add:
-
-```markdown
-![Lab 03 Post-Cleanup Validation](screenshots/Lab03_Clipboard_14.jpg)
-```
-
-<!-- Screenshot placeholder: Lab03_Clipboard_14.jpg -->
-
-Cleanup status:
-
-- [ ] Lab resources removed
-- [ ] Existing EC2 role preserved
-- [ ] Cleanup validated
 
 ---
 
 # Troubleshooting
 
-## Custom Policy Does Not Appear When Creating the Group
+## EC2-SSM-Role Is Missing
 
-### Possible Cause
+If the role does not exist, review Lab 01 before continuing.
 
-The policy list may be filtered or the console may not yet display the newly created policy.
+Do not create a different role merely to force the current instructions to match.
 
-### Resolution
+The Lab 03 workflow assumes the previous EC2/SSM environment exists.
 
-Search specifically for:
+---
+
+## Session Manager Does Not Connect
+
+Check:
+
+- The EC2 instance is running.
+- SSM Agent is running.
+- `EC2-SSM-Role` is still attached through the instance profile.
+- `AmazonSSMManagedInstanceCore` remains available to the instance.
+- Network connectivity required by Systems Manager is available.
+
+Do not replace the existing instance profile during Lab 03.
+
+---
+
+## IMDSv2 Query Returns an Error
+
+Verify that:
+
+- The command is running inside the EC2 instance.
+- The token request completed successfully.
+- The metadata endpoint is reachable.
+- IMDS is enabled for the instance.
+
+Use IMDSv2 rather than intentionally downgrading the laboratory to IMDSv1.
+
+---
+
+## IAM Access Analyzer Reports a Finding
+
+Do not automatically ignore validation findings.
+
+Read:
+
+- Finding type
+- Affected policy element
+- Suggested remediation
+- Security impact
+
+Some findings may be informational, while others may require a policy change.
+
+---
+
+## Policy Cannot Be Attached
+
+Confirm that:
 
 ```text
 Lab03EC2ReadOnlyPolicy
 ```
 
-Confirm that you are viewing **customer managed policies**.
+was successfully created and that you are viewing customer managed policies.
 
-Refresh the console if necessary.
-
----
-
-## Policy JSON Reports an Error
-
-### Possible Causes
-
-Common JSON errors include:
-
-- Missing commas
-- Extra commas
-- Missing quotation marks
-- Incorrect braces
-- Invalid action names
-
-### Resolution
-
-Compare the AWS Console policy with:
-
-```text
-policies/lab03-ec2-read-only-policy.json
-```
-
-Verify that the JSON documents are identical.
+Also confirm that your current administrative identity has permission to attach policies to roles.
 
 ---
 
-## DescribeInstances Is Denied
+## Policy Simulator Shows an Unexpected Deny
 
-### Possible Causes
+Verify:
 
-Check whether:
-
-- The user belongs to the correct group.
-- The group has the custom policy attached.
-- `ec2:DescribeInstances` exists in the policy.
-- The simulated/requested Region is `us-east-1`.
-- Another policy or organizational control introduces an explicit deny.
+- The correct role is selected.
+- The action exists in the policy.
+- The policy is attached.
+- The simulation context includes `aws:RequestedRegion = us-east-1` when required.
+- No explicit deny applies.
 
 Remember:
 
 ```text
 Explicit DENY
+     │
+     ▼
+Overrides ALLOW
 ```
-
-takes precedence over:
-
-```text
-ALLOW
-```
-
-in AWS authorization evaluation.
 
 ---
 
-## User Has More Permissions Than Expected
+## Policy Simulator Shows More Access Than Expected
 
-Check:
+A principal can receive permissions from multiple policy sources.
+
+Review:
+
+- Identity-based policies
+- Permissions boundaries
+- Session policies
+- Resource policies
+- Service control policies where applicable
+
+The final effective permission is determined by AWS policy evaluation logic, not by a single policy viewed in isolation.
+
+---
+
+## IAM Identity Center Is Not Configured
+
+That is acceptable for this laboratory.
+
+The practical lab does not require enabling IAM Identity Center.
+
+The service is included to teach the modern workforce identity architecture.
+
+Organization-level identity design should be intentional and should not be enabled only for a disposable lab exercise.
+
+---
+
+## AWS Console Looks Different
+
+AWS periodically changes console navigation and visual layout.
+
+Focus on the underlying resources and concepts rather than reproducing the interface pixel-for-pixel.
+
+The architectural relationships remain:
 
 ```text
-User
- ↓
-Permissions
+Workload → IAM Role → Temporary Credentials → Permissions
 ```
 
 and:
 
 ```text
-User
- ↓
-Groups
+Federated Human → Role → Temporary Credentials → Permissions
 ```
-
-The laboratory user should not have unrelated policies directly attached.
-
-Also review all group memberships.
-
----
-
-## Policy Cannot Be Deleted
-
-A customer managed policy generally cannot be deleted while it remains attached to an IAM identity.
-
-Detach it from:
-
-```text
-lab03-ec2-readonly
-```
-
-before attempting deletion.
-
----
-
-## IAM Role Does Not Show the Expected Policies
-
-The existing role may depend on which previous labs were completed.
-
-Review:
-
-```text
-EC2-SSM-Role
-```
-
-and compare the attached policies with the configuration used in previous labs.
-
-Do not attach or remove policies merely to make the screenshots match this README.
-
-The objective of Step 1 is to **inspect the existing role**, not modify it.
-
----
-
-## IAM Console Looks Different
-
-AWS periodically updates the Management Console interface.
-
-Button names, menu locations, or visual layouts may differ slightly from the screenshots documented in this repository.
-
-Focus on the IAM resources and configuration concepts rather than reproducing the interface pixel-for-pixel.
 
 ---
 
 # Key Learnings
 
-This lab demonstrated that AWS IAM authorization is based on relationships between identities and policies rather than simply assigning unrestricted permissions to users.
+## Modern AWS Identity Is Role-Centric
 
-The primary permission chain implemented was:
+Both workforce and workload access increasingly rely on role-based temporary credentials.
 
-```text
-IAM User
-   ↓
-IAM User Group
-   ↓
-Customer Managed Policy
-   ↓
-AWS API Permissions
-```
-
-The lab also demonstrated the workload authorization model:
-
-```text
-AWS Workload
-   ↓
-IAM Role
-   ↓
-Temporary Credentials
-   ↓
-AWS API Permissions
-```
-
-Important lessons include:
-
-### IAM Users Represent Identities
-
-IAM users can represent identities inside an AWS account, but long-term credentials should be avoided when modern temporary credential mechanisms are available.
-
-### IAM Groups Simplify Permission Management
-
-Groups allow permissions to be managed centrally and inherited by multiple IAM users.
-
-### IAM Policies Define Authorization
-
-Policies determine which AWS API operations an identity can perform.
-
-### IAM Roles Are Designed to Be Assumed
-
-Roles provide temporary credentials and are fundamental for secure AWS workload authentication.
-
-### Trust and Permissions Are Different
-
-```text
-Trust Policy
-     ↓
-Who can assume the role?
-```
-
-while:
-
-```text
-Permissions Policy
-        ↓
-What can the identity do?
-```
-
-### Least Privilege Reduces Risk
-
-Permissions should be limited to the actions required for a task.
-
-Instead of:
-
-```text
-Allow everything
-```
-
-this lab implements:
-
-```text
-Allow only selected EC2 read operations
-```
-
-### An Allow Does Not Grant Unrelated Permissions
-
-The custom policy grants only the actions explicitly permitted.
-
-Operations outside the policy remain denied unless another applicable policy grants them.
-
-### IAM Configuration Should Be Validated
-
-Testing both successful and denied actions helps confirm that the authorization model behaves as intended.
-
-### AWS Credentials Should Never Be Stored in Source Control
-
-Access keys, passwords, tokens, and other credentials must never be committed to GitHub.
+The identity source differs, but the security objective is similar.
 
 ---
 
-# Repository Files
+## Human and Workload Identities Are Different
 
-The final Lab 03 directory structure is:
+Human access commonly begins with federation:
+
+```text
+Human
+ ↓
+Identity Provider
+ ↓
+IAM Identity Center
+ ↓
+Role
+```
+
+Workload access begins with the AWS service or application:
+
+```text
+EC2
+ ↓
+IAM Role
+```
+
+---
+
+## Temporary Credentials Reduce Long-Term Secret Exposure
+
+Temporary credentials expire.
+
+This reduces the security burden associated with permanent access keys.
+
+---
+
+## IAM Roles Have Two Different Security Dimensions
+
+A role must answer:
+
+```text
+WHO / WHAT may assume me?
+```
+
+and:
+
+```text
+WHAT may I do after being assumed?
+```
+
+Trust policies answer the first question.
+
+Permissions policies answer the second.
+
+---
+
+## Least Privilege Is an Iterative Engineering Practice
+
+Least privilege is not simply choosing a policy named `ReadOnly`.
+
+It requires understanding the actual API actions a workload needs and restricting permissions accordingly.
+
+---
+
+## Automated Policy Validation Adds Value
+
+IAM Access Analyzer can identify syntax and security issues that may be missed during manual review.
+
+Policy validation should be part of the policy-development workflow.
+
+---
+
+## IAM Users Still Matter — But Context Matters More
+
+Cloud engineers must understand IAM users because they exist in AWS and in real environments.
+
+However:
+
+```text
+Understand IAM users
+        ≠
+Use IAM users as the default modern workforce architecture
+```
+
+---
+
+## Existing Dependencies Should Not Be Modified Without Need
+
+A good laboratory should not break an existing working environment merely to demonstrate another concept.
+
+This lab therefore creates a separate IAM role rather than replacing `EC2-SSM-Role`.
+
+---
+
+## Identity Design Is Part of Cloud Architecture
+
+Identity is not an isolated administrative task.
+
+IAM decisions affect:
+
+- Security
+- Operations
+- Automation
+- CI/CD
+- Incident response
+- Governance
+- Multi-account architecture
+- Compliance
+
+Understanding IAM architecture is therefore a core cloud engineering skill.
+
+---
+
+# Repository Structure
+
+The updated Lab 03 structure is intentionally compact:
 
 ```text
 03-iam-roles-and-policies/
@@ -1981,55 +1720,67 @@ The final Lab 03 directory structure is:
 ├── README.md
 │
 ├── policies/
-│   └── lab03-ec2-read-only-policy.json
+│   ├── lab03-ec2-read-only-policy.json
+│   └── lab03-ec2-role-trust-policy.json
 │
 └── screenshots/
-    ├── Lab03_Clipboard_01.jpg
-    ├── Lab03_Clipboard_02.jpg
-    ├── Lab03_Clipboard_03.jpg
-    ├── Lab03_Clipboard_04.jpg
-    ├── Lab03_Clipboard_05.jpg
-    ├── Lab03_Clipboard_06.jpg
-    ├── Lab03_Clipboard_07.jpg
-    ├── Lab03_Clipboard_08.jpg
-    ├── Lab03_Clipboard_09.jpg
-    ├── Lab03_Clipboard_10.jpg
-    ├── Lab03_Clipboard_11.jpg
-    ├── Lab03_Clipboard_12.jpg
-    ├── Lab03_Clipboard_13.jpg
-    └── Lab03_Clipboard_14.jpg
+    └── ...
 ```
 
+## `README.md`
+
+Contains:
+
+- Identity architecture
+- IAM concepts
+- Workload identity implementation
+- Policy design
+- Access Analyzer validation
+- Authorization testing
+- Security practices
+- Cleanup
+- Troubleshooting
+- Key learnings
+
+## `policies/`
+
+Contains reusable policy artifacts.
+
+### `lab03-ec2-read-only-policy.json`
+
+Defines the selected least-privilege EC2 read permissions used by the laboratory role.
+
+### `lab03-ec2-role-trust-policy.json`
+
+Documents the trust relationship that allows the EC2 service to assume the laboratory role.
+
+## `screenshots/`
+
+Contains selected screenshots used to document the completed implementation.
+
+Screenshots are supporting evidence only.
+
+They are **not required to reproduce the laboratory**, and the README does not instruct readers to capture, rename, or store screenshots while following the tutorial.
+
 ---
 
-# Lab Status
+# Next Lab
 
-Manual implementation:
+## Lab 04 — EBS Volumes and Snapshots
 
-- [ ] Step 1 — Review existing IAM role
-- [ ] Step 2 — Create customer managed policy
-- [ ] Step 3 — Create IAM user group
-- [ ] Step 4 — Verify policy attached to group
-- [ ] Step 5 — Create temporary IAM user
-- [ ] Step 6 — Add user to IAM group
-- [ ] Step 7 — Validate permissions
-- [ ] Step 8 — Review least privilege
-- [ ] Validation completed
-- [ ] Cleanup completed
+The next laboratory explores persistent block storage for Amazon EC2.
 
----
-
-## Next Lab
-
-**Lab 04 — EBS Volumes and Snapshots**
-
-The next laboratory will explore persistent block storage for Amazon EC2, including:
+Topics include:
 
 - Creating EBS volumes
 - Attaching volumes to EC2 instances
-- Creating snapshots
+- Preparing Linux storage
+- Mounting filesystems
+- Creating EBS snapshots
+- Understanding backup and restore workflows
 - Restoring data from snapshots
+- Applying storage lifecycle and cleanup practices
 
 ---
 
-> This laboratory is part of the **AWS Cloud Engineering Lab**, a hands-on repository focused on developing practical AWS cloud infrastructure, operations, security, monitoring, and Infrastructure as Code skills.
+> This laboratory is part of the **AWS Cloud Engineering Lab**, a hands-on repository focused on practical AWS infrastructure, operations, security, observability, automation, and Infrastructure as Code skills.
