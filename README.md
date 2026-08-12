@@ -263,12 +263,20 @@ Manual Lab: [labs/02-ec2-monitoring-with-cloudwatch-agent](https://github.com/it
 Terraform Lab: 
 
 
-## Lab 03 - IAM Roles and Policies
+### Lab 03 - Modern AWS Identity, IAM Roles, and Least-Privilege Policies
 
-* [ ] Create IAM Users
-* [ ] Create IAM Groups
-* [ ] Create Custom Policies
-* [ ] Apply Least Privilege Principle
+- [ ] Understand Modern AWS Identity Models
+- [ ] Compare Workforce and Workload Identities
+- [ ] Review IAM Identity Center and Federated Access
+- [ ] Inspect EC2 Role-Based Authentication
+- [ ] Verify Temporary Credentials with IMDSv2
+- [ ] Understand Trust Policies vs. Permissions Policies
+- [ ] Create a Least-Privilege Customer Managed Policy
+- [ ] Validate IAM Policies with IAM Access Analyzer
+- [ ] Create a Dedicated EC2 IAM Role
+- [ ] Evaluate Allowed and Denied Actions
+- [ ] Apply the Principle of Least Privilege
+
 
 ### Lab with all the steps:
 
