@@ -221,7 +221,7 @@ $0.00
 
 Existing AWS resources from previous labs may continue to generate charges independently of IAM.
 
-Always review the AWS Billing and Cost Management console when maintaining laboratory resources.
+> **Cost Awareness:** Always review the AWS Billing and Cost Management console when maintaining laboratory resources.
 
 ---
 
