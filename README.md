@@ -1,3 +1,10 @@
+<div align="center">
+
+<p align="center">
+    <img src="docs/screenshots/Eng_AWS_LAB_21_24_09.png">
+</p>
+
+
 # AWS Cloud Engineering Lab
 
 Practical project developed for the study, evolution, and demonstration of knowledge in:
