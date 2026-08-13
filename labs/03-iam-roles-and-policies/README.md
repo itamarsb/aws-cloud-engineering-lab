@@ -328,6 +328,10 @@ us-east-1
 
 > **Important:** IAM is primarily a global AWS service. The least-privilege policy created in this lab uses an IAM condition to restrict supported EC2 API requests to `us-east-1`.
 
+
+![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_02.jpg)
+
+
 ---
 
 # Core Identity Concepts
