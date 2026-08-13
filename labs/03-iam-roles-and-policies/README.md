@@ -606,6 +606,10 @@ Policy validation can identify:
 
 Policy validation is an important complement to manual policy review.
 
+
+![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_04.jpg)
+
+
 ---
 
 # Lab Resources
