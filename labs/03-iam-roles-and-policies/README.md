@@ -630,6 +630,10 @@ The following existing resource will only be inspected:
 | IAM Role | `EC2-SSM-Role` |
 | EC2 Instance | Existing Lab 01/02 instance |
 
+
+![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_05.jpg)
+
+
 > **Do not delete or replace `EC2-SSM-Role`.** It is part of previous laboratories and may be required later.
 
 ---
