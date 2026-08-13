@@ -91,6 +91,10 @@ The practical implementation will:
 
 No IAM user or access key is required.
 
+
+![LAB03AWS](labs/03-iam-roles-and-policies/screenshots/Lab03_AWS_Clipboard_08-12-2026_01.jpg)
+
+
 ---
 
 # Why This Lab Uses a Modern Identity Model
