@@ -373,6 +373,10 @@ IAM Identity Center provides centralized access management and can integrate wit
 
 Permission sets define the permissions that workforce identities receive when accessing AWS accounts.
 
+
+![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_03.jpg)
+
+
 ---
 
 ## Workload Identities
