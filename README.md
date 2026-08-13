@@ -629,7 +629,7 @@ Completed Manual Labs: 02 / 26
 
 Current Lab:
 
-* 🚧 Manual: Lab 03 - IAM Roles and Policies
+* 🚧 Manual: Lab 03 - Modern AWS Identity, IAM Roles, and Least-Privilege Policies
 
 AND:
 
