@@ -633,8 +633,11 @@ The following existing resource will only be inspected:
 
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_05.jpg)
 
+![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_06.jpg)
+
 
 > **Do not delete or replace `EC2-SSM-Role`.** It is part of previous laboratories and may be required later.
+
 
 ---
 
