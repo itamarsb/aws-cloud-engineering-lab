@@ -265,7 +265,7 @@ Terraform Lab:
 
 ### Lab 03 - Modern AWS Identity, IAM Roles, and Least-Privilege Policies
 
-- [ ] Understand Modern AWS Identity Models
+- [X] Understand Modern AWS Identity Models
 - [ ] Compare Workforce and Workload Identities
 - [ ] Review IAM Identity Center and Federated Access
 - [ ] Inspect EC2 Role-Based Authentication
