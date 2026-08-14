@@ -673,6 +673,10 @@ The practical portion of this lab will focus on **workload identity**, while IAM
 
 No IAM user or long-term access key is required.
 
+
+![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_07.jpg)
+
+
 ---
 
 # Step 2 — Inspect the Existing EC2 Workload Role
