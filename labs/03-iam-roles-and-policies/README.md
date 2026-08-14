@@ -970,6 +970,10 @@ Suggested description:
 Least-privilege policy for selected Amazon EC2 read operations in us-east-1 used by AWS Cloud Engineering Lab 03.
 ```
 
+
+![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_15.jpg)
+
+
 After creation, confirm that the policy appears under **Customer managed policies**.
 
 > Policy validation helps identify problems, but it does not replace authorization testing or broader security review.
