@@ -755,6 +755,10 @@ Temporary Role Credentials
 
 This is the workload identity pattern used by the existing EC2 instance.
 
+
+![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_10.jpg)
+
+
 ---
 
 # Step 3 — Verify Role-Based Identity from the EC2 Instance
