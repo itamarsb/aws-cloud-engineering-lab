@@ -1084,6 +1084,10 @@ Attach:
 Lab03EC2ReadOnlyPolicy
 ```
 
+
+![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_20.jpg)
+
+
 The role now contains two separate security relationships:
 
 ```text
