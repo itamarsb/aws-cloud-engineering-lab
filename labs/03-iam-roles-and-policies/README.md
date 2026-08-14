@@ -1127,6 +1127,8 @@ us-east-1
 
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_21.jpg)
 
+![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_22.jpg)
+
 
 ---
 
