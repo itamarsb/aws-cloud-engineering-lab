@@ -878,7 +878,7 @@ policies/lab03-ec2-read-only-policy.json
 ```
 
 
-![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_12.jpg)
+![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_13.jpg)
 
 
 Click:
