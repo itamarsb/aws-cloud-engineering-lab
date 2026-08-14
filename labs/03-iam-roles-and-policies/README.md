@@ -699,6 +699,10 @@ EC2-SSM-Role
 
 Open the role.
 
+
+![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_08.jpg)
+
+
 ## Review Attached Permissions
 
 Open the **Permissions** section.
