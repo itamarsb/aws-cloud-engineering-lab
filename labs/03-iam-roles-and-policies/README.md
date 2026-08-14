@@ -1012,6 +1012,10 @@ Service or use case:
 EC2
 ```
 
+
+![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_17.jpg)
+
+
 The resulting trust relationship should allow:
 
 ```text
