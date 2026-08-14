@@ -1054,6 +1054,10 @@ Lab03-EC2-ReadOnly-Role
 
 > This role is intentionally **not attached to the existing Lab 01/02 EC2 instance**. Replacing the instance profile could disrupt SSM or monitoring access. The existing `EC2-SSM-Role` remains unchanged.
 
+
+![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_18.jpg)
+
+
 ---
 
 # Step 7 — Attach the Least-Privilege Policy to the Role
