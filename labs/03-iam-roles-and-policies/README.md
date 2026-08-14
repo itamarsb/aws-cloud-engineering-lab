@@ -834,6 +834,10 @@ Policies
 Create policy
 ```
 
+
+![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_12.jpg)
+
+
 Choose the **JSON** policy editor.
 
 Use:
