@@ -881,6 +881,11 @@ policies/lab03-ec2-read-only-policy.json
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_12.jpg)
 
 
+Click:
+```text
+Next
+```
+
 
 ## Policy Design
 
