@@ -1074,6 +1074,10 @@ Lab03-EC2-ReadOnly-Role
 Permissions
 ```
 
+
+![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_19.jpg)
+
+
 Attach:
 
 ```text
