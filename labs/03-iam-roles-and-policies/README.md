@@ -795,6 +795,10 @@ This demonstrates that the EC2 instance has access to an IAM role through its in
 
 > **Security Note:** Do not request, display, copy, save, or commit the credential values returned by the deeper `/iam/security-credentials/<role-name>` metadata endpoint. The role name alone is sufficient for this laboratory.
 
+
+![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_11.jpg)
+
+
 ## Optional — Verify the AWS Caller Identity
 
 If the AWS CLI is already installed on the instance, run:
