@@ -978,6 +978,10 @@ After creation, confirm that the policy appears under **Customer managed policie
 
 > Policy validation helps identify problems, but it does not replace authorization testing or broader security review.
 
+
+![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_16.jpg)
+
+
 ---
 
 # Step 6 — Create a Dedicated EC2 IAM Role
