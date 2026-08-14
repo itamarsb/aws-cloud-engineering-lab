@@ -718,6 +718,10 @@ These policies determine what the EC2 workload can do after receiving the role c
 
 Do not modify the role.
 
+
+![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_09.jpg)
+
+
 ## Review the Trust Relationship
 
 Open:
