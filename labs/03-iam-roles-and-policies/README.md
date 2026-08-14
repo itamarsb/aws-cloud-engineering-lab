@@ -932,6 +932,10 @@ Selected EC2 read APIs
        us-east-1
 ```
 
+
+![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_14.jpg)
+
+
 ---
 
 # Step 5 — Validate the Policy with IAM Access Analyzer
