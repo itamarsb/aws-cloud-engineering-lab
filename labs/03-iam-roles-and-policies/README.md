@@ -1548,13 +1548,13 @@ Expected final state:
 | `EC2-SSM-Role` | Preserved |
 | Existing EC2 instance | Preserved |
 
-Repository policy files remain because they are documentation and reusable artifacts:
-
 
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_26.jpg)
 
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_27.jpg)
 
+
+Repository policy files remain because they are documentation and reusable artifacts:
 
 ```text
 policies/lab03-ec2-read-only-policy.json
