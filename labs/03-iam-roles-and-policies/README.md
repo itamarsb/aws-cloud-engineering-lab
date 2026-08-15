@@ -1550,6 +1550,11 @@ Expected final state:
 
 Repository policy files remain because they are documentation and reusable artifacts:
 
+
+![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_26.jpg)
+
+
+
 ```text
 policies/lab03-ec2-read-only-policy.json
 policies/lab03-ec2-role-trust-policy.json
