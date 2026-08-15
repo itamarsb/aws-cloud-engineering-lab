@@ -267,7 +267,35 @@ Terraform Lab:
 
 - [X] Understand Modern AWS Identity Models
 
-![LAB03AWS](labs/03-iam-roles-and-policies/screenshots/Lab03_AWS_Clipboard_08-12-2026_03.jpg)
+```markdown
+
+                    MODERN AWS IDENTITY MODELS
+
+        WORKFORCE IDENTITY                 WORKLOAD IDENTITY
+        Human Users                        Applications / AWS Resources
+             │                                      │
+             ▼                                      ▼
+     IAM Identity Center                         IAM Role
+             │                                      │
+             ▼                                      ▼
+      Federated Access                    Temporary Credentials
+             │                                      │
+             ▼                                      ▼
+       AWS Accounts                         AWS Services
+
+```
+
+```markdown
+
+                    SECURITY PRINCIPLES
+
+        ✓ Temporary credentials
+        ✓ Least privilege
+        ✓ Federation for human access
+        ✓ IAM roles for workloads
+        ✗ Avoid long-term access keys
+
+```
 
 - [X] Compare Workforce and Workload Identities
 
@@ -282,6 +310,9 @@ EC2 → IAM Role → Temporary Credentials → AWS
 ```
 
 - [ ] Review IAM Identity Center and Federated Access
+
+![LAB03AWS](labs/03-iam-roles-and-policies/screenshots/Lab03_AWS_Clipboard_08-12-2026_03.jpg)
+
 - [ ] Inspect EC2 Role-Based Authentication
 - [ ] Verify Temporary Credentials with IMDSv2
 - [ ] Understand Trust Policies vs. Permissions Policies
