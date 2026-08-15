@@ -335,7 +335,7 @@ EC2 → IAM Role → Temporary Credentials → AWS
 
 ### Lab with all the steps:
 
-Manual Lab:
+Manual Lab: [labs/03-iam-roles-and-policies]([labs/03-iam-roles-and-policies](https://github.com/itamarsb/aws-cloud-engineering-lab/tree/main/labs/03-iam-roles-and-policies))
 
 Terraform Lab: 
 
