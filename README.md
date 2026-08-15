@@ -324,6 +324,9 @@ EC2 → IAM Role → Temporary Credentials → AWS
 ![LAB03AWS](labs/03-iam-roles-and-policies/screenshots/Lab03_AWS_Clipboard_08-12-2026_22.jpg)
 
 - [ ] Create a Least-Privilege Customer Managed Policy
+
+![LAB03AWS](labs/03-iam-roles-and-policies/screenshots/Lab03_AWS_Clipboard_08-12-2026_16.jpg)
+
 - [ ] Validate IAM Policies with IAM Access Analyzer
 - [ ] Create a Dedicated EC2 IAM Role
 - [ ] Evaluate Allowed and Denied Actions
