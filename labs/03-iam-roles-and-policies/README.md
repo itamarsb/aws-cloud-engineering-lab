@@ -1553,6 +1553,7 @@ Repository policy files remain because they are documentation and reusable artif
 
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_26.jpg)
 
+![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_27.jpg)
 
 
 ```text
