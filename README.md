@@ -319,7 +319,9 @@ EC2 → IAM Role → Temporary Credentials → AWS
 
 - [ ] Understand Trust Policies vs. Permissions Policies
 
-![LAB03AWS](labs/03-iam-roles-and-policies/screenshots/Lab03_AWS_Clipboard_08-12-2026_26.jpg)
+![LAB03AWS](labs/03-iam-roles-and-policies/screenshots/Lab03_AWS_Clipboard_08-12-2026_21.jpg)
+
+![LAB03AWS](labs/03-iam-roles-and-policies/screenshots/Lab03_AWS_Clipboard_08-12-2026_22.jpg)
 
 - [ ] Create a Least-Privilege Customer Managed Policy
 - [ ] Validate IAM Policies with IAM Access Analyzer
