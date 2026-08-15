@@ -309,30 +309,28 @@ EC2 → IAM Role → Temporary Credentials → AWS
 
 ```
 
-- [ ] Review IAM Identity Center and Federated Access
+- [X] Review IAM Identity Center and Federated Access
 
 ![LAB03AWS](labs/03-iam-roles-and-policies/screenshots/Lab03_AWS_Clipboard_08-12-2026_03.jpg)
 
-- [ ] Inspect EC2 Role-Based Authentication
+- [X] Inspect EC2 Role-Based Authentication
 
 ![LAB03AWS](labs/03-iam-roles-and-policies/screenshots/Lab03_AWS_Clipboard_08-12-2026_28.jpg)
 
-- [ ] Understand Trust Policies vs. Permissions Policies
+- [X] Understand Trust Policies vs. Permissions Policies
 
 ![LAB03AWS](labs/03-iam-roles-and-policies/screenshots/Lab03_AWS_Clipboard_08-12-2026_21.jpg)
 
 ![LAB03AWS](labs/03-iam-roles-and-policies/screenshots/Lab03_AWS_Clipboard_08-12-2026_22.jpg)
 
-- [ ] Create a Least-Privilege Customer Managed Policy
+- [X] Create a Least-Privilege Customer Managed Policy
 
 ![LAB03AWS](labs/03-iam-roles-and-policies/screenshots/Lab03_AWS_Clipboard_08-12-2026_16.jpg)
 
-- [ ] Create a Dedicated EC2 IAM Role
+- [X] Create a Dedicated EC2 IAM Role
 
 ![LAB03AWS](labs/03-iam-roles-and-policies/screenshots/Lab03_AWS_Clipboard_08-12-2026_21.jpg)
 
-- [ ] Evaluate Allowed and Denied Actions
-- [ ] Apply the Principle of Least Privilege
 
 
 ### Lab with all the steps:
