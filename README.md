@@ -267,6 +267,10 @@ Terraform Lab:
 
 - [X] Understand Modern AWS Identity Models
 
+![LAB03AWS](labs/03-iam-roles-and-policies/screenshots/Lab03_AWS_Clipboard_08-12-2026_03.jpg)
+
+- [X] Compare Workforce and Workload Identities
+
 ```markdown
 
 Workforce Identity
@@ -276,10 +280,6 @@ Workload Identity
 EC2 → IAM Role → Temporary Credentials → AWS
 
 ```
-
-- [ ] Compare Workforce and Workload Identities
-
-![LAB03AWS](labs/03-iam-roles-and-policies/screenshots/Lab03_AWS_Clipboard_08-12-2026_03.jpg)
 
 - [ ] Review IAM Identity Center and Federated Access
 - [ ] Inspect EC2 Role-Based Authentication
