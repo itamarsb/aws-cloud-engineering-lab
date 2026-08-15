@@ -317,7 +317,6 @@ EC2 → IAM Role → Temporary Credentials → AWS
 
 ![LAB03AWS](labs/03-iam-roles-and-policies/screenshots/Lab03_AWS_Clipboard_08-12-2026_28.jpg)
 
-- [ ] Verify Temporary Credentials with IMDSv2
 - [ ] Understand Trust Policies vs. Permissions Policies
 - [ ] Create a Least-Privilege Customer Managed Policy
 - [ ] Validate IAM Policies with IAM Access Analyzer
