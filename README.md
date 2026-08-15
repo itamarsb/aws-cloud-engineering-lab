@@ -328,6 +328,9 @@ EC2 → IAM Role → Temporary Credentials → AWS
 ![LAB03AWS](labs/03-iam-roles-and-policies/screenshots/Lab03_AWS_Clipboard_08-12-2026_16.jpg)
 
 - [ ] Create a Dedicated EC2 IAM Role
+
+![LAB03AWS](labs/03-iam-roles-and-policies/screenshots/Lab03_AWS_Clipboard_08-12-2026_21.jpg)
+
 - [ ] Evaluate Allowed and Denied Actions
 - [ ] Apply the Principle of Least Privilege
 
