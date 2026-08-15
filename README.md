@@ -680,11 +680,11 @@ Terraform Lab:
 
 ## Progress
 
-Completed Manual Labs: 02 / 26
+Completed Manual Labs: 04 / 26
 
 Current Lab:
 
-* 🚧 Manual: Lab 03 - Modern AWS Identity, IAM Roles, and Least-Privilege Policies
+* 🚧 Manual: Lab 04 - EBS Volumes and Snapshots
 
 AND:
 
