@@ -1521,6 +1521,10 @@ Lab03EC2ReadOnlyPolicy
 
 Delete it.
 
+
+![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_25.jpg)
+
+
 ## Cleanup Step 4 — Preserve Existing Resources
 
 Confirm that:
