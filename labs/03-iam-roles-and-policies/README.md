@@ -1499,6 +1499,10 @@ Delete:
 Lab03-EC2-ReadOnly-Role
 ```
 
+
+![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_24.jpg)
+
+
 ## Cleanup Step 3 — Delete the Customer Managed Policy
 
 Navigate to:
