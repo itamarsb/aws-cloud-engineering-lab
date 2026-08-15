@@ -1180,6 +1180,10 @@ Permission not granted
 
 An applicable **explicit deny** from another policy layer would override an allow.
 
+
+![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_23.jpg)
+
+
 ---
 
 # Step 9 — Compare Workforce and Workload Access
