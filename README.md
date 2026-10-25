@@ -7,6 +7,9 @@
 
 # AWS Cloud Engineering Lab
 
+> **Cloud-native specialization (planning):** This repository owns Docker image engineering, Docker Compose, Amazon ECR, Amazon ECS Fargate and container delivery pipelines. See the [Docker-to-ECS learning track](docs/cloud-native-roadmap.md). Kubernetes/Helm/GitOps/EKS belong to the [companion Kubernetes repository](https://github.com/itamarsb/aws-cloud-devops-sre-operations-lab). Planned items are not evidence of completed execution.
+
+
 Practical project developed for the study, evolution, and demonstration of knowledge in:
 
 ![AWS](https://img.shields.io/badge/AWS-Cloud-orange)
