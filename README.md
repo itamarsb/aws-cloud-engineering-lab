@@ -5,6 +5,8 @@
 </p>
 </div>
 
+**Language:** **English (default)** | [Português (Brasil)](README.pt-BR.md)
+
 # AWS Cloud Engineering Lab
 
 > **Cloud-native specialization (planning):** This repository owns Docker image engineering, Docker Compose, Amazon ECR, Amazon ECS Fargate and container delivery pipelines. See the [Docker-to-ECS learning track](docs/cloud-native-roadmap.md). Kubernetes/Helm/GitOps/EKS belong to the [companion Kubernetes repository](https://github.com/itamarsb/aws-cloud-devops-sre-operations-lab). Planned items are not evidence of completed execution.
@@ -66,6 +68,7 @@ The tree below reflects directories and files **currently present on the `main` 
 ```text
 aws-cloud-engineering-lab/
 ├── README.md
+├── README.pt-BR.md
 ├── docs/
 │   ├── architecture/
 │   ├── diagrams/
