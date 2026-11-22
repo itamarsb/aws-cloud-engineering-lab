@@ -59,82 +59,47 @@ Objective: To progressively build a cloud architecture similar to production env
 
 ## Repository Structure
 
-The repository is organized into two complementary learning tracks:
+The repository follows two complementary learning tracks: **manual AWS labs**, documented under `labs/`, and **Infrastructure as Code labs**, documented under `terraform/`. Terraform implementations are added progressively; a manual lab does not necessarily have an equivalent Terraform implementation.
 
-1. **Manual Labs** — infrastructure created and validated through the AWS Management Console and supporting tools.
-2. **Terraform Labs** — equivalent infrastructure reproduced using Infrastructure as Code.
-
-This structure allows each architecture to be studied manually first and then automated with Terraform while preserving the same learning objectives.
+The tree below reflects directories and files **currently present on the `main` branch**. Labs 04–26 are listed in the roadmap but do not yet have manual laboratory directories.
 
 ```text
 aws-cloud-engineering-lab/
-│
 ├── README.md
-│
 ├── docs/
 │   ├── architecture/
 │   ├── diagrams/
 │   ├── screenshots/
 │   ├── lessons-learned/
-│   └── lab-notes/
-│
+│   ├── lab-notes/
+│   └── cloud-native-roadmap.md
 ├── labs/
 │   ├── 01-ec2-and-ssm/
 │   ├── 02-ec2-monitoring-with-cloudwatch-agent/
-│   ├── 03-iam-roles-and-policies/
-│   ├── 04-ebs-volumes-and-snapshots/
-│   ├── 05-vpc-with-public-subnet/
-│   ├── 06-vpc-with-private-subnet-and-nat-gateway/
-│   ├── 07-docker-installation-on-ec2/
-│   ├── 08-docker-compose-application/
-│   ├── 09-nginx-reverse-proxy/
-│   ├── 10-amazon-rds-postgresql/
-│   ├── 11-amazon-s3-static-website-hosting/
-│   ├── 12-aws-backup-strategy/
-│   ├── 13-cloudwatch-logs/
-│   ├── 14-cloudwatch-metrics/
-│   ├── 15-cloudwatch-alarms/
-│   ├── 16-sns-notifications/
-│   ├── 17-amazon-ecr/
-│   ├── 18-amazon-ecs-fargate/
-│   ├── 19-ecs-service-management/
-│   ├── 20-application-load-balancer/
-│   ├── 21-terraform-ec2-deployment/
-│   ├── 22-terraform-vpc-deployment/
-│   ├── 23-terraform-ecs-deployment/
-│   ├── 24-github-actions-build-pipeline/
-│   ├── 25-github-actions-deployment-pipeline/
-│   └── 26-end-to-end-ci-cd-pipeline/
-│
+│   └── 03-iam-roles-and-policies/
 ├── terraform/
 │   ├── README.md
-│   │
-│   ├── 01-ec2-and-ssm/
-│   │   ├── images/
-│   │   ├── .gitignore
-│   │   ├── README.md
-│   │   ├── compute.tf
-│   │   ├── data.tf
-│   │   ├── iam.tf
-│   │   ├── locals.tf
-│   │   ├── network.tf
-│   │   ├── outputs.tf
-│   │   ├── provider.tf
-│   │   ├── terraform.tfvars.example
-│   │   ├── variables.tf
-│   │   └── versions.tf
-│   │
-│   └── future-labs/
-│       └── Terraform implementations will be added progressively
-│           as their corresponding manual laboratories are completed.
-│
+│   ├── 00-workstation-and-aws-authentication/
+│   └── 01-ec2-and-ssm/
 └── scripts/
-    └── Supporting automation and validation scripts
+    └── README.md
 ```
+
+### Available laboratories and navigation
+
+| Track | Laboratory | Available material |
+| --- | --- | --- |
+| Manual | [Lab 01 — EC2 and SSM](labs/01-ec2-and-ssm/README.md) | Step-by-step guide and screenshots |
+| Manual | [Lab 02 — EC2 monitoring with CloudWatch Agent](labs/02-ec2-monitoring-with-cloudwatch-agent/README.md) | Step-by-step guide and screenshots |
+| Manual | [Lab 03 — IAM roles and policies](labs/03-iam-roles-and-policies/README.md) | Step-by-step guide, policy files and screenshots |
+| Terraform | [Lab 00 — Workstation and AWS authentication](terraform/00-workstation-and-aws-authentication/README.md) | Environment setup guide (not counted among Labs 01–26) |
+| Terraform | [Lab 01 — EC2 and SSM](terraform/01-ec2-and-ssm/README.md) | Terraform configuration and documentation in progress |
+
+See the [Terraform track](terraform/README.md) and the [cloud-native learning roadmap](docs/cloud-native-roadmap.md) for complementary documentation. The roadmap entries for future labs are plans, not links to implemented directories.
 
 ### Learning workflow
 
-Each laboratory follows a progressive engineering workflow:
+The intended workflow for laboratories with both manual and Terraform implementations is:
 
 ```text
 Manual provisioning
@@ -154,7 +119,7 @@ Lessons learned
 
 ### Relationship between implementations
 
-Manual and Terraform laboratories use matching directory names:
+When both implementations are available, the manual and Terraform laboratories use matching directory names:
 
 ```text
 labs/01-ec2-and-ssm/
@@ -164,7 +129,7 @@ terraform/01-ec2-and-ssm/
 
 The manual implementation explains how the AWS resources are created and validated step by step.
 
-The Terraform implementation reproduces the same architecture through Infrastructure as Code and includes:
+The Terraform track aims to reproduce the same architecture through Infrastructure as Code. Depending on implementation progress, a lab may include:
 
 - provider and version requirements;
 - input variables;
@@ -195,11 +160,15 @@ The Terraform implementation reproduces the same architecture through Infrastruc
 
 ## Roadmap
 
-# AWS Cloud Engineering Lab - Roadmap
+The manual roadmap covers Labs **01–26**. Manual directories and supporting documentation currently exist for Labs **01–03**; Labs **04–26** are planned only. An unchecked task is a future objective, not evidence of execution.
+
+The Terraform track has a separate [Lab 00 setup guide](terraform/00-workstation-and-aws-authentication/README.md) and an [in-progress Lab 01 implementation](terraform/01-ec2-and-ssm/README.md). The presence of source files does not by itself confirm that AWS resources were deployed or validated.
+
+### AWS Cloud Engineering Lab — learning roadmap
 
 ## 🎯 Objective
 
-This repository documents my hands-on journey through AWS Cloud Engineering, Infrastructure, Observability, Automation, Containers, and DevOps practices.
+This repository documents hands-on study and implementations covering AWS Cloud Engineering, Infrastructure, Observability, Automation, Containers, and DevOps practices.
 
 The goal is to build practical experience with real-world cloud environments while developing skills applicable to Cloud Engineering, DevOps, Platform Engineering, Site Reliability Engineering (SRE), and Infrastructure Operations roles.
 
@@ -227,9 +196,9 @@ The goal is to build practical experience with real-world cloud environments whi
 
 ### Lab with all the steps:
 
-Manual Lab: [labs/01-ec2-and-ssm](https://github.com/itamarsb/aws-cloud-engineering-lab/tree/main/labs/01-ec2-and-ssm)
+Manual lab: [Lab 01 — EC2 and SSM](labs/01-ec2-and-ssm/README.md)
 
-Terraform Lab: 
+Terraform lab (in progress): [Lab 01 — EC2 and SSM](terraform/01-ec2-and-ssm/README.md)
 
 
 ## Lab 02 - Modern EC2 Monitoring with CloudWatch Agent
@@ -261,9 +230,9 @@ Terraform Lab:
 
 ### Lab with all the steps:
 
-Manual Lab: [labs/02-ec2-monitoring-with-cloudwatch-agent](https://github.com/itamarsb/aws-cloud-engineering-lab/tree/main/labs/02-ec2-monitoring-with-cloudwatch-agent)
+Manual lab: [Lab 02 — CloudWatch Agent](labs/02-ec2-monitoring-with-cloudwatch-agent/README.md)
 
-Terraform Lab: 
+Terraform lab: Not yet available.
 
 
 ### Lab 03 - Modern AWS Identity, IAM Roles, and Least-Privilege Policies
@@ -338,9 +307,9 @@ EC2 → IAM Role → Temporary Credentials → AWS
 
 ### Lab with all the steps:
 
-Manual Lab: [labs/03-iam-roles-and-policies]([labs/03-iam-roles-and-policies](https://github.com/itamarsb/aws-cloud-engineering-lab/tree/main/labs/03-iam-roles-and-policies))
+Manual lab: [Lab 03 — IAM roles and policies](labs/03-iam-roles-and-policies/README.md)
 
-Terraform Lab: 
+Terraform lab: Not yet available.
 
 
 ## Lab 04 - EBS Volumes and Snapshots
@@ -350,11 +319,6 @@ Terraform Lab:
 * [ ] Create Snapshot
 * [ ] Restore Snapshot
 
-### Lab with all the steps:
-
-Manual Lab:
-
-Terraform Lab: 
 
 
 ## Lab 05 - VPC with Public Subnet
@@ -364,11 +328,6 @@ Terraform Lab:
 * [ ] Configure Internet Gateway
 * [ ] Configure Route Tables
 
-### Lab with all the steps:
-
-Manual Lab:
-
-Terraform Lab: 
 
 
 ## Lab 06 - VPC with Private Subnet and NAT Gateway
@@ -378,11 +337,6 @@ Terraform Lab:
 * [ ] Validate Internet Access
 * [ ] Test Secure Architecture
 
-### Lab with all the steps:
-
-Manual Lab:
-
-Terraform Lab: 
 
 
 ---
@@ -396,11 +350,6 @@ Terraform Lab:
 * [ ] Container Lifecycle Management
 * [ ] Security Best Practices
 
-### Lab with all the steps:
-
-Manual Lab:
-
-Terraform Lab: 
 
 
 ## Lab 08 - Docker Compose Application
@@ -418,11 +367,6 @@ Terraform Lab:
 * [ ] Test HTTP Routing
 * [ ] Validate Application Access
 
-### Lab with all the steps:
-
-Manual Lab:
-
-Terraform Lab: 
 
 
 ---
@@ -436,11 +380,6 @@ Terraform Lab:
 * [ ] Connect from EC2
 * [ ] Execute SQL Queries
 
-### Lab with all the steps:
-
-Manual Lab:
-
-Terraform Lab: 
 
 
 ## Lab 11 - Amazon S3 Static Website Hosting
@@ -450,11 +389,6 @@ Terraform Lab:
 * [ ] Upload Website Files
 * [ ] Configure Public Access
 
-### Lab with all the steps:
-
-Manual Lab:
-
-Terraform Lab: 
 
 
 ## Lab 12 - AWS Backup Strategy
@@ -464,11 +398,6 @@ Terraform Lab:
 * [ ] Backup RDS
 * [ ] Test Recovery
 
-### Lab with all the steps:
-
-Manual Lab:
-
-Terraform Lab: 
 
 
 ---
@@ -482,11 +411,6 @@ Terraform Lab:
 * [ ] Query Logs
 * [ ] Analyze Events
 
-### Lab with all the steps:
-
-Manual Lab:
-
-Terraform Lab: 
 
 
 ## Lab 14 - CloudWatch Metrics
@@ -496,11 +420,6 @@ Terraform Lab:
 * [ ] Monitor Resources
 * [ ] Configure Custom Metrics
 
-### Lab with all the steps:
-
-Manual Lab:
-
-Terraform Lab: 
 
 
 ## Lab 15 - CloudWatch Alarms
@@ -510,11 +429,6 @@ Terraform Lab:
 * [ ] Configure Notifications
 * [ ] Test Alerts
 
-### Lab with all the steps:
-
-Manual Lab:
-
-Terraform Lab: 
 
 
 ## Lab 16 - SNS Notifications
@@ -524,11 +438,6 @@ Terraform Lab:
 * [ ] Integrate with CloudWatch
 * [ ] Validate Alert Delivery
 
-### Lab with all the steps:
-
-Manual Lab:
-
-Terraform Lab: 
 
 
 ---
@@ -542,11 +451,6 @@ Terraform Lab:
 * [ ] Push Image
 * [ ] Pull Image
 
-### Lab with all the steps:
-
-Manual Lab:
-
-Terraform Lab: 
 
 
 ## Lab 18 - Amazon ECS Fargate
@@ -556,11 +460,6 @@ Terraform Lab:
 * [ ] Deploy Container
 * [ ] Validate Service
 
-### Lab with all the steps:
-
-Manual Lab:
-
-Terraform Lab: 
 
 
 ## Lab 19 - ECS Service Management
@@ -570,11 +469,6 @@ Terraform Lab:
 * [ ] Test Availability
 * [ ] Review Logs
 
-### Lab with all the steps:
-
-Manual Lab:
-
-Terraform Lab: 
 
 
 ## Lab 20 - Application Load Balancer
@@ -584,11 +478,6 @@ Terraform Lab:
 * [ ] Route Traffic
 * [ ] Validate Health Checks
 
-### Lab with all the steps:
-
-Manual Lab:
-
-Terraform Lab: 
 
 
 ---
@@ -602,11 +491,6 @@ Terraform Lab:
 * [ ] Apply Configuration
 * [ ] Destroy Resources
 
-### Lab with all the steps:
-
-Manual Lab:
-
-Terraform Lab: 
 
 
 ## Lab 22 - Terraform VPC Deployment
@@ -624,11 +508,6 @@ Terraform Lab:
 * [ ] Validate Automation
 * [ ] Reuse Modules
 
-### Lab with all the steps:
-
-Manual Lab:
-
-Terraform Lab: 
 
 
 ---
@@ -642,11 +521,6 @@ Terraform Lab:
 * [ ] Validate Pipeline
 * [ ] Review Logs
 
-### Lab with all the steps:
-
-Manual Lab:
-
-Terraform Lab: 
 
 
 ## Lab 25 - GitHub Actions Deployment Pipeline
@@ -656,11 +530,6 @@ Terraform Lab:
 * [ ] Validate Deployment
 * [ ] Automate Releases
 
-### Lab with all the steps:
-
-Manual Lab:
-
-Terraform Lab: 
 
 
 ## Lab 26 - End-to-End CI/CD Pipeline
@@ -671,11 +540,6 @@ Terraform Lab:
 * [ ] Deploy Automatically
 * [ ] Validate Production Workflow
 
-### Lab with all the steps:
-
-Manual Lab:
-
-Terraform Lab: 
 
 
 ---
@@ -683,20 +547,14 @@ Terraform Lab:
 
 ## Progress
 
-Completed Manual Labs: 04 / 26
+**Manual laboratories documented:** 03 / 26 (Labs 01–03).
 
-Current Lab:
+**Next planned manual laboratory:** Lab 04 — EBS Volumes and Snapshots. Its directory has not yet been created.
 
-* 🚧 Manual: Lab 04 - EBS Volumes and Snapshots
-
-AND:
-
-Completed Terraform Labs: 00 / 26
-
-* 🚧 Terraform: Lab 01 - EC2 Instance with SSM Access
-
+**Terraform laboratories marked complete:** 00 / 26. The [Lab 00 workstation guide](terraform/00-workstation-and-aws-authentication/README.md) is a prerequisite outside the 26-lab sequence. [Terraform Lab 01](terraform/01-ec2-and-ssm/README.md) has configuration and partial documentation; completion and cloud execution are not claimed here.
 
 ---
+
 
 ## 📈 Repository Metrics
 
