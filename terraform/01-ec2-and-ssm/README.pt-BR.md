@@ -1,5 +1,7 @@
 # Lab 01 — EC2 e SSM com Terraform
 
+**Idioma:** [English (principal)](README.md) | **Português (Brasil)**
+
 > Implementação com Terraform do **Lab 01 — EC2 e SSM** manual deste repositório AWS Cloud Engineering Lab.
 
 ---
@@ -100,15 +102,15 @@ Compreender esse fluxo é muito mais importante do que memorizar a sintaxe do Te
 ```mermaid
 flowchart TB
 
-    USER["Administrator"]
+    USER["Administrador"]
 
-    subgraph LOCAL["Local Workstation"]
+    subgraph LOCAL["Estação de trabalho local"]
 
-        CODE["Terraform Configuration<br/>.tf files"]
+        CODE["Configuração Terraform<br/>arquivos .tf"]
 
-        PROVIDER["AWS Provider"]
+        PROVIDER["Provedor AWS"]
 
-        STATE["Terraform State"]
+        STATE["Estado do Terraform"]
 
         CLI["Terraform CLI"]
 
@@ -118,25 +120,25 @@ flowchart TB
 
     end
 
-    subgraph AWS["AWS Account"]
+    subgraph AWS["Conta AWS"]
 
-        subgraph DATA["Read-only Data Sources"]
+        subgraph DATA["Fontes de dados somente leitura"]
 
-            VPC["Default VPC"]
-            SUBNET["Default Subnets"]
-            AMI["Canonical Ubuntu AMI"]
+            VPC["VPC padrão"]
+            SUBNET["Sub-redes padrão"]
+            AMI["AMI Ubuntu da Canonical"]
 
         end
 
-        ROLE["IAM Role"]
+        ROLE["Função IAM"]
 
-        PROFILE["IAM Instance Profile"]
+        PROFILE["Perfil de instância IAM"]
 
-        SG["Security Group"]
+        SG["Grupo de segurança"]
 
         EC2["EC2 Ubuntu"]
 
-        EBS["Encrypted gp3 Volume"]
+        EBS["Volume gp3 criptografado"]
 
         SSM["AWS Systems Manager"]
 
@@ -249,15 +251,15 @@ Em vez disso, utiliza plugins chamados **provedores (*providers*)** para se comu
 Neste laboratório, o Terraform utilizará o provedor AWS:
 
 ```text
-Terraform Configuration
+Configuração Terraform
         ↓
 Terraform CLI
         ↓
-AWS Provider
+Provedor AWS
         ↓
 AWS APIs
         ↓
-AWS Resources
+Recursos AWS
 ```
 
 O provedor AWS traduz a infraestrutura declarada nos arquivos `.tf` em solicitações às APIs da AWS.
@@ -374,19 +376,19 @@ A versão instalada deve permanecer abaixo do Terraform `2.0.0`.
 Em conjunto, essas restrições significam:
 
 ```text
-Terraform 1.10.0 or newer
-        AND
-Terraform earlier than 2.0.0
+Terraform 1.10.0 ou superior
+        E
+Terraform anterior a 2.0.0
 ```
 
 Exemplos:
 
-| Installed version | Accepted? | Reason |
+| Versão instalada | Aceita? | Motivo |
 |---|---:|---|
-| `1.9.8` | No | Earlier than `1.10.0` |
-| `1.10.0` | Yes | Meets both constraints |
-| `1.12.3` | Yes | Within the accepted range |
-| `2.0.0` | No | Excluded by `< 2.0.0` |
+| `1.9.8` | Não | Anterior à versão `1.10.0` |
+| `1.10.0` | Sim | Atende às duas restrições |
+| `1.12.3` | Sim | Dentro do intervalo aceito |
+| `2.0.0` | Não | Excluída pela restrição `< 2.0.0` |
 
 > [!NOTE]
 > `required_version` se aplica à Terraform CLI instalada na estação de trabalho. Não determina a versão do provedor AWS.
@@ -441,9 +443,9 @@ O endereço contém duas partes:
 ```text
 hashicorp / aws
     │        │
-    │        └── Provider type
+    │        └── Tipo de provedor
     │
-    └── Provider namespace
+    └── Namespace do provedor
 ```
 
 Como nenhum hostname de registro é especificado, o Terraform utiliza por padrão o Terraform Registry público.
@@ -482,13 +484,13 @@ equivale a:
 
 Exemplos:
 
-| AWS Provider version | Accepted? | Reason |
+| Versão do provedor AWS | Aceita? | Motivo |
 |---|---:|---|
-| `5.100.0` | No | Earlier major version |
-| `6.0.0` | Yes | Minimum accepted version |
-| `6.8.0` | Yes | Compatible 6.x release |
-| `6.99.0` | Yes | Still within the 6.x series |
-| `7.0.0` | No | New major version |
+| `5.100.0` | Não | Versão principal anterior |
+| `6.0.0` | Sim | Versão mínima aceita |
+| `6.8.0` | Sim | Versão compatível da série 6.x |
+| `6.99.0` | Sim | Ainda dentro da série 6.x |
+| `7.0.0` | Não | Nova versão principal |
 
 Versões principais de provedores podem introduzir alterações incompatíveis. Impedir a atualização automática para a versão `7.x` reduz o risco de incompatibilidade inesperada.
 
@@ -515,11 +517,11 @@ Isso produz uma combinação importante:
 ```text
 versions.tf
     ↓
-Defines the acceptable version range
+Define o intervalo de versões aceitáveis
 
 .terraform.lock.hcl
     ↓
-Records the version actually selected
+Registra a versão efetivamente selecionada
 ```
 
 Por exemplo, a configuração pode aceitar qualquer versão do provedor da série `6.x`, enquanto o arquivo de bloqueio registra a versão exata instalada na estação de trabalho.
@@ -551,9 +553,9 @@ compute.tf
 Em vez disso, carrega todas as declarações em conjunto:
 
 ```text
-All .tf files in the directory
+Todos os arquivos .tf do diretório
               ↓
-      One Terraform module
+      Um único módulo Terraform
 ```
 
 Dividir a configuração em vários arquivos facilita a navegação e a manutenção, mas não define a ordem de execução.
@@ -677,11 +679,11 @@ O projeto declara apenas os requisitos de compatibilidade e a primeira dependên
 Embora `terraform fmt` não crie recursos, seu primeiro uso foi reservado para depois da criação de alguns arquivos. Assim, será possível demonstrar uma diferença real entre:
 
 ```text
-manually written code
+código escrito manualmente
     ↓
 terraform fmt
     ↓
-canonical formatting
+formatação padronizada
 ```
 
 O comando `terraform validate` também não foi utilizado porque a validação completa geralmente exige inicializar o diretório e instalar os provedores declarados. A documentação oficial confirma que `required_version` controla a versão permitida da CLI, enquanto `required_providers` declara a origem e o intervalo de versões dos plugins; `terraform init` instalará a versão compatível e atualizará o arquivo de dependências.
@@ -691,8 +693,8 @@ Com este Passo 2, são apresentados quatro fundamentos antes da criação de qua
 ```text
 Terraform CLI
 Provider
-Version constraint
-Dependency lock file
+Restrição de versão
+Arquivo de bloqueio de dependências
 ```
 
 
@@ -725,15 +727,15 @@ A configuração do provedor atua como camada de conexão entre o projeto Terraf
 ```text
 versions.tf
     ↓
-Declares the AWS Provider dependency
+Declara a dependência do provedor AWS
 
 provider.tf
     ↓
-Configures how the AWS Provider will operate
+Configura como o provedor AWS funcionará
 
 AWS Provider
     ↓
-Authenticates and sends requests to AWS APIs
+Autentica-se e envia solicitações às APIs AWS
 ```
 
 > [!IMPORTANT]
@@ -761,9 +763,9 @@ required_providers {
 Isso informa ao Terraform:
 
 ```text
-Provider local name: aws
-Provider source:     hashicorp/aws
-Accepted versions:   6.x
+Nome local do provedor: aws
+Origem do provedor:     hashicorp/aws
+Versões aceitas:   6.x
 ```
 
 Em `provider.tf`, o projeto configura esse provedor:
@@ -777,11 +779,11 @@ provider "aws" {
 Esse bloco responde a perguntas operacionais como:
 
 ```text
-Which AWS Region should be used?
+Qual região AWS deve ser utilizada?
 
-Should Terraform use a named AWS CLI profile?
+O Terraform deve utilizar um perfil nomeado da AWS CLI?
 
-Which common tags should be applied to supported resources?
+Quais tags comuns devem ser aplicadas aos recursos compatíveis?
 ```
 
 A diferença pode ser resumida assim:
@@ -892,11 +894,11 @@ required_providers {
 Em conjunto, essas declarações significam:
 
 ```text
-Local provider name
+Nome local do provedor
         ↓
        aws
 
-Provider package
+Pacote do provedor
         ↓
 registry.terraform.io/hashicorp/aws
 ```
@@ -962,11 +964,11 @@ Essa expressão significa:
 ```text
 var
  │
- └── Reference an input variable
+ └── Referência a uma variável de entrada
 
 aws_region
  │
- └── Name of the input variable
+ └── Nome da variável de entrada
 ```
 
 A variável correspondente será declarada posteriormente em `variables.tf`.
@@ -984,10 +986,10 @@ Ambas as formas são tecnicamente possíveis, mas usar uma variável de entrada 
 Por exemplo:
 
 ```text
-Default execution
+Execução padrão
 └── us-east-1
 
-Alternative execution
+Execução alternativa
 └── sa-east-1
 ```
 
@@ -1072,13 +1074,13 @@ Conceitualmente:
 ```text
 Terraform
     ↓
-AWS Provider
+Provedor AWS
     ↓
-Searches supported credential sources
+Procura origens de credenciais compatíveis
     ↓
-Finds valid credentials
+Encontra credenciais válidas
     ↓
-Authenticates with AWS APIs
+Autentica-se nas APIs da AWS
 ```
 
 O provedor interrompe a busca ao encontrar uma origem de credenciais válidas e aceita naquele ambiente de execução.
@@ -1086,17 +1088,17 @@ O provedor interrompe a busca ao encontrar uma origem de credenciais válidas e 
 Esse comportamento permite utilizar a mesma configuração Terraform em contextos diferentes:
 
 ```text
-Developer workstation
-└── AWS CLI profile or environment authentication
+Estação de trabalho do desenvolvedor
+└── Perfil AWS CLI ou autenticação do ambiente
 
 CI/CD pipeline
-└── Temporary federated credentials
+└── Credenciais federadas temporárias
 
-EC2 execution environment
-└── IAM role credentials
+Ambiente de execução EC2
+└── Credenciais de função IAM
 
-Container workload
-└── Container credential provider
+Carga de trabalho de contêiner
+└── Provedor de credenciais de contêiner
 ```
 
 O código-fonte Terraform não precisa conter credenciais permanentes para esses cenários.
@@ -1163,8 +1165,8 @@ aws sts get-caller-identity
 A resposta identifica:
 
 ```text
-AWS account
-AWS principal
+Conta AWS
+Entidade principal AWS
 AWS ARN
 ```
 
@@ -1256,7 +1258,7 @@ local.common_tags
         ↓
 provider default_tags
         ↓
-Supported Terraform-managed AWS resources
+Recursos AWS compatíveis gerenciados pelo Terraform
 ```
 
 Isso melhora:
@@ -1366,7 +1368,7 @@ network.tf
 compute.tf
 outputs.tf
         ↓
-One Terraform root module
+Um único módulo raiz Terraform
 ```
 
 Em seguida, o Terraform analisa as referências e constrói seu grafo de dependências.
@@ -1374,13 +1376,13 @@ Em seguida, o Terraform analisa as referências e constrói seu grafo de depend�
 Portanto:
 
 ```text
-provider.tf does not need to appear after variables.tf
+provider.tf não precisa aparecer depois de variables.tf
 ```
 
 e:
 
 ```text
-variables.tf does not need to be named before provider.tf
+variables.tf não precisa ter nome anterior ao de provider.tf
 ```
 
 Os arquivos são separados para facilitar a leitura e a manutenção.
@@ -1544,16 +1546,16 @@ Neste momento:
 ### Conceitos aprendidos no Passo 3
 
 ```text
-Provider declaration versus provider configuration
-AWS Region selection
-Optional AWS CLI profiles
-AWS credential provider chain
-Externalized authentication
-Default provider configuration
-Default resource tags
-Input-variable references
-Local-value references
-Terraform module loading behavior
+Declaração versus configuração do provedor
+Seleção da região AWS
+Perfis opcionais da AWS CLI
+Cadeia de provedores de credenciais AWS
+Autenticação externa ao código
+Configuração padrão do provedor
+Tags padrão dos recursos
+Referências a variáveis de entrada
+Referências a valores locais
+Comportamento de carregamento de módulos Terraform
 ```
 
 
