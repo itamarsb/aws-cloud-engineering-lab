@@ -1,101 +1,101 @@
-# Lab 01 — EC2 and SSM with Terraform
+# Lab 01 — EC2 e SSM com Terraform
 
-> Terraform implementation of the manual **Lab 01 — EC2 and SSM** from the AWS Cloud Engineering Lab repository.
-
----
-
-## Overview
-
-In the manual version of Lab 01, the infrastructure is created step by step using the AWS Management Console.
-
-In this laboratory, the same architecture will be reproduced using **Terraform**, allowing the infrastructure to be provisioned, validated and destroyed through Infrastructure as Code (IaC).
-
-Instead of simply executing ready-made Terraform files, this tutorial explains how each file is designed, why it exists, and how all Terraform components work together.
-
-By the end of this lab you will understand not only **how to provision infrastructure with Terraform**, but also **how Terraform models AWS resources**, tracks infrastructure state and enables repeatable deployments.
+> Implementação com Terraform do **Lab 01 — EC2 e SSM** manual deste repositório AWS Cloud Engineering Lab.
 
 ---
 
-## Target Audience
+## Visão geral
 
-This laboratory is intended for:
+Na versão manual do Lab 01, a infraestrutura é criada passo a passo pelo AWS Management Console.
 
-- Students learning AWS and Infrastructure as Code.
-- Beginners starting their DevOps or Cloud Engineering journey.
-- Recruiters evaluating practical cloud engineering projects.
-- Technical leaders reviewing Terraform organization, engineering decisions and documentation quality.
+Neste laboratório, a mesma arquitetura será reproduzida com **Terraform**, permitindo provisionar, validar e destruir a infraestrutura por meio de Infraestrutura como Código (IaC).
 
----
+Em vez de apenas executar arquivos Terraform prontos, o tutorial explica como cada arquivo é estruturado, por que existe e como os componentes do Terraform funcionam em conjunto.
 
-## Learning Objectives
-
-After completing this laboratory, you will be able to:
-
-- Understand the structure of a Terraform project.
-- Organize Terraform configurations following good engineering practices.
-- Provision AWS infrastructure using Infrastructure as Code.
-- Compare manual provisioning with automated provisioning.
-- Validate deployed resources.
-- Destroy infrastructure safely.
-- Understand the relationship between Terraform configuration, Terraform State and AWS resources.
+Ao final do laboratório, será possível compreender não apenas **como provisionar infraestrutura com Terraform**, mas também **como o Terraform representa recursos AWS**, acompanha o estado da infraestrutura e possibilita implantações reproduzíveis.
 
 ---
 
-## Relationship with the Manual Laboratory
+## Público-alvo
 
-This Terraform implementation reproduces the architecture created manually in:
+Este laboratório destina-se a:
+
+- Estudantes de AWS e Infraestrutura como Código.
+- Iniciantes na área de DevOps ou Engenharia de Nuvem.
+- Recrutadores que avaliam projetos práticos de engenharia de nuvem.
+- Líderes técnicos que analisam a organização do Terraform, as decisões de engenharia e a qualidade da documentação.
+
+---
+
+## Objetivos de aprendizagem
+
+Ao concluir este laboratório, será possível:
+
+- Compreender a estrutura de um projeto Terraform.
+- Organizar configurações Terraform segundo boas práticas de engenharia.
+- Provisionar infraestrutura AWS com Infraestrutura como Código.
+- Comparar o provisionamento manual com o automatizado.
+- Validar os recursos implantados.
+- Destruir a infraestrutura com segurança.
+- Compreender a relação entre a configuração Terraform, o estado do Terraform (*Terraform State*) e os recursos AWS.
+
+---
+
+## Relação com o laboratório manual
+
+Esta implementação Terraform reproduz a arquitetura criada manualmente em:
 
 ➡️ **labs/01-ec2-and-ssm**
 
-The manual implementation remains unchanged.
+A implementação manual permanece inalterada.
 
-Terraform creates a second infrastructure using distinct resource names, making it possible to compare both implementations side by side before removing only the Terraform-managed resources.
-
----
-
-
-## Laboratory Roadmap
-
-This laboratory is divided into four stages.
-
-### Stage 1 — Build the Terraform project
-
-Create the project structure and understand the purpose of every Terraform file.
-
-### Stage 2 — Provision infrastructure
-
-Deploy an EC2 instance using Terraform.
-
-### Stage 3 — Validate the infrastructure
-
-Inspect the deployed resources using Terraform, AWS CLI and the AWS Console.
-
-### Stage 4 — Destroy the infrastructure
-
-Review a destroy plan and safely remove only the Terraform-managed resources.
-
+O Terraform cria uma segunda infraestrutura, com nomes de recursos distintos, para permitir a comparação lado a lado das implementações antes de remover somente os recursos gerenciados pelo Terraform.
 
 ---
 
 
-## Before We Start
+## Roteiro do laboratório
 
-Terraform does not interact directly with your source code.
+Este laboratório está dividido em quatro etapas.
 
-Instead, it compares:
+### Etapa 1 — Construir o projeto Terraform
 
-- your Terraform configuration;
-- its current state;
-- the actual infrastructure running in AWS.
+Criar a estrutura do projeto e compreender a finalidade de cada arquivo Terraform.
 
-Whenever differences are detected, Terraform generates an execution plan describing which resources should be created, updated or destroyed.
+### Etapa 2 — Provisionar infraestrutura
 
-Understanding this workflow is far more important than memorizing Terraform syntax.
+Implantar uma instância EC2 utilizando Terraform.
+
+### Etapa 3 — Validar a infraestrutura
+
+Examinar os recursos implantados utilizando Terraform, AWS CLI e o console da AWS.
+
+### Etapa 4 — Destruir a infraestrutura
+
+Analisar o plano de destruição e remover com segurança apenas os recursos gerenciados pelo Terraform.
 
 
 ---
 
-## Architecture
+
+## Antes de começar
+
+O Terraform não interage diretamente com o código-fonte da aplicação.
+
+Em vez disso, compara:
+
+- a configuração do Terraform;
+- seu estado atual;
+- a infraestrutura real em execução na AWS.
+
+Quando são detectadas diferenças, o Terraform gera um plano de execução que descreve quais recursos devem ser criados, atualizados ou destruídos.
+
+Compreender esse fluxo é muito mais importante do que memorizar a sintaxe do Terraform.
+
+
+---
+
+## Arquitetura
 
 ```mermaid
 flowchart TB
@@ -166,35 +166,35 @@ flowchart TB
 ```
 
 
-This diagram adds three important concepts:
+Este diagrama acrescenta três conceitos importantes:
 
-1. **Terraform Configuration** (the `.tf` files).
-2. **Terraform State**, showing that it is part of the architecture.
-3. **AWS Provider**, clarifying that it acts as the bridge between Terraform and AWS.
+1. **Configuração Terraform** (os arquivos `.tf`).
+2. **Estado do Terraform (*Terraform State*)**, demonstrando que ele faz parte da arquitetura.
+3. **Provedor AWS (*AWS Provider*)**, mostrando que funciona como ponte entre o Terraform e a AWS.
 
-Additionally, it visually distinguishes between components that are merely queried (*Data Sources*) and those that are created (*Resources*).
-
-
----
-
-
-# Stage 1 — Build the Terraform Project from Scratch
-
-The following sections build the Terraform project incrementally.
-
-Rather than copying a finished solution, each Terraform file will be created from scratch, explained in detail and validated before moving to the next stage.
-
-This approach mirrors how infrastructure is developed, reviewed and maintained in professional engineering teams.
+Além disso, diferencia visualmente os componentes apenas consultados (*Data Sources*) daqueles que são criados (*Resources*).
 
 
 ---
 
 
-## Step 1 — Create the Project Directory
+# Etapa 1 — Construir o projeto Terraform do zero
 
-Before writing any Terraform code, create the directory that will contain the laboratory.
+As seções seguintes constroem progressivamente o projeto Terraform.
 
-From the repository root:
+Em vez de copiar uma solução pronta, cada arquivo Terraform será criado do zero, explicado em detalhes e validado antes da próxima etapa.
+
+Essa abordagem se aproxima da maneira como a infraestrutura é desenvolvida, revisada e mantida por equipes profissionais de engenharia.
+
+
+---
+
+
+## Passo 1 — Criar o diretório do projeto
+
+Antes de escrever código Terraform, crie o diretório que conterá o laboratório.
+
+A partir da raiz do repositório:
 
 ```powershell
 mkdir terraform\01-ec2-and-ssm
@@ -204,7 +204,7 @@ cd terraform\01-ec2-and-ssm
 ![LAB01_Terraform](images/lab01_terraform/Lab01_Terraform_Clipboard_07-29-2026_01.jpg)
 
 
-At this point, the directory should contain only:
+Neste momento, o diretório deve conter apenas:
 
 ```text
 terraform/
@@ -215,38 +215,38 @@ terraform/
 ![LAB01_Terraform](images/lab01_terraform/Lab01_Terraform_Clipboard_07-29-2026_02.jpg)
 
 
-The remaining files will be created progressively throughout this laboratory.
+Os demais arquivos serão criados progressivamente durante o laboratório.
 
 > [!NOTE]
-> Although the final repository already contains the completed Terraform files, this tutorial intentionally builds them from scratch so that every design decision can be understood before any infrastructure is provisioned.
+> Embora o repositório já contenha os arquivos Terraform elaborados, este tutorial os constrói do zero para explicar cada decisão de projeto antes de qualquer provisionamento de infraestrutura.
 
 
 ---
 
 
-## Step 2 — Create the First Terraform File (`versions.tf`)
+## Passo 2 — Criar o primeiro arquivo Terraform (`versions.tf`)
 
-The first file in this project will be `versions.tf`.
+O primeiro arquivo deste projeto será `versions.tf`.
 
 
-This file defines:
+Esse arquivo define:
 
-- which Terraform CLI versions can execute the configuration;
-- which external providers the project requires;
-- where Terraform must obtain those providers;
-- which provider versions are considered compatible with the project.
+- quais versões da Terraform CLI podem executar a configuração;
+- quais provedores externos o projeto exige;
+- de onde o Terraform deve obter esses provedores;
+- quais versões dos provedores são consideradas compatíveis com o projeto.
 
-Defining these requirements before creating AWS resources improves consistency and helps prevent the project from being executed with incompatible versions.
+Definir esses requisitos antes de criar recursos AWS melhora a consistência e ajuda a evitar a execução do projeto com versões incompatíveis.
 
 ---
 
-### Understanding Terraform Providers
+### Compreendendo os provedores Terraform
 
-Terraform itself does not contain native instructions for creating an EC2 instance, an IAM Role or a Security Group.
+O Terraform não contém instruções nativas para criar instâncias EC2, funções IAM ou grupos de segurança.
 
-Instead, Terraform uses plugins called **providers** to communicate with external platforms and services.
+Em vez disso, utiliza plugins chamados **provedores (*providers*)** para se comunicar com plataformas e serviços externos.
 
-In this laboratory, Terraform will use the AWS Provider:
+Neste laboratório, o Terraform utilizará o provedor AWS:
 
 ```text
 Terraform Configuration
@@ -260,20 +260,20 @@ AWS APIs
 AWS Resources
 ```
 
-The AWS Provider translates the infrastructure declared in the `.tf` files into API requests understood by AWS.
+O provedor AWS traduz a infraestrutura declarada nos arquivos `.tf` em solicitações às APIs da AWS.
 
 > [!IMPORTANT]
-> Declaring the AWS Provider as a project dependency is different from configuring it.
+> Declarar o provedor AWS como dependência do projeto é diferente de configurá-lo.
 >
-> In `versions.tf`, we declare which provider the project requires.
+> Em `versions.tf`, declaramos qual provedor o projeto exige.
 >
-> In the next file, `provider.tf`, we will configure details such as the AWS Region and local AWS CLI profile.
+> No arquivo seguinte, `provider.tf`, configuraremos detalhes como a região AWS e o perfil local da AWS CLI.
 
 ---
 
-### Create `versions.tf`
+### Criar `versions.tf`
 
-From the laboratory directory, create the file using PowerShell:
+A partir do diretório do laboratório, crie o arquivo com PowerShell:
 
 ```powershell
 New-Item versions.tf -ItemType File
@@ -282,11 +282,11 @@ New-Item versions.tf -ItemType File
 ![LAB01_Terraform](images/lab01_terraform/Lab01_Terraform_Clipboard_07-29-2026_03.jpg)
 
 
-Alternatively, create the file directly through the VS Code Explorer:
+Como alternativa, crie o arquivo diretamente pelo Explorer do VS Code:
 
-1. Right-click the `01-ec2-and-ssm` directory.
-2. Select **New File**.
-3. Enter:
+1. Clique com o botão direito no diretório `01-ec2-and-ssm`.
+2. Selecione **New File** (Novo arquivo).
+3. Informe:
 
 ```text
 versions.tf
@@ -295,7 +295,7 @@ versions.tf
 ![LAB01_Terraform](images/lab01_terraform/Lab01_Terraform_Clipboard_07-29-2026_04.jpg)
 
 
-At this point, the project structure should be:
+Neste momento, a estrutura do projeto deve ser:
 
 ```text
 terraform/
@@ -306,9 +306,9 @@ terraform/
 
 ---
 
-### Add the Terraform Version Requirements
+### Adicionar os requisitos de versões do Terraform
 
-Open `versions.tf` and add:
+Abra `versions.tf` e acrescente:
 
 ```hcl
 terraform {
@@ -323,7 +323,7 @@ terraform {
 }
 ```
 
-Save the file.
+Salve o arquivo.
 
 
 ![LAB01_Terraform](images/lab01_terraform/Lab01_Terraform_Clipboard_07-29-2026_05.jpg)
@@ -331,9 +331,9 @@ Save the file.
 
 ---
 
-### Understanding the `terraform` Block
+### Compreendendo o bloco `terraform`
 
-The top-level `terraform` block configures the behavior and requirements of the Terraform project.
+O bloco `terraform`, no nível superior, configura o comportamento e os requisitos do projeto Terraform.
 
 ```hcl
 terraform {
@@ -341,37 +341,37 @@ terraform {
 }
 ```
 
-It does not create infrastructure in AWS.
+Ele não cria infraestrutura na AWS.
 
-Instead, it defines requirements that Terraform must evaluate before processing the resources declared in the remaining files.
+Em vez disso, define requisitos que o Terraform deve avaliar antes de processar os recursos declarados nos demais arquivos.
 
-Only constant values can be used inside this block. It cannot depend on resources, variables or values that Terraform would calculate later.
+Nesse bloco, somente valores constantes podem ser utilizados. Ele não pode depender de recursos, variáveis ou valores que o Terraform calculará posteriormente.
 
 ---
 
-### Understanding `required_version`
+### Compreendendo `required_version`
 
-The following line defines which versions of the Terraform CLI are allowed to execute this configuration:
+A linha a seguir define quais versões da Terraform CLI podem executar esta configuração:
 
 ```hcl
 required_version = ">= 1.10.0, < 2.0.0"
 ```
 
-It contains two constraints:
+Ela contém duas restrições:
 
 ```text
 >= 1.10.0
 ```
 
-The installed Terraform CLI must be version `1.10.0` or newer.
+A versão instalada da Terraform CLI deve ser `1.10.0` ou superior.
 
 ```text
 < 2.0.0
 ```
 
-The installed version must remain below Terraform `2.0.0`.
+A versão instalada deve permanecer abaixo do Terraform `2.0.0`.
 
-Together, these constraints mean:
+Em conjunto, essas restrições significam:
 
 ```text
 Terraform 1.10.0 or newer
@@ -379,7 +379,7 @@ Terraform 1.10.0 or newer
 Terraform earlier than 2.0.0
 ```
 
-Examples:
+Exemplos:
 
 | Installed version | Accepted? | Reason |
 |---|---:|---|
@@ -389,15 +389,15 @@ Examples:
 | `2.0.0` | No | Excluded by `< 2.0.0` |
 
 > [!NOTE]
-> `required_version` applies to the Terraform CLI installed on the workstation. It does not define the version of the AWS Provider.
+> `required_version` se aplica à Terraform CLI instalada na estação de trabalho. Não determina a versão do provedor AWS.
 
-When an incompatible Terraform CLI version is used, Terraform stops before planning or modifying the infrastructure.
+Ao utilizar uma versão incompatível da Terraform CLI, o Terraform interrompe a execução antes do planejamento ou de qualquer alteração na infraestrutura.
 
 ---
 
-### Understanding `required_providers`
+### Compreendendo `required_providers`
 
-The `required_providers` block declares the external plugins required by the project:
+O bloco `required_providers` declara os plugins externos necessários ao projeto:
 
 ```hcl
 required_providers {
@@ -408,15 +408,15 @@ required_providers {
 }
 ```
 
-This project currently requires only one provider:
+No momento, este projeto exige apenas um provedor:
 
 ```text
 aws
 ```
 
-The name `aws` becomes the provider's local identifier inside this Terraform module.
+O nome `aws` passa a ser o identificador local do provedor neste módulo Terraform.
 
-Later, AWS resources will use this provider implicitly:
+Posteriormente, os recursos AWS utilizarão esse provedor implicitamente:
 
 ```hcl
 resource "aws_instance" "lab01" {
@@ -424,19 +424,19 @@ resource "aws_instance" "lab01" {
 }
 ```
 
-The prefix `aws_` indicates that the resource type belongs to the AWS Provider.
+O prefixo `aws_` indica que o tipo de recurso pertence ao provedor AWS.
 
 ---
 
-### Understanding the Provider Source
+### Compreendendo a origem do provedor
 
-The following declaration identifies where the provider comes from:
+A declaração a seguir identifica a origem do provedor:
 
 ```hcl
 source = "hashicorp/aws"
 ```
 
-The address contains two parts:
+O endereço contém duas partes:
 
 ```text
 hashicorp / aws
@@ -446,41 +446,41 @@ hashicorp / aws
     └── Provider namespace
 ```
 
-Because no registry hostname is specified, Terraform uses the public Terraform Registry by default.
+Como nenhum hostname de registro é especificado, o Terraform utiliza por padrão o Terraform Registry público.
 
-The full source address is effectively:
+O endereço completo da origem é:
 
 ```text
 registry.terraform.io/hashicorp/aws
 ```
 
-This declaration prevents ambiguity and ensures Terraform knows which provider package must be installed.
+Essa declaração evita ambiguidades e informa ao Terraform qual pacote de provedor deve ser instalado.
 
 ---
 
-### Understanding the AWS Provider Version Constraint
+### Compreendendo a restrição de versão do provedor AWS
 
-The following line defines the accepted AWS Provider versions:
+A linha a seguir define as versões aceitas do provedor AWS:
 
 ```hcl
 version = "~> 6.0"
 ```
 
-The pessimistic constraint operator `~>` allows compatible updates within the same major version.
+O operador de restrição pessimista `~>` permite atualizações compatíveis dentro da mesma versão principal.
 
-In this case:
+Neste caso:
 
 ```text
 ~> 6.0
 ```
 
-is equivalent to:
+equivale a:
 
 ```text
 >= 6.0.0, < 7.0.0
 ```
 
-Examples:
+Exemplos:
 
 | AWS Provider version | Accepted? | Reason |
 |---|---:|---|
@@ -490,27 +490,27 @@ Examples:
 | `6.99.0` | Yes | Still within the 6.x series |
 | `7.0.0` | No | New major version |
 
-Major provider releases can introduce breaking changes. Preventing an automatic upgrade to version `7.x` reduces the risk of an unexpected incompatibility.
+Versões principais de provedores podem introduzir alterações incompatíveis. Impedir a atualização automática para a versão `7.x` reduz o risco de incompatibilidade inesperada.
 
 ---
 
-### Why Not Use `latest`?
+### Por que não utilizar `latest`?
 
-Terraform does not use a declaration such as:
+O Terraform não utiliza uma declaração como:
 
 ```hcl
 version = "latest"
 ```
 
-Version constraints describe a range of acceptable versions.
+As restrições de versão descrevem um intervalo de versões aceitáveis.
 
-During initialization, Terraform selects a provider version that satisfies the declared constraint. It then records the selected version in the dependency lock file:
+Durante a inicialização, o Terraform seleciona uma versão do provedor que atende à restrição declarada. Em seguida, registra a versão escolhida no arquivo de bloqueio de dependências:
 
 ```text
 .terraform.lock.hcl
 ```
 
-This produces an important combination:
+Isso produz uma combinação importante:
 
 ```text
 versions.tf
@@ -522,24 +522,24 @@ Defines the acceptable version range
 Records the version actually selected
 ```
 
-For example, the configuration may allow any provider in the `6.x` series, while the lock file records the exact version installed on the workstation.
+Por exemplo, a configuração pode aceitar qualquer versão do provedor da série `6.x`, enquanto o arquivo de bloqueio registra a versão exata instalada na estação de trabalho.
 
-The lock file should normally be committed to Git so that other contributors and automated environments can use the same selected provider version.
+Normalmente, o arquivo de bloqueio deve ser versionado no Git para que outros colaboradores e ambientes automatizados utilizem a mesma versão selecionada do provedor.
 
 > [!IMPORTANT]
-> The `.terraform.lock.hcl` file will be created later when `terraform init` is executed.
+> O arquivo `.terraform.lock.hcl` será criado posteriormente, quando o comando `terraform init` for executado.
 >
-> Do not create this file manually.
+> Não crie esse arquivo manualmente.
 
 ---
 
-### File Name and Terraform Loading Behavior
+### Nome do arquivo e comportamento de carregamento do Terraform
 
-The name `versions.tf` is a project organization convention.
+O nome `versions.tf` é uma convenção de organização do projeto.
 
-Terraform automatically reads all files ending in `.tf` from the current working directory and evaluates them together as a single module.
+O Terraform lê automaticamente todos os arquivos com extensão `.tf` do diretório de trabalho atual e avalia suas declarações em conjunto, como um único módulo.
 
-Therefore, Terraform does not execute files in this sequence:
+Portanto, o Terraform não executa os arquivos nesta sequência:
 
 ```text
 versions.tf
@@ -548,7 +548,7 @@ variables.tf
 compute.tf
 ```
 
-Instead, it loads their declarations together:
+Em vez disso, carrega todas as declarações em conjunto:
 
 ```text
 All .tf files in the directory
@@ -556,65 +556,65 @@ All .tf files in the directory
       One Terraform module
 ```
 
-Splitting the configuration into multiple files improves navigation and maintenance, but it does not define an execution order.
+Dividir a configuração em vários arquivos facilita a navegação e a manutenção, mas não define a ordem de execução.
 
 > [!NOTE]
-> The HashiCorp style guide commonly uses `terraform.tf` for the top-level `terraform` block. This laboratory uses `versions.tf`, another widely understood convention, because the file's responsibility is to centralize Terraform and provider version requirements.
+> O guia de estilo da HashiCorp costuma utilizar `terraform.tf` para o bloco `terraform` de nível superior. Este laboratório utiliza `versions.tf`, outra convenção amplamente compreendida, pois a função do arquivo é centralizar os requisitos de versões do Terraform e do provedor.
 >
-> Consistency within the repository is more important than treating the filename as a Terraform requirement.
+> A consistência dentro do repositório é mais importante do que tratar o nome do arquivo como requisito do Terraform.
 
 ---
 
-### Engineering Notes
+### Notas de engenharia
 
-**Purpose**
+**Finalidade**
 
-Define the compatible Terraform CLI versions and declare the AWS Provider dependency.
+Definir as versões compatíveis da Terraform CLI e declarar a dependência do provedor AWS.
 
-**Why this file exists**
+**Por que este arquivo existe**
 
-Without explicit version requirements, different contributors could execute the same project using incompatible Terraform or provider versions.
+Sem requisitos explícitos de versão, diferentes colaboradores poderiam executar o mesmo projeto com versões incompatíveis do Terraform ou dos provedores.
 
-Version constraints make compatibility expectations visible in the source code.
+As restrições de versão tornam as expectativas de compatibilidade visíveis no código-fonte.
 
-**Design decision**
+**Decisão de projeto**
 
-This laboratory accepts:
+Este laboratório aceita:
 
 ```text
 Terraform CLI >= 1.10.0 and < 2.0.0
 AWS Provider >= 6.0.0 and < 7.0.0
 ```
 
-The constraints allow compatible improvements while preventing automatic adoption of a new major release.
+As restrições permitem melhorias compatíveis, evitando a adoção automática de uma nova versão principal.
 
-**Production considerations**
+**Considerações para produção**
 
-Production environments may use stricter constraints, automated dependency update tools and validation pipelines before adopting new Terraform or provider versions.
+Ambientes de produção podem utilizar restrições mais rígidas, ferramentas automatizadas de atualização de dependências e pipelines de validação antes de adotar novas versões do Terraform ou dos provedores.
 
-For example:
+Por exemplo:
 
 ```hcl
 version = "~> 6.3.0"
 ```
 
-would allow updates in the `6.3.x` series but reject `6.4.0`.
+permitiria atualizações da série `6.3.x`, mas rejeitaria `6.4.0`.
 
-An exact constraint such as:
+Uma restrição exata, como:
 
 ```hcl
 version = "= 6.3.0"
 ```
 
-would accept only one provider version.
+aceitaria apenas uma versão do provedor.
 
-The appropriate strategy depends on the team's testing, upgrade and release processes.
+A estratégia adequada depende dos processos de teste, atualização e publicação da equipe.
 
 ---
 
-### Verify the File
+### Verificar o arquivo
 
-Confirm that `versions.tf` contains:
+Confirme que `versions.tf` contém:
 
 ```hcl
 terraform {
@@ -629,13 +629,13 @@ terraform {
 }
 ```
 
-You can also display the file from PowerShell:
+Também é possível exibir o arquivo no PowerShell:
 
 ```powershell
 Get-Content versions.tf
 ```
 
-The expected output is:
+A saída esperada é:
 
 ```text
 terraform {
@@ -654,27 +654,27 @@ terraform {
 ![LAB01_Terraform](images/lab01_terraform/Lab01_Terraform_Clipboard_07-29-2026_06.jpg)
 
 
-At this stage:
+Neste ponto:
 
-- no AWS resource has been created;
-- no provider has been downloaded;
-- no Terraform State exists;
-- no AWS credentials have been added to the project;
-- `terraform init` has not been executed.
+- nenhum recurso AWS foi criado;
+- nenhum provedor foi baixado;
+- nenhum arquivo de estado do Terraform existe;
+- nenhuma credencial AWS foi adicionada ao projeto;
+- `terraform init` ainda não foi executado.
 
-The project only declares its compatibility requirements and first external dependency.
+O projeto declara apenas os requisitos de compatibilidade e a primeira dependência externa.
 
 > [!WARNING]
-> Do not run `terraform init` yet.
+> Não execute `terraform init` ainda.
 >
-> We will first create the remaining foundational files and then initialize the complete project in a controlled step.
+> Primeiro serão criados os demais arquivos básicos e, depois, o projeto completo será inicializado em uma etapa controlada.
 
 
 ---
 
-### Why we haven't run `terraform fmt` yet
+### Por que ainda não executamos `terraform fmt`?
 
-Although `terraform fmt` doesn't create resources, we’ll save its initial use for after a few files have been created. This way, we can demonstrate a real difference between:
+Embora `terraform fmt` não crie recursos, seu primeiro uso foi reservado para depois da criação de alguns arquivos. Assim, será possível demonstrar uma diferença real entre:
 
 ```text
 manually written code
@@ -684,9 +684,9 @@ terraform fmt
 canonical formatting
 ```
 
-We also haven't used `terraform validate` yet, because full validation typically depends on initializing the directory and installing the declared providers. Official documentation confirms that `required_version` controls the allowed CLI version, while `required_providers` declares the source and version range for plugins; `terraform init` will install the compatible version and update the dependency file.
+O comando `terraform validate` também não foi utilizado porque a validação completa geralmente exige inicializar o diretório e instalar os provedores declarados. A documentação oficial confirma que `required_version` controla a versão permitida da CLI, enquanto `required_providers` declara a origem e o intervalo de versões dos plugins; `terraform init` instalará a versão compatível e atualizará o arquivo de dependências.
 
-With this Step 2, you already learn four fundamentals before creating any resources:
+Com este Passo 2, são apresentados quatro fundamentos antes da criação de qualquer recurso:
 
 ```text
 Terraform CLI
