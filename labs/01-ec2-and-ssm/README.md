@@ -1,5 +1,7 @@
 # Lab 01 - EC2 Instance with SSM Access
 
+**Language:** **English (default)** | [Português (Brasil)](README.pt-BR.md)
+
 ## Overview
 
 This lab demonstrates how to deploy an Amazon EC2 instance and securely access it using AWS Systems Manager Session Manager without SSH keys or inbound SSH ports.
