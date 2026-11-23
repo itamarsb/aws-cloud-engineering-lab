@@ -1,5 +1,7 @@
 # Lab 00 — Terraform Workstation Setup and AWS Authentication
 
+**Language:** **English (default)** | [Português (Brasil)](README.pt-BR.md)
+
 Prepare your local development environment to provision AWS infrastructure securely using Terraform.
 
 ---
