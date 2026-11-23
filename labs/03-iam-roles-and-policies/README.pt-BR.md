@@ -681,7 +681,7 @@ Não é necessário criar usuários IAM nem chaves de acesso de longa duração.
 
 # Etapa 2 — Inspecionar a função IAM existente da carga de trabalho EC2
 
-Navigate to:
+Acesse:
 
 ```text
 AWS Management Console
@@ -691,13 +691,13 @@ IAM
 Roles
 ```
 
-Search for:
+Pesquise por:
 
 ```text
 EC2-SSM-Role
 ```
 
-Open the role.
+Abra a função.
 
 
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_08.jpg)
@@ -705,18 +705,18 @@ Open the role.
 
 ## Examinar as permissões associadas
 
-Open the **Permissions** section.
+Abra a seção **Permissions** (Permissões).
 
-Depending on the previous labs, policies may include:
+Dependendo dos laboratórios anteriores, as políticas associadas podem incluir:
 
 ```text
 AmazonSSMManagedInstanceCore
 CloudWatchAgentServerPolicy
 ```
 
-These policies determine what the EC2 workload can do after receiving the role credentials.
+Essas políticas determinam o que a carga de trabalho EC2 pode fazer após receber as credenciais da função IAM.
 
-Do not modify the role.
+Não modifique a função existente.
 
 
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_09.jpg)
@@ -724,23 +724,23 @@ Do not modify the role.
 
 ## Examinar a relação de confiança
 
-Open:
+Abra:
 
 ```text
 Trust relationships
 ```
 
-The trust policy should identify EC2 as a trusted service principal.
+A política de confiança deve identificar o EC2 como uma entidade principal de serviço confiável.
 
-Look for:
+Procure por:
 
 ```text
 ec2.amazonaws.com
 ```
 
-This means the role is designed to be assumed by the EC2 service.
+Isso significa que a função foi criada para ser assumida pelo serviço EC2.
 
-The relationship is:
+A relação é:
 
 ```text
 EC2
@@ -753,7 +753,7 @@ EC2-SSM-Role
 Temporary Role Credentials
 ```
 
-This is the workload identity pattern used by the existing EC2 instance.
+Esse é o padrão de identidade de carga de trabalho utilizado pela instância EC2 existente.
 
 
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_10.jpg)
@@ -763,13 +763,13 @@ This is the workload identity pattern used by the existing EC2 instance.
 
 # Etapa 3 — Verificar a identidade baseada em função a partir da instância EC2
 
-Open the existing EC2 instance through **AWS Systems Manager Session Manager**.
+Acesse a instância EC2 existente pelo **AWS Systems Manager Session Manager**.
 
-The objective is to verify that the instance has a role available through the EC2 Instance Metadata Service without exposing credential values.
+O objetivo é verificar se a instância possui uma função IAM disponível por meio do EC2 Instance Metadata Service, sem expor os valores das credenciais.
 
 ## Consultar o nome da função no perfil de instância
 
-Run:
+Execute:
 
 ```bash
 TOKEN=$(curl -sS -X PUT \
@@ -777,7 +777,7 @@ TOKEN=$(curl -sS -X PUT \
   http://169.254.169.254/latest/api/token)
 ```
 
-Then:
+Em seguida:
 
 ```bash
 curl -sS \
@@ -785,15 +785,15 @@ curl -sS \
   http://169.254.169.254/latest/meta-data/iam/security-credentials/
 ```
 
-Expected output:
+Saída esperada:
 
 ```text
 EC2-SSM-Role
 ```
 
-This demonstrates that the EC2 instance has access to an IAM role through its instance profile.
+Isso demonstra que a instância EC2 pode utilizar uma função IAM por meio de seu perfil de instância.
 
-> **Security Note:** Do not request, display, copy, save, or commit the credential values returned by the deeper `/iam/security-credentials/<role-name>` metadata endpoint. The role name alone is sufficient for this laboratory.
+> **Observação de segurança:** não solicite, exiba, copie, salve nem envie ao controle de versão os valores de credenciais retornados pelo endpoint de metadados mais profundo `/iam/security-credentials/<role-name>`. O nome da função é suficiente para este laboratório.
 
 
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_11.jpg)
@@ -801,17 +801,17 @@ This demonstrates that the EC2 instance has access to an IAM role through its in
 
 ## Opcional — Verificar a identidade de quem chama a API AWS
 
-If the AWS CLI is already installed on the instance, run:
+Se a AWS CLI já estiver instalada na instância, execute:
 
 ```bash
 aws sts get-caller-identity
 ```
 
-The result should reference an assumed-role session associated with `EC2-SSM-Role`.
+O resultado deve identificar uma sessão de função assumida associada a `EC2-SSM-Role`.
 
-Do not install or configure static credentials merely to perform this optional check.
+Não instale nem configure credenciais estáticas apenas para realizar essa verificação opcional.
 
-The important principle is:
+O princípio importante é:
 
 ```text
 No ~/.aws static access keys required
@@ -824,7 +824,7 @@ EC2 role credentials are provided automatically
 
 # Etapa 4 — Criar uma política gerenciada pelo cliente com privilégio mínimo
 
-Navigate to:
+Acesse:
 
 ```text
 IAM
@@ -838,9 +838,9 @@ Create policy
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_12.jpg)
 
 
-Choose the **JSON** policy editor.
+Selecione o editor de políticas **JSON**.
 
-Use:
+Utilize:
 
 ```json
 {
@@ -871,7 +871,7 @@ Use:
 }
 ```
 
-A repository copy is maintained at:
+Uma cópia é mantida no repositório em:
 
 ```text
 policies/lab03-ec2-read-only-policy.json
@@ -881,7 +881,7 @@ policies/lab03-ec2-read-only-policy.json
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_13.jpg)
 
 
-Click:
+Clique em:
 ```text
 Next
 ```
@@ -891,9 +891,9 @@ Next
 
 ### Ações explícitas
 
-Only selected EC2 read operations are allowed.
+Apenas operações de leitura selecionadas do EC2 são permitidas.
 
-The policy does **not** include:
+A política **não** inclui:
 
 ```text
 ec2:RunInstances
@@ -904,27 +904,27 @@ ec2:TerminateInstances
 
 ### Recurso
 
-The statement uses:
+A declaração utiliza:
 
 ```json
 "Resource": "*"
 ```
 
-because many EC2 `Describe` APIs do not support resource-level permissions.
+porque muitas APIs `Describe` do EC2 não oferecem suporte a permissões por recurso individual.
 
-The scope is still restricted by the explicit list of allowed actions.
+O escopo permanece restrito pela lista explícita de ações permitidas.
 
 ### Condição regional
 
-The condition:
+A condição:
 
 ```json
 "aws:RequestedRegion": "us-east-1"
 ```
 
-adds another authorization constraint.
+acrescenta outra restrição de autorização.
 
-The intended permission model is therefore:
+Portanto, o modelo de permissões previsto é:
 
 ```text
 Selected EC2 read APIs
@@ -940,13 +940,13 @@ Selected EC2 read APIs
 
 # Etapa 5 — Validar a política com o IAM Access Analyzer
 
-Before creating the policy, review the policy validation results shown by the IAM console.
+Antes de criar a política, examine os resultados de validação exibidos pelo console IAM.
 
-IAM Access Analyzer policy validation checks the document against IAM policy grammar and security best practices.
+A validação de políticas do IAM Access Analyzer verifica o documento quanto à sintaxe das políticas IAM e às boas práticas de segurança.
 
-Review all findings.
+Analise todas as ocorrências.
 
-Pay particular attention to:
+Observe especialmente:
 
 ```text
 ERROR
@@ -955,16 +955,16 @@ WARNING
 SUGGESTION
 ```
 
-If an error appears, do not proceed until it is understood and corrected.
+Se aparecer um erro, não prossiga até compreendê-lo e corrigi-lo.
 
-After reviewing the findings, create the policy using:
+Após examinar as ocorrências, crie a política com:
 
 ```text
 Policy name:
 Lab03EC2ReadOnlyPolicy
 ```
 
-Suggested description:
+Descrição sugerida:
 
 ```text
 Least-privilege policy for selected Amazon EC2 read operations in us-east-1 used by AWS Cloud Engineering Lab 03.
@@ -974,9 +974,9 @@ Least-privilege policy for selected Amazon EC2 read operations in us-east-1 used
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_15.jpg)
 
 
-After creation, confirm that the policy appears under **Customer managed policies**.
+Após a criação, confirme que a política aparece em **Customer managed policies** (Políticas gerenciadas pelo cliente).
 
-> Policy validation helps identify problems, but it does not replace authorization testing or broader security review.
+> A validação de políticas ajuda a identificar problemas, mas não substitui os testes de autorização nem uma revisão de segurança mais ampla.
 
 
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_16.jpg)
@@ -986,9 +986,9 @@ After creation, confirm that the policy appears under **Customer managed policie
 
 # Etapa 6 — Criar uma função IAM dedicada ao EC2
 
-Create a laboratory role that demonstrates workload identity without modifying the running instance from previous labs.
+Crie uma função IAM específica para demonstrar a identidade de carga de trabalho sem modificar a instância em execução dos laboratórios anteriores.
 
-Navigate to:
+Acesse:
 
 ```text
 IAM
@@ -998,14 +998,14 @@ Roles
 Create role
 ```
 
-Select:
+Selecione:
 
 ```text
 Trusted entity type:
 AWS service
 ```
 
-Choose:
+Escolha:
 
 ```text
 Service or use case:
@@ -1016,33 +1016,33 @@ EC2
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_17.jpg)
 
 
-The resulting trust relationship should allow:
+A relação de confiança resultante deve permitir que:
 
 ```text
 ec2.amazonaws.com
 ```
 
-to assume the role.
+assuma a função.
 
-Use the role name:
+Utilize o nome de função:
 
 ```text
 Lab03-EC2-ReadOnly-Role
 ```
 
-Suggested description:
+Descrição sugerida:
 
 ```text
 Educational EC2 workload role used to demonstrate trust policies, temporary credentials, and least-privilege authorization in Lab 03.
 ```
 
-The equivalent trust policy is maintained in:
+A política de confiança equivalente é mantida em:
 
 ```text
 policies/lab03-ec2-role-trust-policy.json
 ```
 
-The important relationship is:
+A relação importante é:
 
 ```text
 EC2 Service Principal
@@ -1052,7 +1052,7 @@ EC2 Service Principal
 Lab03-EC2-ReadOnly-Role
 ```
 
-> This role is intentionally **not attached to the existing Lab 01/02 EC2 instance**. Replacing the instance profile could disrupt SSM or monitoring access. The existing `EC2-SSM-Role` remains unchanged.
+> Esta função intencionalmente **não é associada à instância EC2 existente dos Labs 01 e 02**. Substituir o perfil de instância poderia interromper o acesso por SSM ou o monitoramento. A função existente `EC2-SSM-Role` permanece inalterada.
 
 
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_18.jpg)
@@ -1062,7 +1062,7 @@ Lab03-EC2-ReadOnly-Role
 
 # Etapa 7 — Associar a política de privilégio mínimo à função
 
-Open:
+Abra:
 
 ```text
 IAM
@@ -1078,7 +1078,7 @@ Permissions
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_19.jpg)
 
 
-Attach:
+Associe:
 
 ```text
 Lab03EC2ReadOnlyPolicy
@@ -1088,7 +1088,7 @@ Lab03EC2ReadOnlyPolicy
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_20.jpg)
 
 
-The role now contains two separate security relationships:
+Agora a função contém duas relações de segurança distintas:
 
 ```text
 Trust Policy
@@ -1096,7 +1096,7 @@ Trust Policy
      └── EC2 may assume the role
 ```
 
-and:
+e:
 
 ```text
 Permissions Policy
@@ -1104,7 +1104,7 @@ Permissions Policy
         └── Role may perform selected EC2 Describe actions
 ```
 
-The complete authorization model is:
+O modelo completo de autorização é:
 
 ```text
 EC2
@@ -1134,33 +1134,33 @@ us-east-1
 
 # Etapa 8 — Avaliar ações permitidas e negadas
 
-Where available, use the **IAM Policy Simulator** or another appropriate IAM policy evaluation workflow to inspect the permissions associated with:
+Quando disponível, utilize o **IAM Policy Simulator** ou outro procedimento adequado de avaliação de políticas IAM para examinar as permissões associadas a:
 
 ```text
 Lab03-EC2-ReadOnly-Role
 ```
 
-When evaluating the regional condition, ensure the simulation context reflects:
+Ao avaliar a condição regional, verifique se o contexto da simulação contém:
 
 ```text
 aws:RequestedRegion = us-east-1
 ```
 
-The expected authorization model is:
+O modelo de autorização esperado é:
 
-| Action | Expected Result | Reason |
+| Ação | Resultado esperado | Motivo |
 |---|---|---|
-| `ec2:DescribeInstances` | ALLOWED | Explicitly granted |
-| `ec2:DescribeVolumes` | ALLOWED | Explicitly granted |
-| `ec2:DescribeSecurityGroups` | ALLOWED | Explicitly granted |
-| `ec2:RunInstances` | DENIED | Not granted |
-| `ec2:StopInstances` | DENIED | Not granted |
-| `ec2:TerminateInstances` | DENIED | Not granted |
-| `s3:DeleteBucket` | DENIED | No S3 permission |
+| `ec2:DescribeInstances` | PERMITIDO | Concedido explicitamente |
+| `ec2:DescribeVolumes` | PERMITIDO | Concedido explicitamente |
+| `ec2:DescribeSecurityGroups` | PERMITIDO | Concedido explicitamente |
+| `ec2:RunInstances` | NEGADO | Não concedido |
+| `ec2:StopInstances` | NEGADO | Não concedido |
+| `ec2:TerminateInstances` | NEGADO | Não concedido |
+| `s3:DeleteBucket` | NEGADO | Nenhuma permissão para S3 |
 
-A request outside `us-east-1` should not satisfy the regional condition for the actions controlled by this policy.
+Uma solicitação fora de `us-east-1` não deve satisfazer a condição regional das ações controladas por esta política.
 
-This demonstrates:
+Isso demonstra:
 
 ```text
 Explicitly allowed action
@@ -1169,7 +1169,7 @@ Explicitly allowed action
         ALLOW
 ```
 
-while:
+enquanto:
 
 ```text
 Permission not granted
@@ -1178,7 +1178,7 @@ Permission not granted
      IMPLICIT DENY
 ```
 
-An applicable **explicit deny** from another policy layer would override an allow.
+Uma **negação explícita** aplicável de outra camada de política prevaleceria sobre uma permissão.
 
 
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_23.jpg)
@@ -1188,7 +1188,7 @@ An applicable **explicit deny** from another policy layer would override an allo
 
 # Etapa 9 — Comparar o acesso de pessoas e de cargas de trabalho
 
-The final implementation step compares the role created in this lab with the modern AWS workforce model.
+A última etapa da implementação compara a função criada neste laboratório com o modelo moderno de acesso de colaboradores da AWS.
 
 ## Acesso de carga de trabalho implementado neste laboratório
 
@@ -1207,7 +1207,7 @@ AWS APIs
 
 ## Acesso moderno de colaboradores
 
-A common modern model is:
+Um modelo moderno comum é:
 
 ```text
 Employee / Engineer
@@ -1231,17 +1231,17 @@ Temporary Credentials
 AWS Account / Resources
 ```
 
-You may open the **IAM Identity Center** console to review the service and its concepts.
+É possível abrir o console do **IAM Identity Center** para examinar o serviço e seus conceitos.
 
-However, enabling or redesigning IAM Identity Center is **not required by this lab**.
+Entretanto, habilitar ou redesenhar o IAM Identity Center **não é exigido neste laboratório**.
 
-Why?
+Por quê?
 
-An organization instance of IAM Identity Center is the recommended architecture for centralized AWS account access and is closely related to AWS Organizations and broader account governance.
+Uma instância organizacional do IAM Identity Center é a arquitetura recomendada para acesso centralizado a contas AWS e está diretamente relacionada ao AWS Organizations e à governança mais ampla das contas.
 
-That configuration should be designed intentionally rather than enabled only to complete a small IAM exercise.
+Essa configuração deve ser planejada intencionalmente, e não habilitada apenas para concluir um pequeno exercício de IAM.
 
-The important learning objective is to recognize that modern workforce access is different from creating a permanent IAM user.
+O aprendizado importante é reconhecer que o acesso moderno de colaboradores é diferente de criar um usuário IAM permanente.
 
 ---
 
