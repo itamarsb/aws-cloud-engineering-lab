@@ -1,62 +1,62 @@
-# Lab 03 — Modern AWS Identity, IAM Roles, and Least-Privilege Policies
+# Lab 03 — Identidade moderna na AWS, funções IAM e políticas de privilégio mínimo
 
-> **AWS Cloud Engineering Lab — Manual Implementation**
+> **AWS Cloud Engineering Lab — Implementação manual**
 
-This lab explores modern AWS identity and access management practices with a focus on **temporary credentials**, **IAM roles**, **least-privilege policies**, **workload identity**, and the current AWS model for **workforce access**.
+Este laboratório explora práticas modernas de gerenciamento de identidade e acesso na AWS, com foco em **credenciais temporárias**, **funções IAM**, **políticas de privilégio mínimo**, **identidades de cargas de trabalho** e no modelo atual de **acesso de colaboradores** da AWS.
 
-The implementation intentionally avoids creating IAM users, IAM user groups, long-term access keys, or permanent credentials as part of the laboratory workflow.
+A implementação evita intencionalmente a criação de usuários IAM, grupos de usuários IAM, chaves de acesso de longa duração ou credenciais permanentes como parte dos procedimentos.
 
-Instead, the lab uses the existing EC2 workload from previous labs to examine role-based access and creates a dedicated laboratory IAM role and customer managed policy to study trust relationships, permissions, policy validation, and authorization behavior.
+Em vez disso, o laboratório utiliza a carga de trabalho EC2 já existente nos laboratórios anteriores para examinar o acesso baseado em funções. Também cria uma função IAM dedicada e uma política gerenciada pelo cliente para estudar relações de confiança, permissões, validação de políticas e comportamento da autorização.
 
 ---
 
-## Table of Contents
+## Sumário
 
-- [Overview](#overview)
-- [Why This Lab Uses a Modern Identity Model](#why-this-lab-uses-a-modern-identity-model)
-- [Architecture](#architecture)
-- [Learning Objectives](#learning-objectives)
-- [AWS Services and Features](#aws-services-and-features)
-- [Estimated Time](#estimated-time)
-- [Estimated Cost](#estimated-cost)
-- [Prerequisites](#prerequisites)
-- [Core Identity Concepts](#core-identity-concepts)
-  - [Human and Workforce Identities](#human-and-workforce-identities)
-  - [Workload Identities](#workload-identities)
-  - [IAM Roles](#iam-roles)
-  - [Temporary Credentials](#temporary-credentials)
-  - [Trust Policies](#trust-policies)
-  - [Permissions Policies](#permissions-policies)
-  - [IAM Users](#iam-users)
-  - [Least Privilege](#least-privilege)
+- [Visão geral](#visão-geral)
+- [Por que este laboratório utiliza um modelo moderno de identidade](#por-que-este-laboratório-utiliza-um-modelo-moderno-de-identidade)
+- [Arquitetura](#arquitetura)
+- [Objetivos de aprendizagem](#objetivos-de-aprendizagem)
+- [Serviços e recursos da AWS](#serviços-e-recursos-da-aws)
+- [Tempo estimado](#tempo-estimado)
+- [Custo estimado](#custo-estimado)
+- [Pré-requisitos](#pré-requisitos)
+- [Conceitos fundamentais de identidade](#conceitos-fundamentais-de-identidade)
+  - [Identidades humanas e de colaboradores](#identidades-humanas-e-de-colaboradores)
+  - [Identidades de cargas de trabalho](#identidades-de-cargas-de-trabalho)
+  - [Funções IAM](#funções-iam)
+  - [Credenciais temporárias](#credenciais-temporárias)
+  - [Políticas de confiança](#políticas-de-confiança)
+  - [Políticas de permissões](#políticas-de-permissões)
+  - [Usuários IAM](#usuários-iam)
+  - [Privilégio mínimo](#privilégio-mínimo)
   - [IAM Access Analyzer](#iam-access-analyzer)
-- [Lab Resources](#lab-resources)
-- [Step-by-Step Implementation](#step-by-step-implementation)
-  - [Step 1 — Review the Modern AWS Identity Model](#step-1--review-the-modern-aws-identity-model)
-  - [Step 2 — Inspect the Existing EC2 Workload Role](#step-2--inspect-the-existing-ec2-workload-role)
-  - [Step 3 — Verify Role-Based Identity from the EC2 Instance](#step-3--verify-role-based-identity-from-the-ec2-instance)
-  - [Step 4 — Create a Least-Privilege Customer Managed Policy](#step-4--create-a-least-privilege-customer-managed-policy)
-  - [Step 5 — Validate the Policy with IAM Access Analyzer](#step-5--validate-the-policy-with-iam-access-analyzer)
-  - [Step 6 — Create a Dedicated EC2 IAM Role](#step-6--create-a-dedicated-ec2-iam-role)
-  - [Step 7 — Attach the Least-Privilege Policy to the Role](#step-7--attach-the-least-privilege-policy-to-the-role)
-  - [Step 8 — Evaluate Allowed and Denied Actions](#step-8--evaluate-allowed-and-denied-actions)
-  - [Step 9 — Compare Workforce and Workload Access](#step-9--compare-workforce-and-workload-access)
-- [Validation](#validation)
-- [Security Best Practices Applied](#security-best-practices-applied)
-- [Cleanup](#cleanup)
-- [Post-Cleanup Validation](#post-cleanup-validation)
-- [Troubleshooting](#troubleshooting)
-- [Key Learnings](#key-learnings)
-- [Repository Structure](#repository-structure)
-- [Next Lab](#next-lab)
+- [Recursos do laboratório](#recursos-do-laboratório)
+- [Implementação passo a passo](#implementação-passo-a-passo)
+  - [Etapa 1 — Analisar o modelo moderno de identidade da AWS](#etapa-1-analisar-o-modelo-moderno-de-identidade-da-aws)
+  - [Etapa 2 — Inspecionar a função IAM existente da carga de trabalho EC2](#etapa-2-inspecionar-a-função-iam-existente-da-carga-de-trabalho-ec2)
+  - [Etapa 3 — Verificar a identidade baseada em função a partir da instância EC2](#etapa-3-verificar-a-identidade-baseada-em-função-a-partir-da-instância-ec2)
+  - [Etapa 4 — Criar uma política gerenciada pelo cliente com privilégio mínimo](#etapa-4-criar-uma-política-gerenciada-pelo-cliente-com-privilégio-mínimo)
+  - [Etapa 5 — Validar a política com o IAM Access Analyzer](#etapa-5-validar-a-política-com-o-iam-access-analyzer)
+  - [Etapa 6 — Criar uma função IAM dedicada ao EC2](#etapa-6-criar-uma-função-iam-dedicada-ao-ec2)
+  - [Etapa 7 — Associar a política de privilégio mínimo à função](#etapa-7-associar-a-política-de-privilégio-mínimo-à-função)
+  - [Etapa 8 — Avaliar ações permitidas e negadas](#etapa-8-avaliar-ações-permitidas-e-negadas)
+  - [Etapa 9 — Comparar o acesso de pessoas e de cargas de trabalho](#etapa-9-comparar-o-acesso-de-pessoas-e-de-cargas-de-trabalho)
+- [Validação](#validação)
+- [Boas práticas de segurança aplicadas](#boas-práticas-de-segurança-aplicadas)
+- [Limpeza dos recursos](#limpeza-dos-recursos)
+- [Validação após a limpeza](#validação-após-a-limpeza)
+- [Solução de problemas](#solução-de-problemas)
+- [Principais aprendizados](#principais-aprendizados)
+- [Estrutura do repositório](#estrutura-do-repositório)
+- [Próximo laboratório](#próximo-laboratório)
 
 ---
 
-# Overview
+# Visão geral
 
-AWS Identity and Access Management (**IAM**) provides the authorization foundation used to control access to AWS services and resources.
+O AWS Identity and Access Management (**IAM**) fornece a base de autorização utilizada para controlar o acesso aos serviços e recursos da AWS.
 
-Modern AWS identity design separates two major categories of identities:
+O modelo moderno de identidade da AWS distingue duas grandes categorias:
 
 ```text
 Human / Workforce Identities
@@ -74,22 +74,22 @@ Workload Identities
         └── Temporary Credentials
 ```
 
-This laboratory focuses primarily on the **workload identity model**, because the repository already contains an EC2 instance that uses the `EC2-SSM-Role` created in previous labs.
+Este laboratório concentra-se principalmente no **modelo de identidade de cargas de trabalho**, pois o repositório já contém uma instância EC2 que utiliza a função `EC2-SSM-Role` criada nos laboratórios anteriores.
 
-The lab also explains the modern AWS model for human access so that IAM users and long-term credentials are not presented as the default architecture for workforce access.
+Também é apresentado o modelo moderno de acesso humano na AWS, para que usuários IAM e credenciais de longa duração não sejam tratados como a arquitetura padrão de acesso dos colaboradores.
 
-The practical implementation will:
+A implementação prática irá:
 
-1. Inspect the existing EC2 IAM role.
-2. Verify that the EC2 workload is using a role-based identity.
-3. Create a least-privilege customer managed policy.
-4. Validate the policy using IAM Access Analyzer.
-5. Create a dedicated EC2 service role.
-6. Attach the policy to the role.
-7. Evaluate expected allowed and denied actions.
-8. Compare workload identity with modern workforce access.
+1. Inspecionar a função IAM existente do EC2.
+2. Verificar que a carga de trabalho EC2 utiliza uma identidade baseada em função.
+3. Criar uma política gerenciada pelo cliente com privilégio mínimo.
+4. Validar a política utilizando o IAM Access Analyzer.
+5. Criar uma função de serviço EC2 dedicada.
+6. Associar a política à função.
+7. Avaliar as ações que devem ser permitidas e negadas.
+8. Comparar a identidade de carga de trabalho ao modelo moderno de acesso de colaboradores.
 
-No IAM user or access key is required.
+Não é necessário criar usuários IAM nem chaves de acesso.
 
 
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_01.jpg)
@@ -97,9 +97,9 @@ No IAM user or access key is required.
 
 ---
 
-# Why This Lab Uses a Modern Identity Model
+# Por que este laboratório utiliza um modelo moderno de identidade
 
-Traditional IAM tutorials often use the following model:
+Tutoriais tradicionais de IAM costumam utilizar o seguinte modelo:
 
 ```text
 IAM User
@@ -114,11 +114,11 @@ IAM Policy
 AWS Resources
 ```
 
-IAM users and groups remain valid AWS IAM concepts and may still exist in legacy environments or specific use cases.
+Os usuários e grupos IAM continuam sendo conceitos válidos na AWS e podem existir em ambientes legados ou casos de uso específicos.
 
-However, they are **not the preferred default model for modern workforce access**.
+Entretanto, **não são o modelo padrão preferencial para o acesso moderno de colaboradores**.
 
-For human users, modern AWS environments generally use:
+Para usuários humanos, os ambientes modernos da AWS geralmente utilizam:
 
 ```text
 Human User
@@ -139,7 +139,7 @@ Temporary Credentials
 AWS Resources
 ```
 
-For AWS workloads such as EC2:
+Para cargas de trabalho AWS, como o EC2:
 
 ```text
 EC2 Instance
@@ -154,13 +154,13 @@ Temporary Credentials
 AWS APIs
 ```
 
-This laboratory therefore treats IAM users as an important IAM concept to understand, but does **not** create one as the primary learning workflow.
+Assim, este laboratório apresenta os usuários IAM como um conceito importante, mas **não** cria um usuário IAM como parte central do aprendizado.
 
 ---
 
-# Architecture
+# Arquitetura
 
-The following diagram represents the identity models studied in this lab.
+O diagrama a seguir representa os modelos de identidade estudados neste laboratório.
 
 ```mermaid
 flowchart TB
@@ -204,9 +204,9 @@ flowchart TB
     LABROLE -->|"Selected read-only access"| EC2API
 ```
 
-The lab studies two separate identity concerns:
+O laboratório aborda duas situações distintas de identidade:
 
-### Workforce Access
+### Acesso de colaboradores
 
 ```text
 Human
@@ -218,7 +218,7 @@ Role
 Temporary Credentials
 ```
 
-### Workload Access
+### Acesso de cargas de trabalho
 
 ```text
 AWS Workload
@@ -228,105 +228,105 @@ IAM Role
 Temporary Credentials
 ```
 
-The common security principle is the same:
+O princípio de segurança comum é:
 
-> Prefer temporary credentials and role-based access over long-term static credentials whenever possible.
-
----
-
-# Learning Objectives
-
-After completing this lab, you should be able to:
-
-- Explain the difference between authentication and authorization.
-- Distinguish human identities from workload identities.
-- Explain why temporary credentials are preferred over long-term credentials.
-- Understand the role of AWS IAM Identity Center in modern workforce access.
-- Explain why IAM roles are preferred for AWS workloads.
-- Understand the relationship between EC2 instance profiles and IAM roles.
-- Explain the difference between a trust policy and a permissions policy.
-- Create a customer managed IAM policy.
-- Apply the Principle of Least Privilege.
-- Use IAM conditions to restrict permissions.
-- Validate IAM policies using IAM Access Analyzer.
-- Create an EC2 service role.
-- Evaluate expected allowed and denied actions.
-- Recognize where IAM users may still appear without treating them as the default workforce model.
-- Remove temporary laboratory IAM resources safely.
+> Sempre que possível, dê preferência a credenciais temporárias e acesso baseado em funções em vez de credenciais estáticas de longa duração.
 
 ---
 
-# AWS Services and Features
+# Objetivos de aprendizagem
 
-| Service / Feature | Purpose |
+Ao concluir este laboratório, será possível:
+
+- Explicar a diferença entre autenticação e autorização.
+- Distinguir identidades humanas de identidades de cargas de trabalho.
+- Explicar por que credenciais temporárias são preferíveis às de longa duração.
+- Compreender a função do AWS IAM Identity Center no acesso moderno de colaboradores.
+- Explicar por que funções IAM são preferíveis para cargas de trabalho na AWS.
+- Compreender a relação entre perfis de instância EC2 e funções IAM.
+- Explicar a diferença entre uma política de confiança e uma política de permissões.
+- Criar uma política IAM gerenciada pelo cliente.
+- Aplicar o princípio do privilégio mínimo.
+- Utilizar condições IAM para restringir permissões.
+- Validar políticas IAM utilizando o IAM Access Analyzer.
+- Criar uma função de serviço EC2.
+- Avaliar ações que devem ser permitidas e negadas.
+- Reconhecer casos em que usuários IAM ainda podem existir, sem tratá-los como modelo padrão de acesso humano.
+- Remover com segurança os recursos IAM temporários do laboratório.
+
+---
+
+# Serviços e recursos da AWS
+
+| Serviço / Recurso | Finalidade |
 |---|---|
-| AWS IAM | Identity and access management |
-| IAM Roles | Temporary role-based identities |
-| IAM Policies | Defines authorization permissions |
-| IAM Trust Policies | Defines who or what may assume a role |
-| IAM Access Analyzer | Policy validation and security findings |
-| AWS STS | Temporary security credential service |
-| Amazon EC2 | Existing workload and target API service |
-| EC2 Instance Profile | Makes an IAM role available to an EC2 instance |
-| AWS Systems Manager | Secure access to the existing EC2 instance |
-| IAM Identity Center | Modern centralized workforce access model |
+| AWS IAM | Gerenciamento de identidade e acesso |
+| Funções IAM | Identidades temporárias baseadas em funções |
+| Políticas IAM | Definem as permissões de autorização |
+| Políticas de confiança IAM | Definem quem ou o que pode assumir uma função |
+| IAM Access Analyzer | Validação de políticas e identificação de ocorrências de segurança |
+| AWS STS | Serviço de credenciais de segurança temporárias |
+| Amazon EC2 | Carga de trabalho existente e serviço de API de destino |
+| Perfil de instância EC2 | Disponibiliza uma função IAM para uma instância EC2 |
+| AWS Systems Manager | Acesso seguro à instância EC2 existente |
+| IAM Identity Center | Modelo moderno de acesso centralizado de colaboradores |
 
 ---
 
-# Estimated Time
+# Tempo estimado
 
-Approximately:
+Aproximadamente:
 
 ```text
 45–60 minutes
 ```
 
-The actual duration depends on familiarity with IAM, EC2, and the AWS Management Console.
+A duração real depende da familiaridade com IAM, EC2 e o AWS Management Console.
 
 ---
 
-# Estimated Cost
+# Custo estimado
 
-The IAM resources created in this lab do not normally incur additional charges.
+Os recursos IAM criados neste laboratório normalmente não geram cobranças adicionais.
 
-Estimated Lab 03 IAM cost:
+Custo estimado dos recursos IAM do Lab 03:
 
 ```text
 $0.00
 ```
 
-The existing EC2 instance and other resources from previous labs may continue to generate charges independently.
+A instância EC2 existente e outros recursos utilizados nos laboratórios anteriores podem continuar gerando cobranças independentemente.
 
-> Always review **AWS Billing and Cost Management** when maintaining cloud laboratory environments.
+> Consulte sempre o **AWS Billing and Cost Management** ao manter ambientes de laboratório na nuvem.
 
 ---
 
-# Prerequisites
+# Pré-requisitos
 
-Before starting this lab, you should have:
+Antes de iniciar este laboratório, é necessário ter:
 
-- An active AWS account.
-- Access to the AWS Management Console.
-- Administrative or delegated permissions sufficient to manage the IAM resources used by the lab.
-- Completed or reviewed **Lab 01 — EC2 Instance with SSM Access**.
-- Completed or reviewed **Lab 02 — EC2 Monitoring with CloudWatch Agent**.
-- An existing EC2 instance from the previous labs.
-- An existing IAM role named:
+- Uma conta AWS ativa.
+- Acesso ao AWS Management Console.
+- Permissões administrativas ou delegadas suficientes para gerenciar os recursos IAM utilizados.
+- Concluído ou revisado o **Lab 01 — Instância EC2 com acesso via SSM**.
+- Concluído ou revisado o **Lab 02 — Monitoramento de EC2 com CloudWatch Agent**.
+- Uma instância EC2 existente dos laboratórios anteriores.
+- Uma função IAM existente com o nome:
 
 ```text
 EC2-SSM-Role
 ```
 
-- Access to the instance through **AWS Systems Manager Session Manager**.
-- Basic understanding of JSON syntax.
+- Acesso à instância pelo **AWS Systems Manager Session Manager**.
+- Conhecimento básico da sintaxe JSON.
 
-Recommended Region for regional resources:
+Região recomendada para os recursos regionais:
 
 ```text
 us-east-1
 ```
 
-> **Important:** IAM is primarily a global AWS service. The least-privilege policy created in this lab uses an IAM condition to restrict supported EC2 API requests to `us-east-1`.
+> **Importante:** o IAM é predominantemente um serviço global da AWS. A política de privilégio mínimo criada neste laboratório utiliza uma condição IAM para restringir as solicitações compatíveis da API EC2 à região `us-east-1`.
 
 
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_02.jpg)
@@ -334,24 +334,24 @@ us-east-1
 
 ---
 
-# Core Identity Concepts
+# Conceitos fundamentais de identidade
 
-## Human and Workforce Identities
+## Identidades humanas e de colaboradores
 
-A **human identity** represents a person who needs access to AWS.
+Uma **identidade humana** representa uma pessoa que precisa acessar a AWS.
 
-Examples include:
+Alguns exemplos:
 
-- Cloud engineers
-- Developers
-- System administrators
-- Security engineers
-- Operators
-- Auditors
+- Engenheiros de nuvem
+- Desenvolvedores
+- Administradores de sistemas
+- Engenheiros de segurança
+- Operadores
+- Auditores
 
-In modern AWS environments, human users should generally access AWS through **federation** and receive **temporary credentials**.
+Em ambientes modernos da AWS, os usuários humanos geralmente devem acessar a AWS por **federação** e receber **credenciais temporárias**.
 
-A common architecture uses:
+Uma arquitetura comum utiliza:
 
 ```text
 Corporate / External Identity Provider
@@ -369,9 +369,9 @@ Corporate / External Identity Provider
     Temporary Credentials
 ```
 
-IAM Identity Center provides centralized access management and can integrate with external identity providers.
+O IAM Identity Center oferece gerenciamento centralizado de acesso e pode integrar-se a provedores externos de identidade.
 
-Permission sets define the permissions that workforce identities receive when accessing AWS accounts.
+Conjuntos de permissões (*permission sets*) definem as permissões recebidas pelos colaboradores ao acessar contas AWS.
 
 
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_03.jpg)
@@ -379,22 +379,22 @@ Permission sets define the permissions that workforce identities receive when ac
 
 ---
 
-## Workload Identities
+## Identidades de cargas de trabalho
 
-A **workload identity** represents software or infrastructure that needs to call AWS APIs.
+Uma **identidade de carga de trabalho** representa um software ou infraestrutura que precisa chamar APIs da AWS.
 
-Examples include:
+Alguns exemplos:
 
-- EC2 instances
-- Lambda functions
-- ECS tasks
-- EKS workloads
-- CI/CD pipelines
-- Applications running outside AWS
+- Instâncias EC2
+- Funções Lambda
+- Tarefas ECS
+- Cargas de trabalho EKS
+- Pipelines de CI/CD
+- Aplicações executadas fora da AWS
 
-Whenever possible, workloads should use mechanisms that provide **temporary credentials** rather than static access keys.
+Sempre que possível, as cargas de trabalho devem utilizar mecanismos que forneçam **credenciais temporárias**, em vez de chaves de acesso estáticas.
 
-For EC2:
+Para o EC2:
 
 ```text
 EC2 Instance
@@ -409,33 +409,33 @@ IAM Role
 Temporary Credentials
 ```
 
-The workload can use those credentials to call AWS APIs according to the policies attached to the role.
+A carga de trabalho pode utilizar essas credenciais para chamar APIs da AWS conforme as políticas associadas à função IAM.
 
 ---
 
-## IAM Roles
+## Funções IAM
 
-An **IAM role** is an AWS identity that can be assumed by a trusted principal.
+Uma **função IAM** é uma identidade AWS que pode ser assumida por uma entidade principal confiável.
 
-Roles do not have permanent credentials attached to them.
+As funções não possuem credenciais permanentes associadas.
 
-When a role is assumed, AWS Security Token Service (**STS**) provides temporary security credentials for the role session.
+Quando uma função é assumida, o AWS Security Token Service (**STS**) fornece credenciais de segurança temporárias para a sessão dessa função.
 
-Common role use cases include:
+Casos comuns de uso de funções incluem:
 
-- EC2 workload access
-- Lambda execution
-- ECS task roles
-- Cross-account access
-- Federated workforce access
-- CI/CD pipelines
-- External workloads through role-based mechanisms
+- Acesso de cargas de trabalho EC2
+- Execução de funções Lambda
+- Funções de tarefas ECS
+- Acesso entre contas
+- Acesso federado de colaboradores
+- Pipelines de CI/CD
+- Cargas de trabalho externas por mecanismos baseados em funções
 
 ---
 
-## Temporary Credentials
+## Credenciais temporárias
 
-Temporary security credentials contain:
+As credenciais temporárias de segurança contêm:
 
 ```text
 Access Key ID
@@ -444,32 +444,32 @@ Session Token
 Expiration
 ```
 
-Unlike long-term IAM user access keys, temporary credentials have a limited lifetime.
+Diferentemente das chaves de acesso de longa duração dos usuários IAM, as credenciais temporárias possuem validade limitada.
 
-Applications running on supported AWS compute services can usually obtain and refresh temporary credentials automatically.
+Aplicações executadas em serviços compatíveis de computação AWS geralmente podem obter e renovar credenciais temporárias automaticamente.
 
-This reduces the need to:
+Isso reduz a necessidade de:
 
-- Create permanent access keys.
-- Store secrets in configuration files.
-- Rotate static credentials manually.
-- Commit credentials accidentally to source control.
+- Criar chaves de acesso permanentes.
+- Armazenar segredos em arquivos de configuração.
+- Fazer rotação manual de credenciais estáticas.
+- Enviar credenciais acidentalmente ao controle de versão.
 
 ---
 
-## Trust Policies
+## Políticas de confiança
 
-A role's **trust policy** determines:
+A **política de confiança** de uma função determina:
 
-> **WHO or WHAT is allowed to assume this role?**
+> **QUEM ou O QUE tem permissão para assumir essa função?**
 
-For an EC2 service role, the trusted principal is commonly:
+No caso de uma função de serviço EC2, a entidade principal confiável normalmente é:
 
 ```text
 ec2.amazonaws.com
 ```
 
-Example:
+Exemplo:
 
 ```json
 {
@@ -486,7 +486,7 @@ Example:
 }
 ```
 
-Conceptually:
+Conceitualmente:
 
 ```text
 Trust Policy
@@ -496,13 +496,13 @@ Trust Policy
 
 ---
 
-## Permissions Policies
+## Políticas de permissões
 
-A permissions policy determines:
+Uma política de permissões determina:
 
-> **WHAT can the identity do after receiving the permissions?**
+> **O QUE a identidade pode fazer após receber as permissões?**
 
-For example:
+Por exemplo:
 
 ```json
 {
@@ -512,7 +512,7 @@ For example:
 }
 ```
 
-Conceptually:
+Conceitualmente:
 
 ```text
 Permissions Policy
@@ -520,7 +520,7 @@ Permissions Policy
         └── WHAT actions are allowed?
 ```
 
-Therefore:
+Portanto:
 
 ```text
 Trust Policy       → WHO / WHAT can assume the role
@@ -528,24 +528,24 @@ Trust Policy       → WHO / WHAT can assume the role
 Permissions Policy → WHAT the role is allowed to do
 ```
 
-These are separate authorization decisions.
+Essas são decisões de autorização distintas.
 
 ---
 
-## IAM Users
+## Usuários IAM
 
-An **IAM user** is a persistent identity within an AWS account.
+Um **usuário IAM** é uma identidade persistente em uma conta AWS.
 
-IAM users can have long-term credentials such as:
+Usuários IAM podem possuir credenciais de longa duração, como:
 
-- Console passwords
-- Access keys
+- Senhas do console
+- Chaves de acesso
 
-IAM users remain supported and may be necessary for specific use cases.
+Usuários IAM continuam sendo compatíveis com a AWS e podem ser necessários em casos de uso específicos.
 
-However, this lab does not create an IAM user because modern workforce access should normally use federation and temporary credentials when possible.
+Entretanto, este laboratório não cria um usuário IAM, pois o acesso moderno de colaboradores normalmente deve usar federação e credenciais temporárias quando possível.
 
-IAM users should therefore be understood as:
+Assim, os usuários IAM devem ser entendidos como:
 
 ```text
 Important IAM concept
@@ -558,25 +558,25 @@ Important IAM concept
 
 ---
 
-## Least Privilege
+## Privilégio mínimo
 
-The **Principle of Least Privilege** means granting only the permissions required for a specific task.
+O **princípio do privilégio mínimo** significa conceder apenas as permissões necessárias para uma tarefa específica.
 
-Instead of:
+Em vez de:
 
 ```text
 AdministratorAccess
 ```
 
-or:
+ou:
 
 ```json
 "Action": "*"
 ```
 
-this laboratory creates a policy containing only selected EC2 read operations.
+este laboratório cria uma política que contém apenas determinadas operações de leitura do EC2.
 
-The policy model is:
+O modelo da política é:
 
 ```text
 Amazon EC2 only
@@ -586,25 +586,25 @@ Selected Describe actions only
 us-east-1 condition
 ```
 
-No EC2 write or destructive permissions are intentionally granted.
+Nenhuma permissão de escrita ou destrutiva do EC2 é concedida intencionalmente.
 
 ---
 
 ## IAM Access Analyzer
 
-IAM Access Analyzer provides tools that help evaluate IAM policies and access configurations.
+O IAM Access Analyzer oferece ferramentas que ajudam a avaliar políticas IAM e configurações de acesso.
 
-In this lab, it is used to validate the customer managed policy before relying on it.
+Neste laboratório, ele é utilizado para validar a política gerenciada pelo cliente antes de confiar nela.
 
-Policy validation can identify:
+A validação de políticas pode identificar:
 
-- Syntax errors
-- Security warnings
-- General warnings
-- Suggestions
-- Policy elements that may not behave as expected
+- Erros de sintaxe
+- Alertas de segurança
+- Avisos gerais
+- Sugestões
+- Elementos da política que podem não funcionar conforme o esperado
 
-Policy validation is an important complement to manual policy review.
+A validação da política é um complemento importante da revisão manual.
 
 
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_04.jpg)
@@ -612,23 +612,23 @@ Policy validation is an important complement to manual policy review.
 
 ---
 
-# Lab Resources
+# Recursos do laboratório
 
-The following temporary resources will be created:
+Serão criados os seguintes recursos temporários:
 
-| Resource | Name | Purpose |
+| Recurso | Nome | Finalidade |
 |---|---|---|
-| Customer Managed Policy | `Lab03EC2ReadOnlyPolicy` | Least-privilege EC2 read permissions |
-| IAM Role | `Lab03-EC2-ReadOnly-Role` | Demonstrates EC2 workload identity |
-| Trust Policy File | `lab03-ec2-role-trust-policy.json` | Documents the EC2 trust relationship |
-| Permissions Policy File | `lab03-ec2-read-only-policy.json` | Reusable policy artifact |
+| Política gerenciada pelo cliente | `Lab03EC2ReadOnlyPolicy` | Permissões de leitura EC2 com privilégio mínimo |
+| Função IAM | `Lab03-EC2-ReadOnly-Role` | Demonstra a identidade de carga de trabalho EC2 |
+| Arquivo de política de confiança | `lab03-ec2-role-trust-policy.json` | Documenta a relação de confiança do EC2 |
+| Arquivo de política de permissões | `lab03-ec2-read-only-policy.json` | Artefato de política reutilizável |
 
-The following existing resource will only be inspected:
+O seguinte recurso existente será apenas inspecionado:
 
-| Resource | Name |
+| Recurso | Nome |
 |---|---|
-| IAM Role | `EC2-SSM-Role` |
-| EC2 Instance | Existing Lab 01/02 instance |
+| Função IAM | `EC2-SSM-Role` |
+| Instância EC2 | Instância existente dos Labs 01 e 02 |
 
 
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_05.jpg)
@@ -636,18 +636,18 @@ The following existing resource will only be inspected:
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_06.jpg)
 
 
-> **Do not delete or replace `EC2-SSM-Role`.** It is part of previous laboratories and may be required later.
+> **Não exclua nem substitua `EC2-SSM-Role`.** Essa função faz parte dos laboratórios anteriores e poderá ser necessária novamente.
 
 
 ---
 
-# Step-by-Step Implementation
+# Implementação passo a passo
 
-# Step 1 — Review the Modern AWS Identity Model
+# Etapa 1 — Analisar o modelo moderno de identidade da AWS
 
-Before changing any IAM configuration, establish the identity model used throughout this lab.
+Antes de alterar qualquer configuração do IAM, é importante identificar o modelo de identidade utilizado ao longo deste laboratório.
 
-The laboratory intentionally distinguishes:
+O laboratório distingue intencionalmente:
 
 ```text
 HUMANS
@@ -659,7 +659,7 @@ HUMANS
                  └── Temporary Credentials
 ```
 
-from:
+de:
 
 ```text
 WORKLOADS
@@ -669,9 +669,9 @@ WORKLOADS
           └── Temporary Credentials
 ```
 
-The practical portion of this lab will focus on **workload identity**, while IAM Identity Center will be reviewed as the preferred modern workforce-access architecture.
+A parte prática se concentra na **identidade de cargas de trabalho**, enquanto o IAM Identity Center é analisado como a arquitetura moderna preferencial para acesso de colaboradores.
 
-No IAM user or long-term access key is required.
+Não é necessário criar usuários IAM nem chaves de acesso de longa duração.
 
 
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_07.jpg)
@@ -679,7 +679,7 @@ No IAM user or long-term access key is required.
 
 ---
 
-# Step 2 — Inspect the Existing EC2 Workload Role
+# Etapa 2 — Inspecionar a função IAM existente da carga de trabalho EC2
 
 Navigate to:
 
@@ -703,7 +703,7 @@ Open the role.
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_08.jpg)
 
 
-## Review Attached Permissions
+## Examinar as permissões associadas
 
 Open the **Permissions** section.
 
@@ -722,7 +722,7 @@ Do not modify the role.
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_09.jpg)
 
 
-## Review the Trust Relationship
+## Examinar a relação de confiança
 
 Open:
 
@@ -761,13 +761,13 @@ This is the workload identity pattern used by the existing EC2 instance.
 
 ---
 
-# Step 3 — Verify Role-Based Identity from the EC2 Instance
+# Etapa 3 — Verificar a identidade baseada em função a partir da instância EC2
 
 Open the existing EC2 instance through **AWS Systems Manager Session Manager**.
 
 The objective is to verify that the instance has a role available through the EC2 Instance Metadata Service without exposing credential values.
 
-## Query the Instance Profile Role Name
+## Consultar o nome da função no perfil de instância
 
 Run:
 
@@ -799,7 +799,7 @@ This demonstrates that the EC2 instance has access to an IAM role through its in
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_11.jpg)
 
 
-## Optional — Verify the AWS Caller Identity
+## Opcional — Verificar a identidade de quem chama a API AWS
 
 If the AWS CLI is already installed on the instance, run:
 
@@ -822,7 +822,7 @@ EC2 role credentials are provided automatically
 
 ---
 
-# Step 4 — Create a Least-Privilege Customer Managed Policy
+# Etapa 4 — Criar uma política gerenciada pelo cliente com privilégio mínimo
 
 Navigate to:
 
@@ -887,9 +887,9 @@ Next
 ```
 
 
-## Policy Design
+## Estrutura da política
 
-### Explicit Actions
+### Ações explícitas
 
 Only selected EC2 read operations are allowed.
 
@@ -902,7 +902,7 @@ ec2:StopInstances
 ec2:TerminateInstances
 ```
 
-### Resource
+### Recurso
 
 The statement uses:
 
@@ -914,7 +914,7 @@ because many EC2 `Describe` APIs do not support resource-level permissions.
 
 The scope is still restricted by the explicit list of allowed actions.
 
-### Regional Condition
+### Condição regional
 
 The condition:
 
@@ -938,7 +938,7 @@ Selected EC2 read APIs
 
 ---
 
-# Step 5 — Validate the Policy with IAM Access Analyzer
+# Etapa 5 — Validar a política com o IAM Access Analyzer
 
 Before creating the policy, review the policy validation results shown by the IAM console.
 
@@ -984,7 +984,7 @@ After creation, confirm that the policy appears under **Customer managed policie
 
 ---
 
-# Step 6 — Create a Dedicated EC2 IAM Role
+# Etapa 6 — Criar uma função IAM dedicada ao EC2
 
 Create a laboratory role that demonstrates workload identity without modifying the running instance from previous labs.
 
@@ -1060,7 +1060,7 @@ Lab03-EC2-ReadOnly-Role
 
 ---
 
-# Step 7 — Attach the Least-Privilege Policy to the Role
+# Etapa 7 — Associar a política de privilégio mínimo à função
 
 Open:
 
@@ -1132,7 +1132,7 @@ us-east-1
 
 ---
 
-# Step 8 — Evaluate Allowed and Denied Actions
+# Etapa 8 — Avaliar ações permitidas e negadas
 
 Where available, use the **IAM Policy Simulator** or another appropriate IAM policy evaluation workflow to inspect the permissions associated with:
 
@@ -1186,11 +1186,11 @@ An applicable **explicit deny** from another policy layer would override an allo
 
 ---
 
-# Step 9 — Compare Workforce and Workload Access
+# Etapa 9 — Comparar o acesso de pessoas e de cargas de trabalho
 
 The final implementation step compares the role created in this lab with the modern AWS workforce model.
 
-## Workload Access Implemented in This Lab
+## Acesso de carga de trabalho implementado neste laboratório
 
 ```text
 EC2 Workload
@@ -1205,7 +1205,7 @@ Temporary Credentials
 AWS APIs
 ```
 
-## Modern Workforce Access
+## Acesso moderno de colaboradores
 
 A common modern model is:
 
@@ -1245,11 +1245,11 @@ The important learning objective is to recognize that modern workforce access is
 
 ---
 
-# Validation
+# Validação
 
 Before cleanup, verify the complete Lab 03 configuration.
 
-## Existing Workload Role
+## Função existente da carga de trabalho
 
 Confirm:
 
@@ -1258,7 +1258,7 @@ Confirm:
 - Existing SSM and monitoring permissions remain unchanged.
 - The running EC2 instance remains accessible through Session Manager.
 
-## Instance Identity
+## Identidade da instância
 
 Confirm:
 
@@ -1266,7 +1266,7 @@ Confirm:
 - The role name is `EC2-SSM-Role`.
 - No static AWS credentials were created for the instance.
 
-## Customer Managed Policy
+## Política gerenciada pelo cliente
 
 Confirm:
 
@@ -1276,7 +1276,7 @@ Confirm:
 - The `aws:RequestedRegion` condition is configured for `us-east-1`.
 - IAM Access Analyzer policy validation was reviewed.
 
-## Laboratory Role
+## Função IAM do laboratório
 
 Confirm:
 
@@ -1285,7 +1285,7 @@ Confirm:
 - `Lab03EC2ReadOnlyPolicy` is attached.
 - The role was not attached to or substituted for `EC2-SSM-Role`.
 
-## Authorization Model
+## Modelo de autorização
 
 Expected:
 
@@ -1299,7 +1299,7 @@ EC2 destructive actions       → DENIED
 Unrelated service actions     → DENIED
 ```
 
-## Workforce Model
+## Modelo de acesso de colaboradores
 
 Confirm that you can explain why:
 
@@ -1317,9 +1317,9 @@ are used for AWS workloads such as EC2.
 
 ---
 
-# Security Best Practices Applied
+# Boas práticas de segurança aplicadas
 
-## 1. Temporary Credentials
+## 1. Credenciais temporárias
 
 The lab emphasizes temporary credentials for both human and workload access models.
 
@@ -1327,7 +1327,7 @@ No long-term access key is created.
 
 ---
 
-## 2. Workload Roles Instead of Embedded Credentials
+## 2. Funções de cargas de trabalho em vez de credenciais incorporadas
 
 EC2 workloads use IAM roles rather than credentials stored in:
 
@@ -1341,7 +1341,7 @@ Git repositories
 
 ---
 
-## 3. Federation for Human Access
+## 3. Federação para acesso humano
 
 IAM users are not used as the default workforce model.
 
@@ -1349,7 +1349,7 @@ The lab presents federation and IAM Identity Center as the modern architecture f
 
 ---
 
-## 4. Least Privilege
+## 4. Privilégio mínimo
 
 The customer managed policy grants only the actions required by the exercise.
 
@@ -1367,7 +1367,7 @@ or:
 
 ---
 
-## 5. Explicit Action Selection
+## 5. Seleção explícita de ações
 
 The policy explicitly identifies permitted API operations.
 
@@ -1375,7 +1375,7 @@ This makes the authorization scope easier to understand, review, and audit.
 
 ---
 
-## 6. Conditions as Additional Guardrails
+## 6. Condições como controles adicionais
 
 The policy uses:
 
@@ -1387,7 +1387,7 @@ to further restrict supported requests.
 
 ---
 
-## 7. Separate Trust from Permissions
+## 7. Separação entre confiança e permissões
 
 The lab explicitly separates:
 
@@ -1405,7 +1405,7 @@ This distinction is fundamental to secure role design.
 
 ---
 
-## 8. Policy Validation
+## 8. Validação de políticas
 
 IAM Access Analyzer policy validation is reviewed before relying on the policy.
 
@@ -1413,7 +1413,7 @@ This adds automated policy analysis to manual review.
 
 ---
 
-## 9. Preserve Existing Production-Like Dependencies
+## 9. Preservação de dependências semelhantes às de produção
 
 The lab does not replace the instance profile on the running EC2 instance merely to demonstrate another IAM role.
 
@@ -1425,7 +1425,7 @@ This avoids unnecessarily disrupting:
 
 ---
 
-## 10. No Credentials in Source Control
+## 10. Nenhuma credencial no controle de versão
 
 Never commit:
 
@@ -1444,7 +1444,7 @@ The repository stores **policy definitions**, not credentials.
 
 ---
 
-# Cleanup
+# Limpeza dos recursos
 
 Only resources created specifically for Lab 03 should be removed.
 
@@ -1471,7 +1471,7 @@ Delete Lab03-EC2-ReadOnly-Role
 Delete Lab03EC2ReadOnlyPolicy
 ```
 
-## Cleanup Step 1 — Detach the Policy
+## Limpeza — Etapa 1: Desassociar a política
 
 Navigate to:
 
@@ -1491,7 +1491,7 @@ Detach:
 Lab03EC2ReadOnlyPolicy
 ```
 
-## Cleanup Step 2 — Delete the Laboratory Role
+## Limpeza — Etapa 2: Excluir a função do laboratório
 
 Delete:
 
@@ -1503,7 +1503,7 @@ Lab03-EC2-ReadOnly-Role
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_24.jpg)
 
 
-## Cleanup Step 3 — Delete the Customer Managed Policy
+## Limpeza — Etapa 3: Excluir a política gerenciada pelo cliente
 
 Navigate to:
 
@@ -1525,7 +1525,7 @@ Delete it.
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_25.jpg)
 
 
-## Cleanup Step 4 — Preserve Existing Resources
+## Limpeza — Etapa 4: Preservar os recursos existentes
 
 Confirm that:
 
@@ -1537,7 +1537,7 @@ still exists and that the EC2 instance remains accessible through Session Manage
 
 ---
 
-# Post-Cleanup Validation
+# Validação após a limpeza
 
 Expected final state:
 
@@ -1563,9 +1563,9 @@ policies/lab03-ec2-role-trust-policy.json
 
 ---
 
-# Troubleshooting
+# Solução de problemas
 
-## EC2-SSM-Role Is Missing
+## A função EC2-SSM-Role não existe
 
 If the role does not exist, review Lab 01 before continuing.
 
@@ -1575,7 +1575,7 @@ The Lab 03 workflow assumes the previous EC2/SSM environment exists.
 
 ---
 
-## Session Manager Does Not Connect
+## O Session Manager não estabelece conexão
 
 Check:
 
@@ -1589,7 +1589,7 @@ Do not replace the existing instance profile during Lab 03.
 
 ---
 
-## IMDSv2 Query Returns an Error
+## A consulta ao IMDSv2 retorna erro
 
 Verify that:
 
@@ -1602,7 +1602,7 @@ Use IMDSv2 rather than intentionally downgrading the laboratory to IMDSv1.
 
 ---
 
-## IAM Access Analyzer Reports a Finding
+## O IAM Access Analyzer apresenta uma ocorrência
 
 Do not automatically ignore validation findings.
 
@@ -1617,7 +1617,7 @@ Some findings may be informational, while others may require a policy change.
 
 ---
 
-## Policy Cannot Be Attached
+## Não é possível associar a política
 
 Confirm that:
 
@@ -1631,7 +1631,7 @@ Also confirm that your current administrative identity has permission to attach 
 
 ---
 
-## Policy Simulator Shows an Unexpected Deny
+## O simulador de políticas apresenta uma negação inesperada
 
 Verify:
 
@@ -1652,7 +1652,7 @@ Overrides ALLOW
 
 ---
 
-## Policy Simulator Shows More Access Than Expected
+## O simulador de políticas mostra mais permissões do que o esperado
 
 A principal can receive permissions from multiple policy sources.
 
@@ -1668,7 +1668,7 @@ The final effective permission is determined by AWS policy evaluation logic, not
 
 ---
 
-## IAM Identity Center Is Not Configured
+## O IAM Identity Center não está configurado
 
 That is acceptable for this laboratory.
 
@@ -1680,7 +1680,7 @@ Organization-level identity design should be intentional and should not be enabl
 
 ---
 
-## AWS Console Looks Different
+## O console AWS apresenta uma interface diferente
 
 AWS periodically changes console navigation and visual layout.
 
@@ -1700,9 +1700,9 @@ Federated Human → Role → Temporary Credentials → Permissions
 
 ---
 
-# Key Learnings
+# Principais aprendizados
 
-## Modern AWS Identity Is Role-Centric
+## A identidade moderna na AWS é centrada em funções
 
 Both workforce and workload access increasingly rely on role-based temporary credentials.
 
@@ -1710,7 +1710,7 @@ The identity source differs, but the security objective is similar.
 
 ---
 
-## Human and Workload Identities Are Different
+## Identidades humanas e de cargas de trabalho são diferentes
 
 Human access commonly begins with federation:
 
@@ -1734,7 +1734,7 @@ IAM Role
 
 ---
 
-## Temporary Credentials Reduce Long-Term Secret Exposure
+## Credenciais temporárias reduzem a exposição prolongada de segredos
 
 Temporary credentials expire.
 
@@ -1742,7 +1742,7 @@ This reduces the security burden associated with permanent access keys.
 
 ---
 
-## IAM Roles Have Two Different Security Dimensions
+## Funções IAM possuem duas dimensões de segurança
 
 A role must answer:
 
@@ -1762,7 +1762,7 @@ Permissions policies answer the second.
 
 ---
 
-## Least Privilege Is an Iterative Engineering Practice
+## O privilégio mínimo é uma prática de engenharia iterativa
 
 Least privilege is not simply choosing a policy named `ReadOnly`.
 
@@ -1770,7 +1770,7 @@ It requires understanding the actual API actions a workload needs and restrictin
 
 ---
 
-## Automated Policy Validation Adds Value
+## A validação automatizada de políticas agrega valor
 
 IAM Access Analyzer can identify syntax and security issues that may be missed during manual review.
 
@@ -1778,7 +1778,7 @@ Policy validation should be part of the policy-development workflow.
 
 ---
 
-## IAM Users Still Matter — But Context Matters More
+## Usuários IAM continuam relevantes — mas o contexto importa ainda mais
 
 Cloud engineers must understand IAM users because they exist in AWS and in real environments.
 
@@ -1792,7 +1792,7 @@ Use IAM users as the default modern workforce architecture
 
 ---
 
-## Existing Dependencies Should Not Be Modified Without Need
+## Dependências existentes não devem ser modificadas sem necessidade
 
 A good laboratory should not break an existing working environment merely to demonstrate another concept.
 
@@ -1800,7 +1800,7 @@ This lab therefore creates a separate IAM role rather than replacing `EC2-SSM-Ro
 
 ---
 
-## Identity Design Is Part of Cloud Architecture
+## O projeto de identidade faz parte da arquitetura de nuvem
 
 Identity is not an isolated administrative task.
 
@@ -1819,7 +1819,7 @@ Understanding IAM architecture is therefore a core cloud engineering skill.
 
 ---
 
-# Repository Structure
+# Estrutura do repositório
 
 The updated Lab 03 structure is intentionally compact:
 
@@ -1873,9 +1873,9 @@ They are **not required to reproduce the laboratory**, and the README does not i
 
 ---
 
-# Next Lab
+# Próximo laboratório
 
-## Lab 04 — EBS Volumes and Snapshots
+## Lab 04 — Volumes e snapshots do EBS
 
 The next laboratory explores persistent block storage for Amazon EC2.
 
