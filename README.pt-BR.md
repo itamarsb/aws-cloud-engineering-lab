@@ -75,6 +75,7 @@ aws-cloud-engineering-lab/
 │   └── 03-iam-roles-and-policies/
 ├── terraform/
 │   ├── README.md
+│   ├── README.pt-BR.md
 │   ├── 00-workstation-and-aws-authentication/
 │   └── 01-ec2-and-ssm/
 └── scripts/
@@ -91,9 +92,9 @@ aws-cloud-engineering-lab/
 | Terraform | [Lab 00 — Preparação da estação de trabalho e autenticação AWS](terraform/00-workstation-and-aws-authentication/README.pt-BR.md) | Guia de preparação do ambiente (fora da contagem dos Labs 01–26) |
 | Terraform | [Lab 01 — EC2 e SSM](terraform/01-ec2-and-ssm/README.pt-BR.md) | Configuração Terraform e documentação em desenvolvimento |
 
-Consulte também a [trilha de Terraform](terraform/README.md) e o [roteiro de aprendizagem cloud-native](docs/cloud-native-roadmap.md). Os itens referentes a laboratórios futuros representam planejamento e não apontam para diretórios já implementados.
+Consulte também a [trilha de Terraform](terraform/README.pt-BR.md) e o [roteiro de aprendizagem cloud-native](docs/cloud-native-roadmap.md). Os itens referentes a laboratórios futuros representam planejamento e não apontam para diretórios já implementados.
 
-> **Idioma dos laboratórios:** os Labs 01, 02 e 03 (manuais) e os Labs 00 e 01 de Terraform já possuem versões em português. O Lab 01 de Terraform permanece em desenvolvimento; sua documentação ainda não cobre todas as etapas do roteiro.
+> **Idioma da documentação:** o README principal, o índice da trilha Terraform, os Labs 01, 02 e 03 (manuais) e os Labs 00 e 01 de Terraform possuem versões em português. O Lab 01 de Terraform permanece em desenvolvimento; sua documentação ainda não cobre todas as etapas do roteiro.
 
 ### Fluxo de aprendizagem
 
