@@ -708,19 +708,19 @@ Dependency lock file
 
 ---
 
-## Step 3 — Configure the AWS Provider (`provider.tf`)
+## Passo 3 — Configurar o provedor AWS (`provider.tf`)
 
-In the previous step, the `versions.tf` file declared that this project requires the AWS Provider.
+No passo anterior, o arquivo `versions.tf` declarou que este projeto exige o provedor AWS.
 
-The next step is to configure how Terraform will use that provider.
+O próximo passo é configurar como o Terraform utilizará esse provedor.
 
-This configuration will define:
+Essa configuração definirá:
 
-- the AWS Region where the laboratory will be deployed;
-- an optional AWS CLI profile;
-- common tags that will be automatically applied to supported AWS resources.
+- a região AWS em que o laboratório será implantado;
+- um perfil opcional da AWS CLI;
+- tags comuns que serão aplicadas automaticamente aos recursos AWS compatíveis.
 
-The provider configuration acts as the connection layer between the Terraform project and the AWS APIs.
+A configuração do provedor atua como camada de conexão entre o projeto Terraform e as APIs da AWS.
 
 ```text
 versions.tf
@@ -737,17 +737,17 @@ Authenticates and sends requests to AWS APIs
 ```
 
 > [!IMPORTANT]
-> The provider configuration does not create an AWS resource.
+> A configuração do provedor não cria recursos AWS.
 >
-> It defines how resources and data sources belonging to the AWS Provider will communicate with AWS.
+> Ela define como recursos e fontes de dados desse provedor se comunicam com a AWS.
 
 ---
 
-### Declaring and Configuring a Provider
+### Declarar e configurar um provedor
 
-Declaring a provider and configuring a provider are related but separate operations.
+Declarar um provedor e configurá-lo são operações relacionadas, mas distintas.
 
-In `versions.tf`, the project declares:
+Em `versions.tf`, o projeto declara:
 
 ```hcl
 required_providers {
@@ -758,7 +758,7 @@ required_providers {
 }
 ```
 
-This tells Terraform:
+Isso informa ao Terraform:
 
 ```text
 Provider local name: aws
@@ -766,7 +766,7 @@ Provider source:     hashicorp/aws
 Accepted versions:   6.x
 ```
 
-In `provider.tf`, the project configures that provider:
+Em `provider.tf`, o projeto configura esse provedor:
 
 ```hcl
 provider "aws" {
@@ -774,7 +774,7 @@ provider "aws" {
 }
 ```
 
-This block answers operational questions such as:
+Esse bloco responde a perguntas operacionais como:
 
 ```text
 Which AWS Region should be used?
@@ -784,18 +784,18 @@ Should Terraform use a named AWS CLI profile?
 Which common tags should be applied to supported resources?
 ```
 
-The distinction can be summarized as:
+A diferença pode ser resumida assim:
 
-| File | Responsibility |
+| Arquivo | Responsabilidade |
 |---|---|
-| `versions.tf` | Declares the provider source and compatible versions |
-| `provider.tf` | Configures how the provider communicates with AWS |
+| `versions.tf` | Declara a origem do provedor e as versões compatíveis |
+| `provider.tf` | Configura como o provedor se comunica com a AWS |
 
 ---
 
-### Create `provider.tf`
+### Criar `provider.tf`
 
-From the laboratory directory, create the file using PowerShell:
+A partir do diretório do laboratório, crie o arquivo usando PowerShell:
 
 ```powershell
 New-Item provider.tf -ItemType File
@@ -804,11 +804,11 @@ New-Item provider.tf -ItemType File
 ![LAB01_Terraform](images/lab01_terraform/Lab01_Terraform_Clipboard_07-29-2026_07.jpg)
 
 
-Alternatively, create it through the VS Code Explorer:
+Como alternativa, crie-o pelo Explorer do VS Code:
 
-1. Right-click the `01-ec2-and-ssm` directory.
-2. Select **New File**.
-3. Enter:
+1. Clique com o botão direito no diretório `01-ec2-and-ssm`.
+2. Selecione **New File** (Novo arquivo).
+3. Informe:
 
 ```text
 provider.tf
@@ -817,7 +817,7 @@ provider.tf
 ![LAB01_Terraform](images/lab01_terraform/Lab01_Terraform_Clipboard_07-29-2026_08.jpg)
 
 
-The directory should now contain:
+Agora o diretório deve conter:
 
 ```text
 terraform/
@@ -829,9 +829,9 @@ terraform/
 
 ---
 
-### Add the AWS Provider Configuration
+### Adicionar a configuração do provedor AWS
 
-Open `provider.tf` and add:
+Abra `provider.tf` e acrescente:
 
 ```hcl
 provider "aws" {
@@ -844,41 +844,41 @@ provider "aws" {
 }
 ```
 
-Save the file.
+Salve o arquivo.
 
 
 ![LAB01_Terraform](images/lab01_terraform/Lab01_Terraform_Clipboard_07-29-2026_09.jpg)
 
 
 > [!NOTE]
-> This configuration references values that have not been declared yet:
+> Esta configuração faz referência a valores que ainda não foram declarados:
 >
 > - `var.aws_region`;
 > - `var.aws_profile`;
 > - `local.common_tags`.
 >
-> These values will be created in the next steps through `variables.tf` and `locals.tf`.
+> Eles serão criados nos passos seguintes por meio de `variables.tf` e `locals.tf`.
 >
-> Terraform loads all `.tf` files in the working directory as one module. Therefore, referenced declarations do not need to be located in the same file or written before the provider configuration.
+> O Terraform carrega todos os arquivos `.tf` do diretório de trabalho como um único módulo. Portanto, as declarações referenciadas não precisam estar no mesmo arquivo nem ser escritas antes da configuração do provedor.
 
 ---
 
-### Understanding the `provider` Block
+### Compreendendo o bloco `provider`
 
-The provider block begins with:
+O bloco do provedor começa com:
 
 ```hcl
 provider "aws" {
 }
 ```
 
-The label:
+O rótulo:
 
 ```text
 aws
 ```
 
-refers to the local provider name declared earlier in `required_providers`:
+refere-se ao nome local do provedor, declarado anteriormente em `required_providers`:
 
 ```hcl
 required_providers {
@@ -889,7 +889,7 @@ required_providers {
 }
 ```
 
-Together, the declarations mean:
+Em conjunto, essas declarações significam:
 
 ```text
 Local provider name
@@ -901,9 +901,9 @@ Provider package
 registry.terraform.io/hashicorp/aws
 ```
 
-The `provider "aws"` block configures the default AWS Provider instance for this Terraform module.
+O bloco `provider "aws"` configura a instância padrão do provedor AWS para este módulo Terraform.
 
-Later, resources beginning with `aws_` will use this default provider configuration automatically:
+Posteriormente, os recursos cujos tipos começam com `aws_` utilizarão automaticamente essa configuração padrão:
 
 ```hcl
 resource "aws_instance" "lab01" {
@@ -911,7 +911,7 @@ resource "aws_instance" "lab01" {
 }
 ```
 
-Examples of other AWS resource types include:
+Exemplos de outros tipos de recursos AWS:
 
 ```text
 aws_iam_role
@@ -920,21 +920,21 @@ aws_instance
 aws_vpc_security_group_egress_rule
 ```
 
-No provider **alias** is required in this laboratory because all resources will be created in one AWS Region using one provider configuration.
+Não é necessário um **alias** de provedor neste laboratório, pois todos os recursos serão criados em uma única região AWS, usando uma só configuração.
 
 ---
 
-### Understanding the AWS Region
+### Compreendendo a região AWS
 
-The first argument is:
+O primeiro argumento é:
 
 ```hcl
 region = var.aws_region
 ```
 
-An AWS Region is the geographic area in which the provider sends supported service requests and creates regional resources.
+Uma região AWS é uma área geográfica na qual o provedor envia chamadas compatíveis aos serviços e cria recursos regionais.
 
-Examples include:
+Alguns exemplos:
 
 ```text
 us-east-1
@@ -943,21 +943,21 @@ us-west-2
 sa-east-1
 ```
 
-This laboratory will initially use:
+Este laboratório utilizará inicialmente:
 
 ```text
 us-east-1
 ```
 
-However, the Region is not written directly in `provider.tf`.
+Entretanto, a região não é escrita diretamente em `provider.tf`.
 
-Instead, it is referenced through:
+Em vez disso, é referenciada por:
 
 ```hcl
 var.aws_region
 ```
 
-This expression means:
+Essa expressão significa:
 
 ```text
 var
@@ -969,9 +969,9 @@ aws_region
  └── Name of the input variable
 ```
 
-The corresponding variable will be declared later in `variables.tf`.
+A variável correspondente será declarada posteriormente em `variables.tf`.
 
-This design is preferable to writing:
+Esse projeto é preferível a escrever:
 
 ```hcl
 provider "aws" {
@@ -979,9 +979,9 @@ provider "aws" {
 }
 ```
 
-Both forms are technically possible, but using an input variable makes the configuration easier to reuse in another Region without editing the provider file.
+Ambas as formas são tecnicamente possíveis, mas usar uma variável de entrada facilita a reutilização da configuração em outra região, sem modificar o arquivo do provedor.
 
-For example:
+Por exemplo:
 
 ```text
 Default execution
@@ -992,23 +992,23 @@ Alternative execution
 ```
 
 > [!IMPORTANT]
-> The Region used by Terraform must contain or support the resources queried and created by the laboratory.
+> A região utilizada pelo Terraform precisa conter ou oferecer suporte aos recursos consultados e criados pelo laboratório.
 >
-> This implementation expects a default VPC and default subnets in the selected Region.
+> Esta implementação espera encontrar uma VPC padrão e sub-redes padrão na região selecionada.
 
 ---
 
-### Understanding the Optional AWS CLI Profile
+### Compreendendo o perfil opcional da AWS CLI
 
-The second argument is:
+O segundo argumento é:
 
 ```hcl
 profile = var.aws_profile
 ```
 
-An AWS profile is a named collection of AWS CLI and SDK configuration values.
+Um perfil AWS é um conjunto nomeado de valores de configuração da AWS CLI e do SDK da AWS.
 
-For example, a workstation could contain:
+Por exemplo, uma estação de trabalho pode conter:
 
 ```text
 default
@@ -1017,57 +1017,57 @@ development
 production-read-only
 ```
 
-A named profile can help separate:
+Um perfil nomeado ajuda a separar:
 
-- different AWS accounts;
-- different roles;
-- different authentication methods;
-- different development environments.
+- diferentes contas AWS;
+- diferentes funções IAM;
+- diferentes métodos de autenticação;
+- diferentes ambientes de desenvolvimento.
 
-The provider will receive the profile name from:
+O provedor receberá o nome do perfil de:
 
 ```hcl
 var.aws_profile
 ```
 
-The variable will initially use:
+A variável utilizará inicialmente:
 
 ```hcl
 default = null
 ```
 
-When its value is `null`, the configuration does not force a specific named profile. The AWS Provider can then use the available AWS credential mechanisms in the execution environment.
+Quando seu valor é `null`, a configuração não impõe um perfil nomeado específico. Nesse caso, o provedor AWS pode utilizar os mecanismos de credenciais disponíveis no ambiente de execução.
 
-When a profile is required, a local value can later be supplied through `terraform.tfvars`:
+Quando um perfil for necessário, será possível fornecer um valor local por `terraform.tfvars`:
 
 ```hcl
 aws_profile = "personal-lab"
 ```
 
 > [!CAUTION]
-> A profile name is not a credential.
+> O nome do perfil não é uma credencial.
 >
-> It is only a reference to configuration available in the local AWS environment.
+> Ele é apenas uma referência à configuração disponível no ambiente AWS local.
 >
-> Files containing AWS credentials must never be committed to the repository.
+> Arquivos que contêm credenciais AWS nunca devem ser enviados ao repositório.
 
 ---
 
-### Understanding the AWS Credential Provider Chain
+### Compreendendo a cadeia de provedores de credenciais AWS
 
-Terraform must authenticate before it can read or modify resources in an AWS account.
+O Terraform precisa se autenticar antes de consultar ou modificar recursos em uma conta AWS.
 
-The AWS Provider can obtain credentials through supported mechanisms such as:
+O provedor AWS pode obter credenciais por mecanismos compatíveis, como:
 
-- environment variables;
-- shared AWS credentials files;
-- shared AWS configuration files;
-- AWS CLI profiles;
-- IAM roles attached to AWS compute environments;
-- container credentials;
-- temporary role credentials.
+- variáveis de ambiente;
+- arquivos compartilhados de credenciais AWS;
+- arquivos compartilhados de configuração AWS;
+- perfis da AWS CLI;
+- funções IAM associadas a ambientes computacionais AWS;
+- credenciais de contêineres;
+- credenciais temporárias de funções IAM.
 
-Conceptually:
+Conceitualmente:
 
 ```text
 Terraform
@@ -1081,9 +1081,9 @@ Finds valid credentials
 Authenticates with AWS APIs
 ```
 
-The provider stops using the search process when it finds a valid credential source accepted for that execution environment.
+O provedor interrompe a busca ao encontrar uma origem de credenciais válidas e aceita naquele ambiente de execução.
 
-This behavior allows the same Terraform configuration to be used in different contexts:
+Esse comportamento permite utilizar a mesma configuração Terraform em contextos diferentes:
 
 ```text
 Developer workstation
@@ -1099,15 +1099,15 @@ Container workload
 └── Container credential provider
 ```
 
-The Terraform source code does not need to contain permanent credentials for these scenarios.
+O código-fonte Terraform não precisa conter credenciais permanentes para esses cenários.
 
 ---
 
-### Never Hardcode AWS Credentials
+### Nunca inserir credenciais AWS diretamente no código
 
-Do not write credentials directly in `provider.tf`.
+Não escreva credenciais diretamente em `provider.tf`.
 
-The following is an insecure example and must not be used:
+O exemplo a seguir é inseguro e não deve ser utilizado:
 
 ```hcl
 provider "aws" {
@@ -1117,17 +1117,17 @@ provider "aws" {
 }
 ```
 
-Problems with this approach include:
+Entre os problemas dessa abordagem estão:
 
-- credentials may be committed to Git;
-- repository history can preserve deleted secrets;
-- screenshots may expose them;
-- copied projects may distribute them;
-- multiple users may begin sharing one identity;
-- credential rotation becomes harder;
-- long-lived credentials increase the impact of accidental exposure.
+- as credenciais podem ser enviadas ao Git;
+- o histórico do repositório pode preservar segredos excluídos;
+- capturas de tela podem expor essas informações;
+- projetos copiados podem distribuir as credenciais;
+- diferentes usuários podem acabar compartilhando uma mesma identidade;
+- a rotação de credenciais se torna mais difícil;
+- credenciais de longa duração aumentam o impacto de exposições acidentais.
 
-The laboratory therefore uses:
+Por isso, o laboratório utiliza:
 
 ```hcl
 provider "aws" {
@@ -1136,10 +1136,10 @@ provider "aws" {
 }
 ```
 
-Authentication remains outside the Terraform source code.
+A autenticação permanece fora do código-fonte Terraform.
 
 > [!WARNING]
-> Never include the following values in Terraform files, Markdown documentation, screenshots or Git commits:
+> Nunca inclua os valores a seguir em arquivos Terraform, documentos Markdown, capturas de tela ou commits do Git:
 >
 > ```text
 > AWS_ACCESS_KEY_ID
@@ -1152,15 +1152,15 @@ Authentication remains outside the Terraform source code.
 
 ---
 
-### Validate the Active AWS Identity Before Provisioning
+### Validar a identidade AWS ativa antes do provisionamento
 
-Before any infrastructure is created, the active AWS identity should be checked with the AWS CLI:
+Antes de criar qualquer infraestrutura, verifique a identidade AWS ativa com a AWS CLI:
 
 ```powershell
 aws sts get-caller-identity
 ```
 
-The response identifies the active:
+A resposta identifica:
 
 ```text
 AWS account
@@ -1168,7 +1168,7 @@ AWS principal
 AWS ARN
 ```
 
-A simplified response resembles:
+Uma resposta simplificada se parece com:
 
 ```json
 {
@@ -1178,32 +1178,32 @@ A simplified response resembles:
 }
 ```
 
-This command does not create resources.
+Esse comando não cria recursos.
 
-It helps prevent Terraform from being executed against the wrong AWS account.
+Ele ajuda a evitar que o Terraform seja executado na conta AWS errada.
 
 > [!CAUTION]
-> Mask account IDs, user identifiers and ARNs before publishing screenshots unless they are intentionally required as evidence.
+> Oculte IDs de conta, identificadores de usuários e ARNs antes de publicar capturas de tela, a menos que sejam intencionalmente necessários como evidência.
 
-To list available local profiles:
+Para listar os perfis locais disponíveis:
 
 ```powershell
 aws configure list-profiles
 ```
 
-To inspect the active AWS CLI configuration:
+Para inspecionar a configuração ativa da AWS CLI:
 
 ```powershell
 aws configure list
 ```
 
-These commands will be executed later during the environment-validation stage.
+Esses comandos serão executados posteriormente na etapa de validação do ambiente.
 
 ---
 
-### Understanding `default_tags`
+### Compreendendo `default_tags`
 
-The provider configuration also contains:
+A configuração do provedor também contém:
 
 ```hcl
 default_tags {
@@ -1211,9 +1211,9 @@ default_tags {
 }
 ```
 
-The AWS Provider can automatically apply default tags to resources that support tagging.
+O provedor AWS pode aplicar automaticamente tags padrão aos recursos que oferecem suporte a elas.
 
-Instead of repeating a common set of tags in every resource:
+Em vez de repetir um conjunto de tags comuns em cada recurso:
 
 ```hcl
 resource "aws_instance" "example" {
@@ -1225,7 +1225,7 @@ resource "aws_instance" "example" {
 }
 ```
 
-the provider can centralize them:
+o provedor pode centralizá-las:
 
 ```hcl
 provider "aws" {
@@ -1235,9 +1235,9 @@ provider "aws" {
 }
 ```
 
-The common tags will later be defined in `locals.tf`.
+As tags comuns serão definidas posteriormente em `locals.tf`.
 
-The intended tag set will include information such as:
+O conjunto planejado de tags incluirá informações como:
 
 ```text
 Project
@@ -1249,7 +1249,7 @@ Implementation
 Repository
 ```
 
-Conceptually:
+Conceitualmente:
 
 ```text
 local.common_tags
@@ -1259,35 +1259,35 @@ provider default_tags
 Supported Terraform-managed AWS resources
 ```
 
-This improves:
+Isso melhora:
 
-- resource identification;
-- ownership visibility;
-- cost allocation preparation;
-- inventory searches;
-- operational organization;
-- cleanup verification.
+- a identificação dos recursos;
+- a visibilidade dos responsáveis;
+- a preparação da alocação de custos;
+- as pesquisas de inventário;
+- a organização operacional;
+- a verificação da limpeza dos recursos.
 
 > [!NOTE]
-> Default tags are applied only to resources supported by the AWS Provider's tagging behavior.
+> Tags padrão são aplicadas apenas aos recursos compatíveis com o comportamento de tagging do provedor AWS.
 >
-> They do not automatically tag data sources or AWS objects that Terraform only reads.
+> Elas não adicionam tags automaticamente a fontes de dados nem a objetos AWS que o Terraform apenas consulta.
 
 ---
 
-### Why Use `local.common_tags`?
+### Por que utilizar `local.common_tags`?
 
-The following expression:
+A expressão a seguir:
 
 ```hcl
 tags = local.common_tags
 ```
 
-references a local value.
+faz referência a um valor local.
 
-A local value allows an expression to be defined once and reused throughout the module.
+Um valor local permite definir uma expressão uma vez e reutilizá-la ao longo do módulo.
 
-Without a local value, common tags could be duplicated:
+Sem um valor local, as tags comuns poderiam ser repetidas:
 
 ```hcl
 tags = {
@@ -1297,9 +1297,9 @@ tags = {
 }
 ```
 
-Repeated in several places, duplicated tags become harder to maintain.
+Repetidas em vários lugares, essas tags se tornam mais difíceis de manter.
 
-With a local value:
+Com um valor local:
 
 ```hcl
 locals {
@@ -1311,21 +1311,21 @@ locals {
 }
 ```
 
-the provider can reference:
+o provedor pode referenciar:
 
 ```hcl
 local.common_tags
 ```
 
-If a common tag changes, it can be updated in one location.
+Se uma tag comum mudar, ela poderá ser atualizada em um único lugar.
 
-The complete local value will be created in a later step.
+O valor local completo será criado em um passo posterior.
 
 ---
 
-### Provider Configuration and Dependency Order
+### Configuração do provedor e ordem de dependências
 
-The provider configuration references:
+A configuração do provedor faz referência a:
 
 ```hcl
 var.aws_region
@@ -1333,7 +1333,7 @@ var.aws_profile
 local.common_tags
 ```
 
-Those declarations will exist in separate files:
+Essas declarações existirão em arquivos separados:
 
 ```text
 provider.tf
@@ -1351,9 +1351,9 @@ locals.tf
     }
 ```
 
-Terraform does not depend on filenames to establish an execution sequence.
+O Terraform não depende dos nomes dos arquivos para estabelecer a ordem de execução.
 
-It loads all `.tf` files in the directory and constructs one configuration:
+Ele carrega todos os arquivos `.tf` do diretório e constrói uma única configuração:
 
 ```text
 versions.tf
@@ -1369,47 +1369,47 @@ outputs.tf
 One Terraform root module
 ```
 
-Terraform then analyzes references and constructs its dependency graph.
+Em seguida, o Terraform analisa as referências e constrói seu grafo de dependências.
 
-Therefore:
+Portanto:
 
 ```text
 provider.tf does not need to appear after variables.tf
 ```
 
-and:
+e:
 
 ```text
 variables.tf does not need to be named before provider.tf
 ```
 
-The files are separated for human readability and maintenance.
+Os arquivos são separados para facilitar a leitura e a manutenção.
 
 ---
 
-### Why We Use a Default Provider Configuration
+### Por que utilizar uma configuração padrão do provedor?
 
-The block:
+O bloco:
 
 ```hcl
 provider "aws" {
 }
 ```
 
-has no `alias`.
+não possui `alias`.
 
-It is therefore the default AWS Provider configuration in this module.
+Portanto, representa a configuração padrão do provedor AWS neste módulo.
 
-Resources such as:
+Recursos como:
 
 ```hcl
 resource "aws_instance" "lab01" {
 }
 ```
 
-will use it automatically.
+irão utilizá-la automaticamente.
 
-A provider alias would be useful in a multi-region or multi-account design:
+Um alias de provedor seria útil em uma arquitetura com várias regiões ou contas:
 
 ```hcl
 provider "aws" {
@@ -1422,65 +1422,65 @@ provider "aws" {
 }
 ```
 
-A resource could then explicitly select:
+Um recurso poderia então selecionar explicitamente:
 
 ```hcl
 provider = aws.secondary
 ```
 
-This laboratory intentionally uses only one provider configuration because its goal is to reproduce one EC2 and SSM architecture in a single Region.
+Este laboratório utiliza intencionalmente uma só configuração do provedor, pois seu objetivo é reproduzir uma arquitetura de EC2 e SSM em uma única região.
 
-Introducing aliases here would add complexity without supporting the current learning objective.
-
----
-
-### Engineering Notes
-
-**Purpose**
-
-Configure how the AWS Provider selects a Region, obtains authentication information and applies common tags.
-
-**Why this file exists**
-
-The provider declaration in `versions.tf` tells Terraform which plugin to install.
-
-The configuration in `provider.tf` tells that plugin how it should operate.
-
-**Security decision**
-
-No access key, secret key or session token is stored in the Terraform configuration.
-
-Authentication remains external to the version-controlled source code.
-
-**Reusability decision**
-
-The Region and optional profile are represented by input variables instead of fixed values.
-
-This allows the same project to be executed in different approved environments without editing `provider.tf`.
-
-**Tagging decision**
-
-Common tags are centralized through `default_tags` and `local.common_tags`.
-
-This creates a consistent ownership and identification baseline for supported resources.
-
-**Scope decision**
-
-This laboratory uses one default AWS Provider configuration.
-
-Provider aliases and multi-region configurations will be introduced only when a later architecture requires them.
-
-**Production considerations**
-
-Production environments commonly use short-lived credentials, role assumption, workload identity or federated authentication rather than permanent IAM user access keys.
-
-Automated environments should also separate deployment permissions by environment and apply least-privilege policies.
+Introduzir aliases aqui acrescentaria complexidade sem contribuir para o objetivo de aprendizagem atual.
 
 ---
 
-### Verify `provider.tf`
+### Notas de engenharia
 
-Confirm that the file contains:
+**Finalidade**
+
+Configurar como o provedor AWS seleciona uma região, obtém informações de autenticação e aplica tags comuns.
+
+**Por que este arquivo existe**
+
+A declaração do provedor em `versions.tf` informa ao Terraform qual plugin deve ser instalado.
+
+A configuração em `provider.tf` informa ao plugin como ele deve funcionar.
+
+**Decisão de segurança**
+
+Nenhuma chave de acesso, chave secreta ou token de sessão é armazenado na configuração Terraform.
+
+A autenticação permanece externa ao código-fonte versionado.
+
+**Decisão de reutilização**
+
+A região e o perfil opcional são representados por variáveis de entrada, em vez de valores fixos.
+
+Isso permite executar o mesmo projeto em diferentes ambientes aprovados sem editar `provider.tf`.
+
+**Decisão sobre tags**
+
+As tags comuns são centralizadas por meio de `default_tags` e `local.common_tags`.
+
+Isso cria uma base consistente de identificação e responsabilidade pelos recursos compatíveis.
+
+**Decisão de escopo**
+
+Este laboratório utiliza uma única configuração padrão do provedor AWS.
+
+Aliases de provedores e configurações multirregião serão introduzidos apenas quando uma arquitetura posterior exigir esses recursos.
+
+**Considerações para produção**
+
+Ambientes de produção geralmente utilizam credenciais de curta duração, assunção de funções, identidades de cargas de trabalho ou autenticação federada, em vez de chaves permanentes de usuários IAM.
+
+Ambientes automatizados também devem separar permissões de implantação por ambiente e aplicar políticas de privilégio mínimo.
+
+---
+
+### Verificar `provider.tf`
+
+Confirme que o arquivo contém:
 
 ```hcl
 provider "aws" {
@@ -1493,13 +1493,13 @@ provider "aws" {
 }
 ```
 
-Display the file with PowerShell:
+Exiba o arquivo com PowerShell:
 
 ```powershell
 Get-Content provider.tf
 ```
 
-Expected output:
+Saída esperada:
 
 ```text
 provider "aws" {
@@ -1512,7 +1512,7 @@ provider "aws" {
 }
 ```
 
-The project structure should now be:
+A estrutura do projeto agora deve ser:
 
 ```text
 terraform/
@@ -1522,26 +1522,26 @@ terraform/
     └── versions.tf
 ```
 
-At this stage:
+Neste momento:
 
-- the AWS Provider has been declared;
-- its configuration has been written;
-- the AWS Region variable has not yet been declared;
-- the AWS profile variable has not yet been declared;
-- the common tags have not yet been defined;
-- no provider has been downloaded;
-- no AWS authentication request has been made by Terraform;
-- no Terraform State exists;
-- no AWS resource has been created.
+- o provedor AWS foi declarado;
+- sua configuração foi escrita;
+- a variável de região AWS ainda não foi declarada;
+- a variável do perfil AWS ainda não foi declarada;
+- as tags comuns ainda não foram definidas;
+- nenhum provedor foi baixado;
+- nenhuma solicitação de autenticação AWS foi feita pelo Terraform;
+- nenhum arquivo de estado Terraform existe;
+- nenhum recurso AWS foi criado.
 
 > [!WARNING]
-> Do not run `terraform init`, `terraform validate`, `terraform plan` or `terraform apply` yet.
+> Não execute `terraform init`, `terraform validate`, `terraform plan` ou `terraform apply` ainda.
 >
-> The provider configuration still references input variables and local values that will be created in the next steps.
+> A configuração do provedor ainda referencia variáveis de entrada e valores locais que serão criados nos passos seguintes.
 
 ---
 
-### Concepts Learned in Step 3
+### Conceitos aprendidos no Passo 3
 
 ```text
 Provider declaration versus provider configuration
