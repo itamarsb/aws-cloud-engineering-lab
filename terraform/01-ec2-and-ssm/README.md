@@ -1,5 +1,7 @@
 # Lab 01 — EC2 and SSM with Terraform
 
+**Language:** **English (default)** | [Português (Brasil)](README.pt-BR.md)
+
 > Terraform implementation of the manual **Lab 01 — EC2 and SSM** from the AWS Cloud Engineering Lab repository.
 
 ---
