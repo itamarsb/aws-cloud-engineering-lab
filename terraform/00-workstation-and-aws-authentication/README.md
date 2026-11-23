@@ -10,7 +10,7 @@ Prepare your local development environment to provision AWS infrastructure secur
 
 Before Terraform can provision infrastructure on AWS, your local workstation must be properly prepared. This laboratory guides you through the installation of the required tools, the configuration of AWS authentication, and the validation of your local environment.
 
-Unlike the other laboratories in this repository, **Lab 00 does not create any AWS resources**. Its purpose is to establish a secure and reliable foundation for all subsequent Terraform laboratories.
+Unlike the other laboratories in this repository, **Lab 00 does not provision compute or networking infrastructure**. Its purpose is to establish a secure foundation for subsequent Terraform laboratories. If the IAM user setup steps are followed, they can create IAM identities and access keys in the AWS account.
 
 By the end of this laboratory, your workstation will be fully configured to communicate securely with AWS using the AWS CLI and the Terraform AWS Provider.
 
