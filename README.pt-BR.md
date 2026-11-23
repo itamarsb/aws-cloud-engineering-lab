@@ -88,12 +88,12 @@ aws-cloud-engineering-lab/
 | Manual | [Lab 01 — EC2 e SSM](labs/01-ec2-and-ssm/README.pt-BR.md) | Guia passo a passo e capturas de tela |
 | Manual | [Lab 02 — Monitoramento de EC2 com CloudWatch Agent](labs/02-ec2-monitoring-with-cloudwatch-agent/README.pt-BR.md) | Guia passo a passo e capturas de tela |
 | Manual | [Lab 03 — Funções e políticas do IAM](labs/03-iam-roles-and-policies/README.pt-BR.md) | Guia passo a passo, arquivos de políticas e capturas de tela |
-| Terraform | [Lab 00 — Preparação da estação de trabalho e autenticação AWS](terraform/00-workstation-and-aws-authentication/README.md) | Guia de preparação do ambiente (fora da contagem dos Labs 01–26) |
+| Terraform | [Lab 00 — Preparação da estação de trabalho e autenticação AWS](terraform/00-workstation-and-aws-authentication/README.pt-BR.md) | Guia de preparação do ambiente (fora da contagem dos Labs 01–26) |
 | Terraform | [Lab 01 — EC2 e SSM](terraform/01-ec2-and-ssm/README.md) | Configuração Terraform e documentação em desenvolvimento |
 
 Consulte também a [trilha de Terraform](terraform/README.md) e o [roteiro de aprendizagem cloud-native](docs/cloud-native-roadmap.md). Os itens referentes a laboratórios futuros representam planejamento e não apontam para diretórios já implementados.
 
-> **Idioma dos laboratórios:** os Labs 01, 02 e 03 (manuais) já possuem versões em português. Os Labs 00 e 01 de Terraform permanecem em inglês até que suas traduções sejam publicadas.
+> **Idioma dos laboratórios:** os Labs 01, 02 e 03 (manuais) e o Lab 00 de Terraform já possuem versões em português. O Lab 01 de Terraform permanece em inglês até que sua tradução seja publicada.
 
 ### Fluxo de aprendizagem
 
@@ -150,7 +150,7 @@ A trilha de Terraform busca reproduzir essa arquitetura por meio de Infraestrutu
 
 O roteiro de laboratórios manuais abrange os Labs **01 a 26**. Atualmente, existem diretórios e documentação de apoio para os Labs **01 a 03**; os Labs **04 a 26** estão apenas planejados. Uma tarefa não marcada representa uma atividade futura, e não uma evidência de execução.
 
-A trilha de Terraform possui um [guia de preparação no Lab 00](terraform/00-workstation-and-aws-authentication/README.md) e uma [implementação do Lab 01 em desenvolvimento](terraform/01-ec2-and-ssm/README.md). A presença de arquivos de código não comprova, por si só, que recursos AWS foram implantados ou validados.
+A trilha de Terraform possui um [guia de preparação no Lab 00](terraform/00-workstation-and-aws-authentication/README.pt-BR.md) e uma [implementação do Lab 01 em desenvolvimento](terraform/01-ec2-and-ssm/README.md). A presença de arquivos de código não comprova, por si só, que recursos AWS foram implantados ou validados.
 
 ### AWS Cloud Engineering Lab — roteiro de aprendizagem
 
@@ -482,7 +482,7 @@ Laboratório Terraform: ainda não disponível.
 
 **Próximo laboratório manual planejado:** Lab 04 — Volumes e snapshots do EBS. Seu diretório ainda não foi criado.
 
-**Laboratórios Terraform marcados como concluídos:** 00 / 26. O [guia de preparação do Lab 00](terraform/00-workstation-and-aws-authentication/README.md) é um pré-requisito fora da sequência de 26 laboratórios. O [Lab 01 de Terraform](terraform/01-ec2-and-ssm/README.md) possui arquivos de configuração e documentação parcial; não há declaração de conclusão nem de execução na nuvem.
+**Laboratórios Terraform marcados como concluídos:** 00 / 26. O [guia de preparação do Lab 00](terraform/00-workstation-and-aws-authentication/README.pt-BR.md) é um pré-requisito fora da sequência de 26 laboratórios. O [Lab 01 de Terraform](terraform/01-ec2-and-ssm/README.md) possui arquivos de configuração e documentação parcial; não há declaração de conclusão nem de execução na nuvem.
 
 ---
 
