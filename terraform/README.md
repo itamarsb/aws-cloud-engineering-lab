@@ -10,7 +10,7 @@ The Terraform track aims to reproduce the manual lab architectures using **Infra
 
 | Laboratory | Documentation | Status |
 | --- | --- | --- |
-| **Lab 00 — Workstation setup and AWS authentication** | [English guide](00-workstation-and-aws-authentication/README.md) | Local environment preparation; creates no AWS resources |
+| **Lab 00 — Workstation setup and AWS authentication** | [English guide](00-workstation-and-aws-authentication/README.md) | Local tool and authentication setup; IAM user or key creation may be required |
 | **Lab 01 — EC2 and SSM with Terraform** | [English guide](01-ec2-and-ssm/README.md) | Terraform files available; detailed tutorial still in progress |
 
 > [!NOTE]
