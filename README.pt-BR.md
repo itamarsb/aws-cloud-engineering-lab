@@ -87,13 +87,13 @@ aws-cloud-engineering-lab/
 | --- | --- | --- |
 | Manual | [Lab 01 — EC2 e SSM](labs/01-ec2-and-ssm/README.pt-BR.md) | Guia passo a passo e capturas de tela |
 | Manual | [Lab 02 — Monitoramento de EC2 com CloudWatch Agent](labs/02-ec2-monitoring-with-cloudwatch-agent/README.pt-BR.md) | Guia passo a passo e capturas de tela |
-| Manual | [Lab 03 — Funções e políticas do IAM](labs/03-iam-roles-and-policies/README.md) | Guia passo a passo, arquivos de políticas e capturas de tela |
+| Manual | [Lab 03 — Funções e políticas do IAM](labs/03-iam-roles-and-policies/README.pt-BR.md) | Guia passo a passo, arquivos de políticas e capturas de tela |
 | Terraform | [Lab 00 — Preparação da estação de trabalho e autenticação AWS](terraform/00-workstation-and-aws-authentication/README.md) | Guia de preparação do ambiente (fora da contagem dos Labs 01–26) |
 | Terraform | [Lab 01 — EC2 e SSM](terraform/01-ec2-and-ssm/README.md) | Configuração Terraform e documentação em desenvolvimento |
 
 Consulte também a [trilha de Terraform](terraform/README.md) e o [roteiro de aprendizagem cloud-native](docs/cloud-native-roadmap.md). Os itens referentes a laboratórios futuros representam planejamento e não apontam para diretórios já implementados.
 
-> **Idioma dos laboratórios:** os Labs 01 e 02 (manuais) já possuem versões em português. O Lab 03 manual e os Labs 00 e 01 de Terraform permanecem em inglês até que suas traduções sejam publicadas.
+> **Idioma dos laboratórios:** os Labs 01, 02 e 03 (manuais) já possuem versões em português. Os Labs 00 e 01 de Terraform permanecem em inglês até que suas traduções sejam publicadas.
 
 ### Fluxo de aprendizagem
 
@@ -284,7 +284,7 @@ EC2 → Função IAM → Credenciais temporárias → AWS
 
 ### Documentação do laboratório
 
-Laboratório manual: [Lab 03 — Funções e políticas do IAM](labs/03-iam-roles-and-policies/README.md)
+Laboratório manual: [Lab 03 — Funções e políticas do IAM](labs/03-iam-roles-and-policies/README.pt-BR.md)
 
 Laboratório Terraform: ainda não disponível.
 
