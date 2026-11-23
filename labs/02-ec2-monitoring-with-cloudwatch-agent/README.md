@@ -1,5 +1,7 @@
 # Modern EC2 Monitoring with Amazon CloudWatch Agent
 
+**Language:** **English (default)** | [Português (Brasil)](README.pt-BR.md)
+
 
 ## Learning Objectives
 
