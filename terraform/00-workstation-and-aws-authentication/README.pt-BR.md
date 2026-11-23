@@ -10,7 +10,7 @@ Prepare seu ambiente local de desenvolvimento para provisionar infraestrutura na
 
 Antes de provisionar infraestrutura na AWS com Terraform, a estação de trabalho local precisa estar devidamente preparada. Este laboratório apresenta a instalação das ferramentas necessárias, a configuração da autenticação AWS e a validação do ambiente local.
 
-Diferentemente dos demais laboratórios deste repositório, **o Lab 00 não cria recursos na AWS**. Seu propósito é estabelecer uma base segura e confiável para todos os laboratórios Terraform seguintes.
+Diferentemente dos demais laboratórios deste repositório, **o Lab 00 não provisiona infraestrutura de computação ou rede**. Seu propósito é estabelecer uma base segura para os próximos laboratórios Terraform. Se as etapas de configuração do usuário IAM forem executadas, elas poderão criar identidades IAM e chaves de acesso na conta AWS.
 
 Ao concluir este laboratório, a estação de trabalho estará configurada para se comunicar com segurança com a AWS utilizando a AWS CLI e o provedor AWS do Terraform.
 
