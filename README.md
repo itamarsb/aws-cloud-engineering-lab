@@ -82,6 +82,7 @@ aws-cloud-engineering-lab/
 │   └── 03-iam-roles-and-policies/
 ├── terraform/
 │   ├── README.md
+│   ├── README.pt-BR.md
 │   ├── 00-workstation-and-aws-authentication/
 │   └── 01-ec2-and-ssm/
 └── scripts/
