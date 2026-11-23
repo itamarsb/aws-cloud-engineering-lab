@@ -85,7 +85,7 @@ aws-cloud-engineering-lab/
 
 | Trilha | Laboratório | Material disponível |
 | --- | --- | --- |
-| Manual | [Lab 01 — EC2 e SSM](labs/01-ec2-and-ssm/README.md) | Guia passo a passo e capturas de tela |
+| Manual | [Lab 01 — EC2 e SSM](labs/01-ec2-and-ssm/README.pt-BR.md) | Guia passo a passo e capturas de tela |
 | Manual | [Lab 02 — Monitoramento de EC2 com CloudWatch Agent](labs/02-ec2-monitoring-with-cloudwatch-agent/README.md) | Guia passo a passo e capturas de tela |
 | Manual | [Lab 03 — Funções e políticas do IAM](labs/03-iam-roles-and-policies/README.md) | Guia passo a passo, arquivos de políticas e capturas de tela |
 | Terraform | [Lab 00 — Preparação da estação de trabalho e autenticação AWS](terraform/00-workstation-and-aws-authentication/README.md) | Guia de preparação do ambiente (fora da contagem dos Labs 01–26) |
@@ -93,7 +93,7 @@ aws-cloud-engineering-lab/
 
 Consulte também a [trilha de Terraform](terraform/README.md) e o [roteiro de aprendizagem cloud-native](docs/cloud-native-roadmap.md). Os itens referentes a laboratórios futuros representam planejamento e não apontam para diretórios já implementados.
 
-> **Idioma dos laboratórios:** os READMEs dos laboratórios vinculados acima permanecem em inglês até que suas versões em português sejam publicadas.
+> **Idioma dos laboratórios:** o Lab 01 manual já possui uma versão em português. Os guias dos Labs 02 e 03 (manuais) e dos Labs 00 e 01 (Terraform) permanecem em inglês até que suas traduções sejam publicadas.
 
 ### Fluxo de aprendizagem
 
@@ -184,7 +184,7 @@ O objetivo é desenvolver experiência prática com ambientes de nuvem próximos
 
 ### Documentação do laboratório
 
-Laboratório manual: [Lab 01 — EC2 e SSM](labs/01-ec2-and-ssm/README.md)
+Laboratório manual: [Lab 01 — EC2 e SSM](labs/01-ec2-and-ssm/README.pt-BR.md)
 
 Laboratório Terraform (em desenvolvimento): [Lab 01 — EC2 e SSM](terraform/01-ec2-and-ssm/README.md)
 
