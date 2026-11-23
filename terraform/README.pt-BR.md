@@ -10,7 +10,7 @@ A trilha busca reproduzir as arquiteturas dos laboratórios manuais por meio de 
 
 | Laboratório | Documentação | Situação |
 | --- | --- | --- |
-| **Lab 00 — Preparação da estação de trabalho e autenticação AWS** | [Guia em português](00-workstation-and-aws-authentication/README.pt-BR.md) | Preparação do ambiente local; não cria recursos AWS |
+| **Lab 00 — Preparação da estação de trabalho e autenticação AWS** | [Guia em português](00-workstation-and-aws-authentication/README.pt-BR.md) | Preparação local e da autenticação; pode envolver criação de usuário IAM e chaves de acesso |
 | **Lab 01 — EC2 e SSM com Terraform** | [Guia em português](01-ec2-and-ssm/README.pt-BR.md) | Arquivos Terraform disponíveis; tutorial detalhado ainda em desenvolvimento |
 
 > [!NOTE]
