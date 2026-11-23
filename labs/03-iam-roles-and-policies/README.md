@@ -1,5 +1,7 @@
 # Lab 03 — Modern AWS Identity, IAM Roles, and Least-Privilege Policies
 
+**Language:** **English (default)** | [Português (Brasil)](README.pt-BR.md)
+
 > **AWS Cloud Engineering Lab — Manual Implementation**
 
 This lab explores modern AWS identity and access management practices with a focus on **temporary credentials**, **IAM roles**, **least-privilege policies**, **workload identity**, and the current AWS model for **workforce access**.
@@ -1827,6 +1829,7 @@ The updated Lab 03 structure is intentionally compact:
 03-iam-roles-and-policies/
 │
 ├── README.md
+├── README.pt-BR.md
 │
 ├── policies/
 │   ├── lab03-ec2-read-only-policy.json
