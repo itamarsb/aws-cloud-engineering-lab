@@ -1247,47 +1247,47 @@ O aprendizado importante é reconhecer que o acesso moderno de colaboradores é 
 
 # Validação
 
-Before cleanup, verify the complete Lab 03 configuration.
+Antes da limpeza, verifique toda a configuração do Lab 03.
 
 ## Função existente da carga de trabalho
 
-Confirm:
+Confirme:
 
-- `EC2-SSM-Role` still exists.
-- Its trust relationship allows EC2 to assume the role.
-- Existing SSM and monitoring permissions remain unchanged.
-- The running EC2 instance remains accessible through Session Manager.
+- A função `EC2-SSM-Role` continua existindo.
+- Sua relação de confiança permite que o EC2 assuma a função.
+- As permissões existentes de SSM e monitoramento permanecem inalteradas.
+- A instância EC2 em execução continua acessível pelo Session Manager.
 
 ## Identidade da instância
 
-Confirm:
+Confirme:
 
-- IMDSv2 can return the attached role name.
-- The role name is `EC2-SSM-Role`.
-- No static AWS credentials were created for the instance.
+- O IMDSv2 consegue retornar o nome da função associada.
+- O nome da função é `EC2-SSM-Role`.
+- Nenhuma credencial AWS estática foi criada para a instância.
 
 ## Política gerenciada pelo cliente
 
-Confirm:
+Confirme:
 
-- `Lab03EC2ReadOnlyPolicy` exists.
-- Only selected EC2 `Describe` actions are allowed.
-- No write or destructive EC2 permissions are included.
-- The `aws:RequestedRegion` condition is configured for `us-east-1`.
-- IAM Access Analyzer policy validation was reviewed.
+- A política `Lab03EC2ReadOnlyPolicy` existe.
+- Apenas as ações `Describe` selecionadas do EC2 estão permitidas.
+- Nenhuma permissão de escrita ou destrutiva do EC2 foi incluída.
+- A condição `aws:RequestedRegion` está configurada para `us-east-1`.
+- A validação da política pelo IAM Access Analyzer foi examinada.
 
 ## Função IAM do laboratório
 
-Confirm:
+Confirme:
 
-- `Lab03-EC2-ReadOnly-Role` exists.
-- Its trust relationship uses the EC2 service principal.
-- `Lab03EC2ReadOnlyPolicy` is attached.
-- The role was not attached to or substituted for `EC2-SSM-Role`.
+- A função `Lab03-EC2-ReadOnly-Role` existe.
+- Sua relação de confiança utiliza a entidade principal do serviço EC2.
+- A política `Lab03EC2ReadOnlyPolicy` está associada.
+- A função não foi associada à instância nem utilizada para substituir `EC2-SSM-Role`.
 
 ## Modelo de autorização
 
-Expected:
+Esperado:
 
 ```text
 Selected EC2 Describe actions → ALLOWED
@@ -1301,19 +1301,19 @@ Unrelated service actions     → DENIED
 
 ## Modelo de acesso de colaboradores
 
-Confirm that you can explain why:
+Confirme que consegue explicar por que:
 
 ```text
 IAM Identity Center / Federation
 ```
 
-is generally preferred for human workforce access, while:
+geralmente é preferível para o acesso humano de colaboradores, enquanto:
 
 ```text
 IAM Roles
 ```
 
-are used for AWS workloads such as EC2.
+são utilizadas para cargas de trabalho AWS, como o EC2.
 
 ---
 
@@ -1321,15 +1321,15 @@ are used for AWS workloads such as EC2.
 
 ## 1. Credenciais temporárias
 
-The lab emphasizes temporary credentials for both human and workload access models.
+O laboratório enfatiza o uso de credenciais temporárias tanto no acesso humano quanto no de cargas de trabalho.
 
-No long-term access key is created.
+Nenhuma chave de acesso de longa duração é criada.
 
 ---
 
 ## 2. Funções de cargas de trabalho em vez de credenciais incorporadas
 
-EC2 workloads use IAM roles rather than credentials stored in:
+Cargas de trabalho EC2 utilizam funções IAM em vez de credenciais armazenadas em:
 
 ```text
 Source code
@@ -1343,23 +1343,23 @@ Git repositories
 
 ## 3. Federação para acesso humano
 
-IAM users are not used as the default workforce model.
+Usuários IAM não são utilizados como modelo padrão de acesso de colaboradores.
 
-The lab presents federation and IAM Identity Center as the modern architecture for human access.
+O laboratório apresenta a federação e o IAM Identity Center como arquitetura moderna para acesso humano.
 
 ---
 
 ## 4. Privilégio mínimo
 
-The customer managed policy grants only the actions required by the exercise.
+A política gerenciada pelo cliente concede apenas as ações necessárias ao exercício.
 
-It does not use:
+Ela não utiliza:
 
 ```json
 "Action": "*"
 ```
 
-or:
+nem:
 
 ```json
 "Action": "ec2:*"
@@ -1369,65 +1369,65 @@ or:
 
 ## 5. Seleção explícita de ações
 
-The policy explicitly identifies permitted API operations.
+A política identifica explicitamente as operações de API permitidas.
 
-This makes the authorization scope easier to understand, review, and audit.
+Isso facilita compreender, revisar e auditar o escopo da autorização.
 
 ---
 
 ## 6. Condições como controles adicionais
 
-The policy uses:
+A política utiliza:
 
 ```json
 "aws:RequestedRegion": "us-east-1"
 ```
 
-to further restrict supported requests.
+para restringir adicionalmente as solicitações compatíveis.
 
 ---
 
 ## 7. Separação entre confiança e permissões
 
-The lab explicitly separates:
+O laboratório distingue explicitamente:
 
 ```text
 WHO may assume the role
 ```
 
-from:
+de:
 
 ```text
 WHAT the role may do
 ```
 
-This distinction is fundamental to secure role design.
+Essa diferença é fundamental para projetar funções IAM seguras.
 
 ---
 
 ## 8. Validação de políticas
 
-IAM Access Analyzer policy validation is reviewed before relying on the policy.
+A validação de políticas do IAM Access Analyzer é examinada antes de confiar na política.
 
-This adds automated policy analysis to manual review.
+Isso acrescenta uma análise automatizada à revisão manual.
 
 ---
 
 ## 9. Preservação de dependências semelhantes às de produção
 
-The lab does not replace the instance profile on the running EC2 instance merely to demonstrate another IAM role.
+O laboratório não substitui o perfil de instância da EC2 em execução apenas para demonstrar outra função IAM.
 
-This avoids unnecessarily disrupting:
+Isso evita interromper desnecessariamente:
 
-- Systems Manager access
-- CloudWatch Agent permissions
-- Existing laboratory dependencies
+- O acesso pelo Systems Manager
+- As permissões do CloudWatch Agent
+- As dependências dos laboratórios existentes
 
 ---
 
 ## 10. Nenhuma credencial no controle de versão
 
-Never commit:
+Nunca envie ao controle de versão:
 
 ```text
 AWS_ACCESS_KEY_ID
@@ -1438,15 +1438,15 @@ Private keys
 Authentication tokens
 ```
 
-to GitHub.
+no GitHub.
 
-The repository stores **policy definitions**, not credentials.
+O repositório armazena **definições de políticas**, não credenciais.
 
 ---
 
 # Limpeza dos recursos
 
-Only resources created specifically for Lab 03 should be removed.
+Apenas os recursos criados especificamente para o Lab 03 devem ser removidos.
 
 Preserve:
 
@@ -1454,9 +1454,9 @@ Preserve:
 EC2-SSM-Role
 ```
 
-and the existing EC2 instance.
+e a instância EC2 existente.
 
-Recommended cleanup order:
+Ordem recomendada de limpeza:
 
 ```text
 Lab03-EC2-ReadOnly-Role
@@ -1473,7 +1473,7 @@ Delete Lab03EC2ReadOnlyPolicy
 
 ## Limpeza — Etapa 1: Desassociar a política
 
-Navigate to:
+Acesse:
 
 ```text
 IAM
@@ -1485,7 +1485,7 @@ Lab03-EC2-ReadOnly-Role
 Permissions
 ```
 
-Detach:
+Desassocie:
 
 ```text
 Lab03EC2ReadOnlyPolicy
@@ -1493,7 +1493,7 @@ Lab03EC2ReadOnlyPolicy
 
 ## Limpeza — Etapa 2: Excluir a função do laboratório
 
-Delete:
+Exclua:
 
 ```text
 Lab03-EC2-ReadOnly-Role
@@ -1505,7 +1505,7 @@ Lab03-EC2-ReadOnly-Role
 
 ## Limpeza — Etapa 3: Excluir a política gerenciada pelo cliente
 
-Navigate to:
+Acesse:
 
 ```text
 IAM
@@ -1513,13 +1513,13 @@ IAM
 Policies
 ```
 
-Locate:
+Localize:
 
 ```text
 Lab03EC2ReadOnlyPolicy
 ```
 
-Delete it.
+Exclua a política.
 
 
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_25.jpg)
@@ -1527,26 +1527,26 @@ Delete it.
 
 ## Limpeza — Etapa 4: Preservar os recursos existentes
 
-Confirm that:
+Confirme que:
 
 ```text
 EC2-SSM-Role
 ```
 
-still exists and that the EC2 instance remains accessible through Session Manager.
+continua existindo e que a instância EC2 permanece acessível pelo Session Manager.
 
 ---
 
 # Validação após a limpeza
 
-Expected final state:
+Estado final esperado:
 
-| Resource | Expected State |
+| Recurso | Estado esperado |
 |---|---|
-| `Lab03-EC2-ReadOnly-Role` | Deleted |
-| `Lab03EC2ReadOnlyPolicy` | Deleted |
-| `EC2-SSM-Role` | Preserved |
-| Existing EC2 instance | Preserved |
+| `Lab03-EC2-ReadOnly-Role` | Excluída |
+| `Lab03EC2ReadOnlyPolicy` | Excluída |
+| `EC2-SSM-Role` | Preservada |
+| Instância EC2 existente | Preservada |
 
 
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_26.jpg)
@@ -1554,7 +1554,7 @@ Expected final state:
 ![LAB03AWS](screenshots/Lab03_AWS_Clipboard_08-12-2026_27.jpg)
 
 
-Repository policy files remain because they are documentation and reusable artifacts:
+Os arquivos de políticas continuam no repositório porque são documentos e artefatos reutilizáveis:
 
 ```text
 policies/lab03-ec2-read-only-policy.json
@@ -1567,81 +1567,81 @@ policies/lab03-ec2-role-trust-policy.json
 
 ## A função EC2-SSM-Role não existe
 
-If the role does not exist, review Lab 01 before continuing.
+Se a função não existir, revise o Lab 01 antes de continuar.
 
-Do not create a different role merely to force the current instructions to match.
+Não crie uma função diferente apenas para forçar a correspondência com as instruções atuais.
 
-The Lab 03 workflow assumes the previous EC2/SSM environment exists.
+O procedimento do Lab 03 pressupõe a existência do ambiente EC2/SSM dos laboratórios anteriores.
 
 ---
 
 ## O Session Manager não estabelece conexão
 
-Check:
+Verifique:
 
-- The EC2 instance is running.
-- SSM Agent is running.
-- `EC2-SSM-Role` is still attached through the instance profile.
-- `AmazonSSMManagedInstanceCore` remains available to the instance.
-- Network connectivity required by Systems Manager is available.
+- A instância EC2 está em execução.
+- O SSM Agent está em execução.
+- A função `EC2-SSM-Role` continua associada pelo perfil de instância.
+- A política `AmazonSSMManagedInstanceCore` continua disponível para a instância.
+- A conectividade de rede necessária ao Systems Manager está disponível.
 
-Do not replace the existing instance profile during Lab 03.
+Não substitua o perfil de instância existente durante o Lab 03.
 
 ---
 
 ## A consulta ao IMDSv2 retorna erro
 
-Verify that:
+Verifique se:
 
-- The command is running inside the EC2 instance.
-- The token request completed successfully.
-- The metadata endpoint is reachable.
-- IMDS is enabled for the instance.
+- O comando está sendo executado dentro da instância EC2.
+- A solicitação do token foi concluída com sucesso.
+- O endpoint de metadados pode ser acessado.
+- O IMDS está habilitado para a instância.
 
-Use IMDSv2 rather than intentionally downgrading the laboratory to IMDSv1.
+Utilize o IMDSv2 em vez de rebaixar intencionalmente o laboratório para o IMDSv1.
 
 ---
 
 ## O IAM Access Analyzer apresenta uma ocorrência
 
-Do not automatically ignore validation findings.
+Não ignore automaticamente as ocorrências apontadas na validação.
 
-Read:
+Examine:
 
-- Finding type
-- Affected policy element
-- Suggested remediation
-- Security impact
+- Tipo da ocorrência
+- Elemento da política afetado
+- Correção sugerida
+- Impacto na segurança
 
-Some findings may be informational, while others may require a policy change.
+Algumas ocorrências podem ser apenas informativas, enquanto outras exigem alteração da política.
 
 ---
 
 ## Não é possível associar a política
 
-Confirm that:
+Confirme que:
 
 ```text
 Lab03EC2ReadOnlyPolicy
 ```
 
-was successfully created and that you are viewing customer managed policies.
+foi criada com sucesso e que você está visualizando as políticas gerenciadas pelo cliente.
 
-Also confirm that your current administrative identity has permission to attach policies to roles.
+Confirme também que a identidade administrativa em uso possui permissão para associar políticas às funções.
 
 ---
 
 ## O simulador de políticas apresenta uma negação inesperada
 
-Verify:
+Verifique:
 
-- The correct role is selected.
-- The action exists in the policy.
-- The policy is attached.
-- The simulation context includes `aws:RequestedRegion = us-east-1` when required.
-- No explicit deny applies.
+- A função correta está selecionada.
+- A ação está presente na política.
+- A política está associada.
+- O contexto da simulação inclui `aws:RequestedRegion = us-east-1` quando necessário.
+- Nenhuma negação explícita aplicável está presente.
 
-Remember:
+Lembre-se:
 
 ```text
 Explicit DENY
@@ -1654,45 +1654,45 @@ Overrides ALLOW
 
 ## O simulador de políticas mostra mais permissões do que o esperado
 
-A principal can receive permissions from multiple policy sources.
+Uma entidade principal pode receber permissões de várias fontes de políticas.
 
-Review:
+Examine:
 
-- Identity-based policies
-- Permissions boundaries
-- Session policies
-- Resource policies
-- Service control policies where applicable
+- Políticas baseadas em identidade
+- Limites de permissões (*permissions boundaries*)
+- Políticas de sessão
+- Políticas de recursos
+- Políticas de controle de serviço, quando aplicáveis
 
-The final effective permission is determined by AWS policy evaluation logic, not by a single policy viewed in isolation.
+A permissão efetiva final é determinada pela lógica de avaliação de políticas da AWS, não por uma única política examinada isoladamente.
 
 ---
 
 ## O IAM Identity Center não está configurado
 
-That is acceptable for this laboratory.
+Isso é aceitável neste laboratório.
 
-The practical lab does not require enabling IAM Identity Center.
+O laboratório prático não exige a habilitação do IAM Identity Center.
 
-The service is included to teach the modern workforce identity architecture.
+O serviço é apresentado para ensinar a arquitetura moderna de identidade de colaboradores.
 
-Organization-level identity design should be intentional and should not be enabled only for a disposable lab exercise.
+O modelo de identidade em nível organizacional deve ser planejado de forma intencional e não deve ser habilitado apenas para um exercício temporário.
 
 ---
 
 ## O console AWS apresenta uma interface diferente
 
-AWS periodically changes console navigation and visual layout.
+A AWS altera periodicamente a navegação e o aspecto visual do console.
 
-Focus on the underlying resources and concepts rather than reproducing the interface pixel-for-pixel.
+Concentre-se nos recursos e conceitos envolvidos, em vez de reproduzir a interface pixel a pixel.
 
-The architectural relationships remain:
+As relações de arquitetura permanecem:
 
 ```text
 Workload → IAM Role → Temporary Credentials → Permissions
 ```
 
-and:
+e:
 
 ```text
 Federated Human → Role → Temporary Credentials → Permissions
@@ -1704,15 +1704,15 @@ Federated Human → Role → Temporary Credentials → Permissions
 
 ## A identidade moderna na AWS é centrada em funções
 
-Both workforce and workload access increasingly rely on role-based temporary credentials.
+O acesso de colaboradores e de cargas de trabalho depende cada vez mais de credenciais temporárias baseadas em funções IAM.
 
-The identity source differs, but the security objective is similar.
+A origem da identidade é diferente, mas o objetivo de segurança é semelhante.
 
 ---
 
 ## Identidades humanas e de cargas de trabalho são diferentes
 
-Human access commonly begins with federation:
+O acesso humano normalmente começa com federação:
 
 ```text
 Human
@@ -1724,7 +1724,7 @@ IAM Identity Center
 Role
 ```
 
-Workload access begins with the AWS service or application:
+O acesso de cargas de trabalho começa pelo serviço AWS ou pela aplicação:
 
 ```text
 EC2
@@ -1736,53 +1736,53 @@ IAM Role
 
 ## Credenciais temporárias reduzem a exposição prolongada de segredos
 
-Temporary credentials expire.
+Credenciais temporárias expiram.
 
-This reduces the security burden associated with permanent access keys.
+Isso reduz a carga de segurança associada às chaves de acesso permanentes.
 
 ---
 
 ## Funções IAM possuem duas dimensões de segurança
 
-A role must answer:
+Uma função precisa responder:
 
 ```text
 WHO / WHAT may assume me?
 ```
 
-and:
+e:
 
 ```text
 WHAT may I do after being assumed?
 ```
 
-Trust policies answer the first question.
+Políticas de confiança respondem à primeira pergunta.
 
-Permissions policies answer the second.
+Políticas de permissões respondem à segunda.
 
 ---
 
 ## O privilégio mínimo é uma prática de engenharia iterativa
 
-Least privilege is not simply choosing a policy named `ReadOnly`.
+Privilégio mínimo não significa apenas escolher uma política denominada `ReadOnly`.
 
-It requires understanding the actual API actions a workload needs and restricting permissions accordingly.
+É necessário compreender quais ações de API a carga de trabalho realmente precisa executar e restringir as permissões de acordo.
 
 ---
 
 ## A validação automatizada de políticas agrega valor
 
-IAM Access Analyzer can identify syntax and security issues that may be missed during manual review.
+O IAM Access Analyzer pode identificar problemas de sintaxe e segurança que passariam despercebidos em uma revisão manual.
 
-Policy validation should be part of the policy-development workflow.
+A validação deve integrar o processo de desenvolvimento das políticas.
 
 ---
 
 ## Usuários IAM continuam relevantes — mas o contexto importa ainda mais
 
-Cloud engineers must understand IAM users because they exist in AWS and in real environments.
+Engenheiros de nuvem precisam compreender usuários IAM porque eles existem na AWS e em ambientes reais.
 
-However:
+Entretanto:
 
 ```text
 Understand IAM users
@@ -1794,34 +1794,34 @@ Use IAM users as the default modern workforce architecture
 
 ## Dependências existentes não devem ser modificadas sem necessidade
 
-A good laboratory should not break an existing working environment merely to demonstrate another concept.
+Um bom laboratório não deve comprometer um ambiente funcional apenas para demonstrar outro conceito.
 
-This lab therefore creates a separate IAM role rather than replacing `EC2-SSM-Role`.
+Por isso, este laboratório cria uma função IAM separada em vez de substituir `EC2-SSM-Role`.
 
 ---
 
 ## O projeto de identidade faz parte da arquitetura de nuvem
 
-Identity is not an isolated administrative task.
+O projeto de identidade não é uma tarefa administrativa isolada.
 
-IAM decisions affect:
+As decisões do IAM afetam:
 
-- Security
-- Operations
-- Automation
+- Segurança
+- Operações
+- Automação
 - CI/CD
-- Incident response
-- Governance
-- Multi-account architecture
-- Compliance
+- Resposta a incidentes
+- Governança
+- Arquitetura de múltiplas contas
+- Conformidade
 
-Understanding IAM architecture is therefore a core cloud engineering skill.
+Compreender a arquitetura do IAM é, portanto, uma competência fundamental para engenharia de nuvem.
 
 ---
 
 # Estrutura do repositório
 
-The updated Lab 03 structure is intentionally compact:
+A estrutura atualizada do Lab 03 é intencionalmente compacta:
 
 ```text
 03-iam-roles-and-policies/
@@ -1838,38 +1838,38 @@ The updated Lab 03 structure is intentionally compact:
 
 ## `README.md`
 
-Contains:
+Contém:
 
-- Identity architecture
-- IAM concepts
-- Workload identity implementation
-- Policy design
-- Access Analyzer validation
-- Authorization testing
-- Security practices
-- Cleanup
-- Troubleshooting
-- Key learnings
+- Arquitetura de identidade
+- Conceitos de IAM
+- Implementação da identidade de carga de trabalho
+- Estrutura da política
+- Validação com Access Analyzer
+- Testes de autorização
+- Práticas de segurança
+- Limpeza dos recursos
+- Solução de problemas
+- Principais aprendizados
 
 ## `policies/`
 
-Contains reusable policy artifacts.
+Contém artefatos de políticas reutilizáveis.
 
 ### `lab03-ec2-read-only-policy.json`
 
-Defines the selected least-privilege EC2 read permissions used by the laboratory role.
+Define as permissões selecionadas de leitura EC2 com privilégio mínimo, utilizadas pela função IAM do laboratório.
 
 ### `lab03-ec2-role-trust-policy.json`
 
-Documents the trust relationship that allows the EC2 service to assume the laboratory role.
+Documenta a relação de confiança que permite que o serviço EC2 assuma a função IAM do laboratório.
 
 ## `screenshots/`
 
-Contains selected screenshots used to document the completed implementation.
+Contém capturas de tela selecionadas para documentar a implementação concluída.
 
-Screenshots are supporting evidence only.
+As capturas de tela são evidências complementares.
 
-They are **not required to reproduce the laboratory**, and the README does not instruct readers to capture, rename, or store screenshots while following the tutorial.
+Elas **não são necessárias para reproduzir o laboratório**, e o README não orienta os leitores a capturar, renomear ou armazenar imagens ao acompanhar o tutorial.
 
 ---
 
@@ -1877,19 +1877,19 @@ They are **not required to reproduce the laboratory**, and the README does not i
 
 ## Lab 04 — Volumes e snapshots do EBS
 
-The next laboratory explores persistent block storage for Amazon EC2.
+O próximo laboratório aborda armazenamento persistente em blocos para Amazon EC2.
 
-Topics include:
+Os temas incluem:
 
-- Creating EBS volumes
-- Attaching volumes to EC2 instances
-- Preparing Linux storage
-- Mounting filesystems
-- Creating EBS snapshots
-- Understanding backup and restore workflows
-- Restoring data from snapshots
-- Applying storage lifecycle and cleanup practices
+- Criação de volumes EBS
+- Associação de volumes a instâncias EC2
+- Preparação do armazenamento Linux
+- Montagem de sistemas de arquivos
+- Criação de snapshots do EBS
+- Compreensão dos fluxos de backup e restauração
+- Restauração de dados a partir de snapshots
+- Aplicação de práticas de ciclo de vida e limpeza de armazenamento
 
 ---
 
-> This laboratory is part of the **AWS Cloud Engineering Lab**, a hands-on repository focused on practical AWS infrastructure, operations, security, observability, automation, and Infrastructure as Code skills.
+> Este laboratório faz parte do **AWS Cloud Engineering Lab**, repositório prático dedicado a infraestrutura AWS, operações, segurança, observabilidade, automação e Infraestrutura como Código.
